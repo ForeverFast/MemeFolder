@@ -1,0 +1,128 @@
+﻿<Window x:Class="MemeFolder.MVVM.Views.MainWindowV"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        
+        
+        xmlns:local="clr-namespace:MemeFolder.MVVM.Views"
+        mc:Ignorable="d"
+        Height="800" Width="1500"
+        MinHeight="600" MinWidth="800" WindowStyle="SingleBorderWindow">
+
+    <Window.Style>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome CaptionHeight="35"
+                                  CornerRadius="0"
+                                  
+                                  GlassFrameThickness="0"
+                                  NonClientFrameEdges="None"
+                                  ResizeBorderThickness="3"
+                                  UseAeroCaptionButtons="True">
+
+                    </WindowChrome>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Border BorderThickness="0,0,0,0">
+                            <ContentPresenter x:Name="CP" Content="{TemplateBinding Content}" Grid.Row="1"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="WindowState" Value="Normal">
+                                <Setter Property="Margin" TargetName="CP" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="WindowState" Value="Maximized">
+                                <Setter Property="Margin" TargetName="CP" Value="8,10,10,10"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+    </Window.Style>
+
+    <Grid Background="{StaticResource DimColor}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="ContentGrid" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+              Background="{StaticResource GrayLVL3}">
+            <Frame x:Name="FrameContent" Margin="0,0,0,0"
+                   NavigationUIVisibility="Hidden"/>
+        </Grid>
+        
+        <Grid x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{x:Null}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Background="{DynamicResource GrayLVL4}">
+
+            </Grid>
+
+            <Grid Grid.Column="1" Background="{DynamicResource GrayLVL4}">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="NavigationBack"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"                                            
+                                    Command="{Binding NavigationBackCommand}"
+                                    Style="{StaticResource NavigationBack}"/>
+
+                    <Button x:Name="NavigationForward"
+                            WindowChrome.IsHitTestVisibleInChrome="True"      
+                            Command="{Binding NavigationForwardCommand}"
+                            Style="{StaticResource NavigationForward}"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="2" Background="{DynamicResource GrayLVL4}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="Minimize"
+                            WindowChrome.IsHitTestVisibleInChrome="True"      
+                            Command="{Binding MinimizedWindowCommand}"
+                            Background="{StaticResource GrayLVL4}"
+                            Style="{StaticResource MinimizeButton}"/>
+
+                    <Button x:Name="Resize"
+                            WindowChrome.IsHitTestVisibleInChrome="True"      
+                            Command="{Binding ResizeWindowCommand}"
+                            Background="{DynamicResource GrayLVL4}"
+                            Style="{StaticResource ResizeButton}"/>
+
+                    <Button x:Name="Close"
+                            WindowChrome.IsHitTestVisibleInChrome="True"      
+                            Command="{Binding CloseWindowCommand}"
+                            Background="{DynamicResource GrayLVL4}"
+                            Style="{StaticResource CloseButton}"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+
+            <TreeView>
+
+            </TreeView>
+
+        </Grid>
+
+    </Grid>
+</Window>
