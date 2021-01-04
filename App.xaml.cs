@@ -1,7 +1,10 @@
 ﻿using Egor92.MvvmNavigation;
 using Egor92.MvvmNavigation.Abstractions;
+using MemeFolder.EntityFramework;
 using MemeFolder.MVVM.ViewModels;
 using MemeFolder.MVVM.Views;
+using MemeFolder.MVVM.Views.Pages;
+using MemeFolder.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -45,17 +48,22 @@ namespace MemeFolder
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
+         
+            //var fds = ServiceProvider.GetRequiredService<IFolderDataService>();
+            //var t = Task.Run(() => fds.GetFoldersByTitle("root")).Result;
+
+            
+
+            #region NavManager
+            var navigationManager = ServiceProvider.GetRequiredService<INavigationManager>();  
+            //var RootFolder = ServiceProvider.GetRequiredService<IFolderDataService>();
+            //navigationManager.Register<FolderPage>("root", ServiceProvider.GetRequiredService<FolderVM>());
+
             var mainWindow = ServiceProvider.GetRequiredService<MainWindowV>();
-
-            #region
-            var navigationManager = ServiceProvider.GetRequiredService<INavigationManager>();
             navigationManager.FrameControl = mainWindow.FrameContent;
-            //var q = ServiceProvider.GetRequiredService<IServiceProvider>();
-            //navigationManager.Register<HomePage>("home", new HomePageVM(navigationManager));
-            //navigationManager.Register<ReviewPage>("review", new HomePageVM(navigationManager));
-            //navigationManager.Register<ProfilePage>("profile", new HomePageVM(navigationManager));
+            navigationManager.Register<FolderPage>("root", ServiceProvider.GetRequiredService<FolderVM>());
+            navigationManager.Navigate("root", NavigateType.Root, null);
 
-            //navigationManager.Navigate("home", NavigateType.Root, null);
             #endregion
 
             mainWindow.Show();
@@ -64,10 +72,16 @@ namespace MemeFolder
         private void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<INavigationManager, NavigationManager>();
+
+            services.AddSingleton(typeof(MemeFolderDbContextFactory));
+            services.AddSingleton<IFolderDataService, FolderDataService>();
+            services.AddSingleton<IMemeDataService, MemeDataService>();
+            services.AddSingleton<IDialogService, DialogService>();
+            
+            services.AddSingleton(typeof(FolderVM));
+
             services.AddSingleton(typeof(MainWindowVM));
             services.AddSingleton(typeof(MainWindowV));
-
-
         }
     }
 }

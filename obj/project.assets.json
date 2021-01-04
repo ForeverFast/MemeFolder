@@ -466,6 +466,26 @@
           }
         }
       },
+      "Microsoft.WindowsAPICodePack-Core/1.1.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.WindowsAPICodePack.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.WindowsAPICodePack.dll": {}
+        }
+      },
+      "Microsoft.WindowsAPICodePack-Shell/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.WindowsAPICodePack.Shell.dll": {},
+          "lib/Microsoft.WindowsAPICodePack.ShellExtensions.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.WindowsAPICodePack.Shell.dll": {},
+          "lib/Microsoft.WindowsAPICodePack.ShellExtensions.dll": {}
+        }
+      },
       "Newtonsoft.Json/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -1625,6 +1645,16 @@
           "Microsoft.WindowsDesktop.App.WPF"
         ]
       },
+      "MemeFolder.Mvvm/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/MemeFolder.Mvvm.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MemeFolder.Mvvm.dll": {}
+        }
+      },
       "MemeFolder.Wpf/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -2490,6 +2520,37 @@
         "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Microsoft.WindowsAPICodePack-Core/1.1.0.2": {
+      "sha512": "rfcfF2KwFVLt/zAaJfkqFPk/WPRAgFIamvGw+SSC0lYWNKMT+hTtIcNNifc/ZFDmoozYtldDgrHsj4qbsLQZtQ==",
+      "type": "package",
+      "path": "microsoft.windowsapicodepack-core/1.1.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/Microsoft.WindowsAPICodePack.XML",
+        "lib/Microsoft.WindowsAPICodePack.dll",
+        "lib/Microsoft.WindowsAPICodePack.pdb",
+        "microsoft.windowsapicodepack-core.1.1.0.2.nupkg.sha512",
+        "microsoft.windowsapicodepack-core.nuspec"
+      ]
+    },
+    "Microsoft.WindowsAPICodePack-Shell/1.1.0": {
+      "sha512": "8WvLG0TNTylzMB8gnZeZDG68/DsagAF64K35RC2Y/zocHp4e03Uj/kba6egQlq1+0uVv04FpLG+CmENEIN53rg==",
+      "type": "package",
+      "path": "microsoft.windowsapicodepack-shell/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/Microsoft.WindowsAPICodePack.Shell.pdb",
+        "lib/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/Microsoft.WindowsAPICodePack.ShellExtensions.XML",
+        "lib/Microsoft.WindowsAPICodePack.ShellExtensions.dll",
+        "lib/Microsoft.WindowsAPICodePack.ShellExtensions.pdb",
+        "microsoft.windowsapicodepack-shell.1.1.0.nupkg.sha512",
+        "microsoft.windowsapicodepack-shell.nuspec"
       ]
     },
     "Newtonsoft.Json/10.0.1": {
@@ -6086,6 +6147,11 @@
       "path": "../MemeFolder.EntityFramework/MemeFolder.EntityFramework.csproj",
       "msbuildProject": "../MemeFolder.EntityFramework/MemeFolder.EntityFramework.csproj"
     },
+    "MemeFolder.Mvvm/1.0.0": {
+      "type": "project",
+      "path": "../MemeFolder.Mvvm/MemeFolder.Mvvm.csproj",
+      "msbuildProject": "../MemeFolder.Mvvm/MemeFolder.Mvvm.csproj"
+    },
     "MemeFolder.Wpf/1.0.0": {
       "type": "project",
       "path": "../MemeFolder.Wpf/MemeFolder.Wpf.csproj",
@@ -6113,10 +6179,14 @@
       "MemeFolder.Abstractions >= 1.0.0",
       "MemeFolder.Domain >= 1.0.0",
       "MemeFolder.EntityFramework >= 1.0.0",
+      "MemeFolder.Mvvm >= 1.0.0",
       "MemeFolder.Wpf >= 1.0.0",
+      "Microsoft.EntityFrameworkCore >= 5.0.1",
       "Microsoft.Extensions.Configuration >= 5.0.0",
       "Microsoft.Extensions.DependencyInjection >= 5.0.1",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 5.0.0",
+      "Microsoft.WindowsAPICodePack-Core >= 1.1.0.2",
+      "Microsoft.WindowsAPICodePack-Shell >= 1.1.0",
       "MvvmNavigation.Wpf >= 1.0.0"
     ]
   },
@@ -6161,6 +6231,9 @@
             "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.EntityFramework\\MemeFolder.EntityFramework.csproj": {
               "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.EntityFramework\\MemeFolder.EntityFramework.csproj"
             },
+            "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj": {
+              "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj"
+            },
             "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Wpf\\MemeFolder.Wpf.csproj": {
               "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Wpf\\MemeFolder.Wpf.csproj"
             },
@@ -6184,6 +6257,10 @@
             "target": "Package",
             "version": "[3.2.0, )"
           },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[5.0.1, )"
+          },
           "Microsoft.Extensions.Configuration": {
             "target": "Package",
             "version": "[5.0.0, )"
@@ -6195,6 +6272,14 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": {
             "target": "Package",
             "version": "[5.0.0, )"
+          },
+          "Microsoft.WindowsAPICodePack-Core": {
+            "target": "Package",
+            "version": "[1.1.0.2, )"
+          },
+          "Microsoft.WindowsAPICodePack-Shell": {
+            "target": "Package",
+            "version": "[1.1.0, )"
           }
         },
         "imports": [
@@ -6220,6 +6305,26 @@
     }
   },
   "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"Microsoft.WindowsAPICodePack-Core 1.1.0.2\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \".NETCoreApp,Version=v3.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "Microsoft.WindowsAPICodePack-Core",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"Microsoft.WindowsAPICodePack-Shell 1.1.0\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \".NETCoreApp,Version=v3.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "Microsoft.WindowsAPICodePack-Shell",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

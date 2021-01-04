@@ -3,14 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
-        
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:converter="clr-namespace:MemeFolder.Wpf.Converters;assembly=MemeFolder.Wpf"
         
         xmlns:local="clr-namespace:MemeFolder.MVVM.Views"
         mc:Ignorable="d"
         Height="800" Width="1500"
         MinHeight="600" MinWidth="800" WindowStyle="SingleBorderWindow">
 
+    <Window.Resources>
+
+
+        <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
+        <converter:StringToBoolConverter x:Key="StringToBoolConverter"/>
+        <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
+
+    </Window.Resources>
+    
     <Window.Style>
         <Style TargetType="{x:Type Window}">
             <Setter Property="WindowChrome.WindowChrome">
@@ -47,12 +56,12 @@
         </Style>
     </Window.Style>
 
-    <Grid Background="{StaticResource DimColor}">
+    <Grid Background="{DynamicResource DimColor}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="90" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -61,24 +70,25 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="ContentGrid" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
-              Background="{StaticResource GrayLVL3}">
+        <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1"
+              Background="{DynamicResource GrayLVL3}">
             <Frame x:Name="FrameContent" Margin="0,0,0,0"
                    NavigationUIVisibility="Hidden"/>
         </Grid>
-        
-        <Grid x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{x:Null}">
+
+        <Grid x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+              Background="{DynamicResource GrayLVL4}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Background="{DynamicResource GrayLVL4}">
+            <Grid Grid.Column="0" Background="{x:Null}">
 
             </Grid>
 
-            <Grid Grid.Column="1" Background="{DynamicResource GrayLVL4}">
+            <Grid Grid.Column="1" Background="{x:Null}">
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="NavigationBack"
                                     WindowChrome.IsHitTestVisibleInChrome="True"                                            
@@ -92,7 +102,7 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Column="2" Background="{DynamicResource GrayLVL4}">
+            <Grid Grid.Column="2" Background="{x:Null}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="Minimize"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
@@ -116,13 +126,17 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="0">
-
-            <TreeView>
-
-            </TreeView>
-
+        <Grid x:Name="MenuGrid" Grid.Row="1" Grid.Column="0"
+              Background="{StaticResource  GrayLVL3}">
+            
         </Grid>
+
+        <Grid x:Name="FooterGrid" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+              Background="{StaticResource LightLVL0}">
+            
+        </Grid>
+       
+    
 
     </Grid>
 </Window>

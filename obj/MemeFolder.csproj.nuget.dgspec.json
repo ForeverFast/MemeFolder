@@ -214,6 +214,64 @@
         }
       }
     },
+    "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj",
+        "projectName": "MemeFolder.Mvvm",
+        "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj",
+        "packagesPath": "C:\\Users\\ivans\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ivans\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Wpf\\MemeFolder.Wpf.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -336,6 +394,9 @@
               "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.EntityFramework\\MemeFolder.EntityFramework.csproj": {
                 "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.EntityFramework\\MemeFolder.EntityFramework.csproj"
               },
+              "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj": {
+                "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj"
+              },
               "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Wpf\\MemeFolder.Wpf.csproj": {
                 "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Wpf\\MemeFolder.Wpf.csproj"
               },
@@ -359,6 +420,10 @@
               "target": "Package",
               "version": "[3.2.0, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
               "version": "[5.0.0, )"
@@ -370,6 +435,14 @@
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "Microsoft.WindowsAPICodePack-Core": {
+              "target": "Package",
+              "version": "[1.1.0.2, )"
+            },
+            "Microsoft.WindowsAPICodePack-Shell": {
+              "target": "Package",
+              "version": "[1.1.0, )"
             }
           },
           "imports": [

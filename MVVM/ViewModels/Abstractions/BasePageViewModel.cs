@@ -1,17 +1,17 @@
 ﻿using Egor92.MvvmNavigation.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows.Input;
 
 namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
 {
     public class BasePageViewModel : BaseViewModel
     {
-        public BasePageViewModel(INavigationManager navigationManager) : base(navigationManager) { }
+        #region Конструкторы
 
-        public override void InitiailizeCommands()
+        public BasePageViewModel(INavigationManager navigationManager) : base(navigationManager) 
         {
-            throw new NotImplementedException();
+          
         }
+
+        #endregion
     }
 }

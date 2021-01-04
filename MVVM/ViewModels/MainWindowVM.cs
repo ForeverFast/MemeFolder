@@ -1,6 +1,11 @@
 ﻿using Egor92.MvvmNavigation.Abstractions;
+using MemeFolder.Domain.Models;
+using MemeFolder.EntityFramework.Services;
+using MemeFolder.MVVM.Views.Pages;
 using MemeFolder.Pc.Mvvm;
 using MemeFolder.Pc.Mvvm.ViewModels.Abstractions;
+using MemeFolder.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,43 +15,39 @@ namespace MemeFolder.MVVM.ViewModels
 {
     public class MainWindowVM : BaseWindowViewModel
     {
-
+        public FolderVM Model { get; set; }
+        private IServiceProvider _services;
+        private IDialogService _dialogService;
 
         #region Команды - Навигациия
 
-        public ICommand NavigationToCommand { get; private set; }
-        public ICommand NavigationBackCommand { get; private set; }
-        public ICommand NavigationForwardCommand { get; private set; }
-        public ICommand NavigationToPlayListCommand { get; private set; }
+ 
 
-        private void NavigationToExecute(object parameter)
-            => _navigationManager.Navigate(parameter.ToString(), NavigateType.Default);
-
-        private void NavigationBackExecute(object parameter)
-            => _navigationManager.GoBack();
-
-        private void NavigationForwardExecute(object parameter)
-            => _navigationManager.GoForward();
-
-        //private void NavigationToPlayListExecute(object parameter)
-        //    => _navigationManager.Navigate<PlaylistPage>((parameter as PlayList).Id, new PlaylistVM(parameter as PlayList),
-        //                                                 _musicStorage.PlayLists,
-        //                                                 _dialogService,
-        //                                                 _musicPlayerService);
+        //private void NavigationToFolderExecute(object parameter)
+        //    => _navigationManager.Navigate<FolderPage>((parameter as Folder).Id,
+        //                                                new FolderVM((parameter as Folder),
+        //                                                             _navigationManager,
+        //                                                             _services.GetRequiredService<IFolderDataService>()));
 
         #endregion
 
 
+        
+
         #region Конструкторы
 
-        public MainWindowVM(INavigationManager navigationManager) : base(navigationManager)
+        public MainWindowVM(FolderVM model,
+                            INavigationManager navigationManager,
+                            IServiceProvider services,
+                            IDialogService dialogService) : base(navigationManager)
         {
-            InitiailizeCommands();
+           
+            Model = model;
+            _services = services;
 
-            NavigationToCommand = new RelayCommand(NavigationToExecute, (o) => _navigationManager.CanNavigate(o.ToString()));
-            NavigationBackCommand = new RelayCommand(NavigationBackExecute, (o) => _navigationManager.CanGoBack());
-            NavigationForwardCommand = new RelayCommand(NavigationForwardExecute, (o) => _navigationManager.CanGoForward());
-            //NavigationToPlayListCommand = new RelayCommand(NavigationToPlayListExecute, null);
+            //NavigationToFoldertCommand = new RelayCommand(NavigationToFolderExecute, null);
+
+          
         }
 
         #endregion

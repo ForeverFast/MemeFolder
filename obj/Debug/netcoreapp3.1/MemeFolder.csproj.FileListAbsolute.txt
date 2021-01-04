@@ -81,3 +81,11 @@ C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\netcoreapp3.1\MemeFo
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\netcoreapp3.1\MemeFolder.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\netcoreapp3.1\MemeFolder.pdb
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\netcoreapp3.1\MemeFolder.genruntimeconfig.cache
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\netcoreapp3.1\MVVM\Views\Pages\FolderPage.g.cs
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\MemeFolder.Mvvm.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\MemeFolder.Mvvm.pdb
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\netcoreapp3.1\MVVM\Views\Pages\FolderPage.baml
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.ShellExtensions.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs

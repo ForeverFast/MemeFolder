@@ -9,10 +9,10 @@ namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
 
         #region Управление окном
 
-        public ICommand MinimizedWindowCommand { get; private set; }
-        public ICommand ResizeWindowCommand { get; private set; }
-        public ICommand CloseWindowCommand { get; private set; }
-        public ICommand DragWindowCommand { get; private set; }
+        public ICommand MinimizedWindowCommand { get; }
+        public ICommand ResizeWindowCommand { get; }
+        public ICommand CloseWindowCommand { get; }
+        public ICommand DragWindowCommand { get; }
 
         public virtual void MinimizedWindowMethod(object parameter) => Application.Current.MainWindow.WindowState = WindowState.Minimized;
         public virtual void ResizeWindowMethod(object parameter)
@@ -33,9 +33,7 @@ namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
         #endregion
 
 
-        public BaseWindowViewModel(INavigationManager navigationManager) : base(navigationManager) { }
-
-        public override void InitiailizeCommands()
+        public BaseWindowViewModel(INavigationManager navigationManager) : base(navigationManager)
         {
             MinimizedWindowCommand = new RelayCommand(MinimizedWindowMethod, null);
             ResizeWindowCommand = new RelayCommand(ResizeWindowMethod, null);

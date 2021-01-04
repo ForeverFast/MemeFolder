@@ -12,10 +12,14 @@
           "MemeFolder.Abstractions": "1.0.0",
           "MemeFolder.Domain": "1.0.0",
           "MemeFolder.EntityFramework": "1.0.0",
+          "MemeFolder.Mvvm": "1.0.0",
           "MemeFolder.Wpf": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "5.0.1",
           "Microsoft.Extensions.Configuration": "5.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "5.0.0",
+          "Microsoft.WindowsAPICodePack-Core": "1.1.0.2",
+          "Microsoft.WindowsAPICodePack-Shell": "1.1.0",
           "MvvmNavigation.Wpf": "1.0.0"
         },
         "runtime": {
@@ -404,6 +408,26 @@
       "Microsoft.Win32.SystemEvents/4.7.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0"
+        }
+      },
+      "Microsoft.WindowsAPICodePack-Core/1.1.0.2": {
+        "runtime": {
+          "lib/Microsoft.WindowsAPICodePack.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
+        }
+      },
+      "Microsoft.WindowsAPICodePack-Shell/1.1.0": {
+        "runtime": {
+          "lib/Microsoft.WindowsAPICodePack.Shell.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          },
+          "lib/Microsoft.WindowsAPICodePack.ShellExtensions.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
         }
       },
       "Newtonsoft.Json/10.0.1": {
@@ -1096,6 +1120,11 @@
           "MemeFolder.EntityFramework.dll": {}
         }
       },
+      "MemeFolder.Mvvm/1.0.0": {
+        "runtime": {
+          "MemeFolder.Mvvm.dll": {}
+        }
+      },
       "MemeFolder.Wpf/1.0.0": {
         "dependencies": {
           "MaterialDesignThemes": "3.2.0",
@@ -1382,6 +1411,20 @@
       "sha512": "sha512-mtVirZr++rq+XCDITMUdnETD59XoeMxSpLRIII7JRI6Yj0LEDiO1pPn0ktlnIj12Ix8bfvQqQDMMIF9wC98oCA==",
       "path": "microsoft.win32.systemevents/4.7.0",
       "hashPath": "microsoft.win32.systemevents.4.7.0.nupkg.sha512"
+    },
+    "Microsoft.WindowsAPICodePack-Core/1.1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rfcfF2KwFVLt/zAaJfkqFPk/WPRAgFIamvGw+SSC0lYWNKMT+hTtIcNNifc/ZFDmoozYtldDgrHsj4qbsLQZtQ==",
+      "path": "microsoft.windowsapicodepack-core/1.1.0.2",
+      "hashPath": "microsoft.windowsapicodepack-core.1.1.0.2.nupkg.sha512"
+    },
+    "Microsoft.WindowsAPICodePack-Shell/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8WvLG0TNTylzMB8gnZeZDG68/DsagAF64K35RC2Y/zocHp4e03Uj/kba6egQlq1+0uVv04FpLG+CmENEIN53rg==",
+      "path": "microsoft.windowsapicodepack-shell/1.1.0",
+      "hashPath": "microsoft.windowsapicodepack-shell.1.1.0.nupkg.sha512"
     },
     "Newtonsoft.Json/10.0.1": {
       "type": "package",
@@ -1877,6 +1920,11 @@
       "sha512": ""
     },
     "MemeFolder.EntityFramework/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MemeFolder.Mvvm/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -10,9 +10,15 @@
     <Compile Update="MVVM\Views\MainWindowV.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\Views\Pages\FolderPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MVVM\Views\MainWindowV.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\Views\Pages\FolderPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
