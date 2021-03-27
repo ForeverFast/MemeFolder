@@ -1,6 +1,7 @@
 ﻿using Egor92.MvvmNavigation.Abstractions;
 using MemeFolder.Domain.Models;
 using MemeFolder.Mvvm.Commands;
+using MemeFolder.Navigation;
 using MemeFolder.Pc.Mvvm;
 using MemeFolder.Pc.Mvvm.ViewModels.Abstractions;
 using MemeFolder.Services;
@@ -16,11 +17,11 @@ namespace MemeFolder.MVVM.ViewModels
     {
         #region Поля
         private Meme _model;
-        private IFolderDataService _dataService;
         private IDialogService _dialogService;
         #endregion
 
         public Meme Model { get => _model; set => SetProperty(ref _model, value); }
+
 
         #region Команды - Навигациия
 
@@ -29,6 +30,7 @@ namespace MemeFolder.MVVM.ViewModels
         //                                                Model, null);
 
         #endregion
+
 
         #region Команды - Мемы
 
@@ -39,38 +41,18 @@ namespace MemeFolder.MVVM.ViewModels
             });
         }
 
-        private async Task AddMemeExecute(object parameter)
-        {
-            //IsDialogOpen = false;
-            //var parameters = (object[])parameter;
-            //Meme meme = new Meme()
-            //{
-            //    Folder = Model,
-            //    Title = parameters[0].ToString(),
-            //    Description = parameters[1].ToString(),
-            //    ImagePath = parameters[2].ToString()
-            //};
-            //// Model.Memes.Add(meme);
-            //await _dataService.Update(Model.Id, Model);
-            //FolderObjects.Add(meme);
-        }
+        
 
         #endregion
 
         #region Конструкторы
         public MemeVM(Meme memeModel,
-                      INavigationManager navigationManager,
-                      IDialogService dialogService) : base(navigationManager)
+                      INavigationService navigationService,
+                      IDialogService dialogService) : base(navigationService)
         {
             _dialogService = dialogService;
 
             Model = memeModel;
-
-
-            //AddMeme = new AsyncRelayCommand(AddMemeExecute);
-
-            //NavigationToFoldertCommand = new RelayCommand(NavigationToFolderExecute, null);
-
         }
 
         #endregion

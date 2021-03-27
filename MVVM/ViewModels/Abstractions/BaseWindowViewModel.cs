@@ -1,4 +1,4 @@
-﻿using Egor92.MvvmNavigation.Abstractions;
+﻿using MemeFolder.Navigation;
 using System.Windows;
 using System.Windows.Input;
 
@@ -27,13 +27,12 @@ namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
             }
         }
         public virtual void CloseWindowMethod(object parameter) => Application.Current.MainWindow.Close();
-
         public virtual void DragWindowMethod(object parameter) => Application.Current.MainWindow.DragMove();
 
         #endregion
 
 
-        public BaseWindowViewModel(INavigationManager navigationManager) : base(navigationManager)
+        public BaseWindowViewModel(INavigationService navigationService) : base(navigationService)
         {
             MinimizedWindowCommand = new RelayCommand(MinimizedWindowMethod, null);
             ResizeWindowCommand = new RelayCommand(ResizeWindowMethod, null);

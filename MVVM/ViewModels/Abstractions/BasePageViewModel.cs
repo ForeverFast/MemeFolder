@@ -1,5 +1,4 @@
-﻿using Egor92.MvvmNavigation.Abstractions;
-using System.Windows.Input;
+﻿using MemeFolder.Navigation;
 
 namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
 {
@@ -7,7 +6,7 @@ namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
     {
         #region Конструкторы
 
-        public BasePageViewModel(INavigationManager navigationManager) : base(navigationManager) 
+        public BasePageViewModel(INavigationService navigationService) : base(navigationService) 
         {
           
         }

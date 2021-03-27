@@ -15,6 +15,7 @@ namespace MemeFolder.Services
 {
     public class FolderDataService : GenericDataService<Folder>, IFolderDataService
     {
+        private readonly IMemeDataService _memeDataService;
 
         public override async Task<IEnumerable<Folder>> GetAll()
         {
@@ -42,11 +43,81 @@ namespace MemeFolder.Services
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="folder">Сущность</param>
+        /// <param name="folderGuid">Id родителя</param>
+        /// <returns></returns>
+        public override async Task<Folder> Create(Folder folder)
+        {
+            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
+            {
+                var check = await context.Folders.Where(x => x.Id == folder.ParentFolder.Id).FirstOrDefaultAsync();
+                if (check != null)
+                    folder.ParentFolder = check;
+
+                EntityEntry<Folder> createdResult = await context.Set<Folder>().AddAsync(folder);
+                await context.SaveChangesAsync();
+
+                return createdResult.Entity;
+            }
+        }
+
+        public override async Task<bool> Delete(Guid guid)
+        {
+            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
+            {
+
+                var entities = await GetAll();
+                var entity = entities.ToList().FirstOrDefault(x => x.Id == guid);
+                if (entity != null)
+                {
+                    RemoveAllData(entity, context);
+                    context.Folders.Remove(entity);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                    return false;
+
+            }
+        }
+
+        private void RemoveAllData(Folder folder, MemeFolderDbContext context)
+        {
+            foreach (var item in folder.Folders)
+                RemoveAllData(item, context);
+            foreach(var meme in folder.Memes)
+            {
+                var memeEntity = context.Memes.FirstOrDefault(x => x.Id == meme.Id);
+                if (memeEntity != null)
+                {
+                    context.Memes.Remove(memeEntity);
+                    
+                }
+            }
+            folder.Memes.Clear();
+            context.SaveChanges();
+            foreach (var folder1 in folder.Folders)
+            {
+                var folderEntity = context.Folders.FirstOrDefault(x => x.Id == folder1.Id);
+                if (folderEntity != null)
+                {
+                    context.Folders.Remove(folderEntity);
+                   
+                }
+            }
+            folder.Folders.Clear();
+            context.SaveChanges();
+        }
+
         #region Конструкторы
 
-        public FolderDataService(MemeFolderDbContextFactory dbf) : base(dbf)
+        public FolderDataService(MemeFolderDbContextFactory dbf,
+                                 IMemeDataService memeDataService) : base(dbf)
         {
-        
+            _memeDataService = memeDataService;
         }
 
         #endregion

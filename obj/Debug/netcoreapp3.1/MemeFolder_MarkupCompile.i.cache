@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\App.xaml
-21446100136
+4252254546
 
-19-182480727
-233-1925380771
-MVVM\Views\MainWindowV.xaml;MVVM\Views\Pages\FolderPage.xaml;
+34-1112134063
+242481715615
+MVVM\Views\MainWindowV.xaml;MVVM\Views\Pages\FolderPage.xaml;MVVM\Views\Pages\SearchPage.xaml;MVVM\Views\Pages\SettingsPage.xaml;
 
-True
+False
 

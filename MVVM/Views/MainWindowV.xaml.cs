@@ -1,4 +1,5 @@
 ﻿using MemeFolder.MVVM.ViewModels;
+using System;
 using System.Windows;
 
 
@@ -9,10 +10,18 @@ namespace MemeFolder.MVVM.Views
     /// </summary>
     public partial class MainWindowV : Window
     {
-        public MainWindowV(MainWindowVM mainWindowVM)
+        private IServiceProvider _serviceProvider;
+
+        public MainWindowV(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            DataContext = mainWindowVM;
+            _serviceProvider = serviceProvider;
+            Loaded += MainWindowV_Loaded;
+        }
+
+        private void MainWindowV_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = _serviceProvider.GetService(typeof(MainWindowVM));
         }
     }
 }

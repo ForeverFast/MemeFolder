@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "gong-wpf-dragdrop/2.3.2": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
       "JetBrains.Annotations/2019.1.3": {
         "type": "package",
         "compile": {
@@ -240,6 +252,38 @@
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.dll": {}
         }
       },
+      "Microsoft.Extensions.Configuration.FileExtensions/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "5.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "5.0.0",
+          "Microsoft.Extensions.FileProviders.Abstractions": "5.0.0",
+          "Microsoft.Extensions.FileProviders.Physical": "5.0.0",
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.FileExtensions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.FileExtensions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Configuration.Json/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "5.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Configuration.FileExtensions": "5.0.0",
+          "Microsoft.Extensions.FileProviders.Abstractions": "5.0.0",
+          "System.Text.Json": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Microsoft.Extensions.Configuration.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.Extensions.Configuration.Json.dll": {}
+        }
+      },
       "Microsoft.Extensions.DependencyInjection/5.0.1": {
         "type": "package",
         "dependencies": {
@@ -259,6 +303,41 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Abstractions/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Physical/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "5.0.0",
+          "Microsoft.Extensions.FileSystemGlobbing": "5.0.0",
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll": {}
+        }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {}
         }
       },
       "Microsoft.Extensions.Logging/5.0.0": {
@@ -432,7 +511,7 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {}
@@ -484,6 +563,63 @@
         "runtime": {
           "lib/Microsoft.WindowsAPICodePack.Shell.dll": {},
           "lib/Microsoft.WindowsAPICodePack.ShellExtensions.dll": {}
+        }
+      },
+      "MvvmNavigation.Abstractions/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "JetBrains.Annotations": "2019.1.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/MvvmNavigation.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MvvmNavigation.Abstractions.dll": {}
+        }
+      },
+      "MvvmNavigation.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "JetBrains.Annotations": "2019.1.3",
+          "MvvmNavigation.Abstractions": "3.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MvvmNavigation.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MvvmNavigation.Core.dll": {}
+        }
+      },
+      "MvvmNavigation.Wpf/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "JetBrains.Annotations": "2019.1.3",
+          "MvvmNavigation.Abstractions": "3.2.0",
+          "MvvmNavigation.Core": "3.2.0"
+        },
+        "compile": {
+          "lib/netcoreapp3.0/MvvmNavigation.Internal.dll": {},
+          "lib/netcoreapp3.0/MvvmNavigation.Wpf.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/MvvmNavigation.Internal.dll": {},
+          "lib/netcoreapp3.0/MvvmNavigation.Wpf.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
+      "NAudio/1.10.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.Registry": "4.7.0",
+          "System.Resources.Extensions": "4.7.0"
+        },
+        "compile": {
+          "lib/netcoreapp3.0/NAudio.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/NAudio.dll": {}
         }
       },
       "Newtonsoft.Json/10.0.1": {
@@ -1110,6 +1246,15 @@
           "lib/netstandard1.5/System.Reflection.TypeExtensions.dll": {}
         }
       },
+      "System.Resources.Extensions/4.7.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/System.Resources.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Resources.Extensions.dll": {}
+        }
+      },
       "System.Resources.ResourceManager/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1252,7 +1397,7 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Security.AccessControl.dll": {}
@@ -1328,7 +1473,7 @@
       "System.Security.Principal.Windows/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/_._": {}
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Security.Principal.Windows.dll": {}
@@ -1409,6 +1554,15 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Text.Encoding.Extensions.dll": {}
+        }
+      },
+      "System.Text.Json/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/System.Text.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/System.Text.Json.dll": {}
         }
       },
       "System.Text.RegularExpressions/4.3.0": {
@@ -1655,6 +1809,22 @@
           "bin/placeholder/MemeFolder.Mvvm.dll": {}
         }
       },
+      "MemeFolder.Navigation/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "MvvmNavigation.Wpf": "3.2.0"
+        },
+        "compile": {
+          "bin/placeholder/MemeFolder.Navigation.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MemeFolder.Navigation.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
       "MemeFolder.Wpf/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -1675,55 +1845,38 @@
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WPF"
         ]
-      },
-      "MvvmNavigation.Abstractions/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "JetBrains.Annotations": "2019.1.3"
-        },
-        "compile": {
-          "bin/placeholder/MvvmNavigation.Abstractions.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MvvmNavigation.Abstractions.dll": {}
-        }
-      },
-      "MvvmNavigation.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "JetBrains.Annotations": "2019.1.3",
-          "MvvmNavigation.Abstractions": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/MvvmNavigation.Core.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MvvmNavigation.Core.dll": {}
-        }
-      },
-      "MvvmNavigation.Wpf/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.0",
-        "dependencies": {
-          "JetBrains.Annotations": "2019.1.3",
-          "MvvmNavigation.Abstractions": "1.0.0",
-          "MvvmNavigation.Core": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/MvvmNavigation.Wpf.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MvvmNavigation.Wpf.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
-        ]
       }
     }
   },
   "libraries": {
+    "gong-wpf-dragdrop/2.3.2": {
+      "sha512": "DNDROdFmlwn544P2qVF+f+aHRZmEp8ub8IrjvWgT3VAK7LfdN3BcEi9mSEzmt8hUqIdt1+B1VHkJUdK7kO/zKw==",
+      "type": "package",
+      "path": "gong-wpf-dragdrop/2.3.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "GongSolutions.Wpf.DragDrop.png",
+        "LICENSE",
+        "gong-wpf-dragdrop.2.3.2.nupkg.sha512",
+        "gong-wpf-dragdrop.nuspec",
+        "lib/net45/GongSolutions.WPF.DragDrop.dll",
+        "lib/net45/GongSolutions.WPF.DragDrop.pdb",
+        "lib/net45/GongSolutions.WPF.DragDrop.xml",
+        "lib/net46/GongSolutions.WPF.DragDrop.dll",
+        "lib/net46/GongSolutions.WPF.DragDrop.pdb",
+        "lib/net46/GongSolutions.WPF.DragDrop.xml",
+        "lib/net47/GongSolutions.WPF.DragDrop.dll",
+        "lib/net47/GongSolutions.WPF.DragDrop.pdb",
+        "lib/net47/GongSolutions.WPF.DragDrop.xml",
+        "lib/netcoreapp3.0/GongSolutions.WPF.DragDrop.dll",
+        "lib/netcoreapp3.0/GongSolutions.WPF.DragDrop.pdb",
+        "lib/netcoreapp3.0/GongSolutions.WPF.DragDrop.xml",
+        "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.dll",
+        "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.pdb",
+        "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.xml"
+      ]
+    },
     "JetBrains.Annotations/2019.1.3": {
       "sha512": "E0x48BwZJKoNMNCekWGKsV4saQS89lf58ydT2szseV44CMYIbaHXjc7+305WLw6up3ibZN9yH6QdGSZo5tQhLg==",
       "type": "package",
@@ -2119,6 +2272,48 @@
         "version.txt"
       ]
     },
+    "Microsoft.Extensions.Configuration.FileExtensions/5.0.0": {
+      "sha512": "rRdspYKA18ViPOISwAihhCMbusHsARCOtDMwa23f+BGEdIjpKPlhs3LLjmKlxfhpGXBjIsS0JpXcChjRUN+PAw==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.fileextensions/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.Configuration.FileExtensions.dll",
+        "lib/net461/Microsoft.Extensions.Configuration.FileExtensions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.FileExtensions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.FileExtensions.xml",
+        "microsoft.extensions.configuration.fileextensions.5.0.0.nupkg.sha512",
+        "microsoft.extensions.configuration.fileextensions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.Json/5.0.0": {
+      "sha512": "Pak8ymSUfdzPfBTLHxeOwcR32YDbuVfhnH2hkfOLnJNQd19ItlBdpMjIDY9C5O/nS2Sn9bzDMai0ZrvF7KyY/Q==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.json/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.Configuration.Json.dll",
+        "lib/net461/Microsoft.Extensions.Configuration.Json.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Json.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Json.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.Configuration.Json.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.Configuration.Json.xml",
+        "microsoft.extensions.configuration.json.5.0.0.nupkg.sha512",
+        "microsoft.extensions.configuration.json.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "Microsoft.Extensions.DependencyInjection/5.0.1": {
       "sha512": "//mDNrYeiJ0eh/awFhDFJQzkRVra/njU5Y4fyK7X29g5HScrzbUkKOKlyTtygthcGFt4zNC8G5CFCjb/oizomA==",
       "type": "package",
@@ -2159,6 +2354,66 @@
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.abstractions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.FileProviders.Abstractions/5.0.0": {
+      "sha512": "iuZIiZ3mteEb+nsUqpGXKx2cGF+cv6gWPd5jqQI4hzqdiJ6I94ddLjKhQOuRW1lueHwocIw30xbSHGhQj0zjdQ==",
+      "type": "package",
+      "path": "microsoft.extensions.fileproviders.abstractions/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.FileProviders.Abstractions.dll",
+        "lib/net461/Microsoft.Extensions.FileProviders.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
+        "microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512",
+        "microsoft.extensions.fileproviders.abstractions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.FileProviders.Physical/5.0.0": {
+      "sha512": "1rkd8UO2qf21biwO7X0hL9uHP7vtfmdv/NLvKgCRHkdz1XnW8zVQJXyEYiN68WYpExgtVWn55QF0qBzgfh1mGg==",
+      "type": "package",
+      "path": "microsoft.extensions.fileproviders.physical/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.FileProviders.Physical.dll",
+        "lib/net461/Microsoft.Extensions.FileProviders.Physical.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.xml",
+        "microsoft.extensions.fileproviders.physical.5.0.0.nupkg.sha512",
+        "microsoft.extensions.fileproviders.physical.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.FileSystemGlobbing/5.0.0": {
+      "sha512": "ArliS8lGk8sWRtrWpqI8yUVYJpRruPjCDT+EIjrgkA/AAPRctlAkRISVZ334chAKktTLzD1+PK8F5IZpGedSqA==",
+      "type": "package",
+      "path": "microsoft.extensions.filesystemglobbing/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.FileSystemGlobbing.dll",
+        "lib/net461/Microsoft.Extensions.FileSystemGlobbing.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.xml",
+        "microsoft.extensions.filesystemglobbing.5.0.0.nupkg.sha512",
+        "microsoft.extensions.filesystemglobbing.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
@@ -2551,6 +2806,65 @@
         "lib/Microsoft.WindowsAPICodePack.ShellExtensions.pdb",
         "microsoft.windowsapicodepack-shell.1.1.0.nupkg.sha512",
         "microsoft.windowsapicodepack-shell.nuspec"
+      ]
+    },
+    "MvvmNavigation.Abstractions/3.2.0": {
+      "sha512": "JbxN2+gZGr7V3/VHRQ9QyRcZU2RFFIQk5/ZXZsTC6iVR4fxmNBiu8s9El0vJn02IddBN3HZPBfecWJdVyp1c3Q==",
+      "type": "package",
+      "path": "mvvmnavigation.abstractions/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/MvvmNavigation.Abstractions.dll",
+        "mvvmnavigation.abstractions.3.2.0.nupkg.sha512",
+        "mvvmnavigation.abstractions.nuspec"
+      ]
+    },
+    "MvvmNavigation.Core/3.2.0": {
+      "sha512": "SHNgTJFzsFXgFCmlz+5TYtAjtvvjUzMoA3D7tdKtRNvvDLJzovLxWL6sMCBn2KGj4Y6Y5LHs2IKF9zBgWYKfyw==",
+      "type": "package",
+      "path": "mvvmnavigation.core/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/MvvmNavigation.Core.dll",
+        "mvvmnavigation.core.3.2.0.nupkg.sha512",
+        "mvvmnavigation.core.nuspec"
+      ]
+    },
+    "MvvmNavigation.Wpf/3.2.0": {
+      "sha512": "WDWY8S2zSP+lo0rtH/DHCqreZXFV+8RPE6ziycm7Y20Y7346ZOcXJiq5ia7DmIU6jmU4sFs0eBQWhSZ9DEHpRQ==",
+      "type": "package",
+      "path": "mvvmnavigation.wpf/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net461/MvvmNavigation.Internal.dll",
+        "lib/net461/MvvmNavigation.Wpf.dll",
+        "lib/netcoreapp3.0/MvvmNavigation.Internal.dll",
+        "lib/netcoreapp3.0/MvvmNavigation.Wpf.dll",
+        "mvvmnavigation.wpf.3.2.0.nupkg.sha512",
+        "mvvmnavigation.wpf.nuspec"
+      ]
+    },
+    "NAudio/1.10.0": {
+      "sha512": "y6VvwSPfJhElUllkzE2FHXHAADYFGLwMPt048KlPyuUXcq4E0VEi+4hWrFd+lBsrb+Q5DvPA9w86oRTvKRO9UQ==",
+      "type": "package",
+      "path": "naudio/1.10.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/NAudio.dll",
+        "lib/net35/NAudio.xml",
+        "lib/netcoreapp3.0/NAudio.dll",
+        "lib/netcoreapp3.0/NAudio.xml",
+        "lib/netstandard2.0/NAudio.dll",
+        "lib/netstandard2.0/NAudio.xml",
+        "lib/uap10.0/NAudio.dll",
+        "lib/uap10.0/NAudio.pri",
+        "lib/uap10.0/NAudio.xml",
+        "naudio.1.10.0.nupkg.sha512",
+        "naudio.nuspec"
       ]
     },
     "Newtonsoft.Json/10.0.1": {
@@ -4491,6 +4805,25 @@
         "system.reflection.typeextensions.nuspec"
       ]
     },
+    "System.Resources.Extensions/4.7.0": {
+      "sha512": "Efd5jls31pR1MkEl/IlT/lOzG0nGRCoYnHctZTq597+absekOXaP53yUlv5U4DfcfImSAAupWVpTW1tE54lF7A==",
+      "type": "package",
+      "path": "system.resources.extensions/4.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netstandard2.0/System.Resources.Extensions.dll",
+        "lib/netstandard2.0/System.Resources.Extensions.xml",
+        "ref/netstandard2.0/System.Resources.Extensions.dll",
+        "ref/netstandard2.0/System.Resources.Extensions.xml",
+        "system.resources.extensions.4.7.0.nupkg.sha512",
+        "system.resources.extensions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Resources.ResourceManager/4.3.0": {
       "sha512": "/zrcPkkWdZmI4F92gL/TPumP98AVDu/Wxr3CSJGQQ+XN6wbRZcyfSKVoPo17ilb3iOr0cCRqJInGwNMolqhS8A==",
       "type": "package",
@@ -5587,6 +5920,28 @@
         "system.text.encoding.extensions.nuspec"
       ]
     },
+    "System.Text.Json/5.0.0": {
+      "sha512": "+luxMQNZ2WqeffBU7Ml6njIvxc8169NW2oU+ygNudXQGZiarjE7DOtN7bILiQjTZjkmwwRZGTtLzmdrSI/Ustw==",
+      "type": "package",
+      "path": "system.text.json/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Text.Json.dll",
+        "lib/net461/System.Text.Json.xml",
+        "lib/netcoreapp3.0/System.Text.Json.dll",
+        "lib/netcoreapp3.0/System.Text.Json.xml",
+        "lib/netstandard2.0/System.Text.Json.dll",
+        "lib/netstandard2.0/System.Text.Json.xml",
+        "system.text.json.5.0.0.nupkg.sha512",
+        "system.text.json.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Text.RegularExpressions/4.3.0": {
       "sha512": "RpT2DA+L660cBt1FssIE9CAGpLFdFPuheB7pLpKpn6ZXNby7jDERe8Ua/Ne2xGiwLVG2JOqziiaVCGDon5sKFA==",
       "type": "package",
@@ -6152,25 +6507,15 @@
       "path": "../MemeFolder.Mvvm/MemeFolder.Mvvm.csproj",
       "msbuildProject": "../MemeFolder.Mvvm/MemeFolder.Mvvm.csproj"
     },
+    "MemeFolder.Navigation/1.0.0": {
+      "type": "project",
+      "path": "../MemeFolder.Navigation/MemeFolder.Navigation.csproj",
+      "msbuildProject": "../MemeFolder.Navigation/MemeFolder.Navigation.csproj"
+    },
     "MemeFolder.Wpf/1.0.0": {
       "type": "project",
       "path": "../MemeFolder.Wpf/MemeFolder.Wpf.csproj",
       "msbuildProject": "../MemeFolder.Wpf/MemeFolder.Wpf.csproj"
-    },
-    "MvvmNavigation.Abstractions/1.0.0": {
-      "type": "project",
-      "path": "../../MvvmNavigation/code/src/MvvmNavigation.Abstractions/MvvmNavigation.Abstractions.csproj",
-      "msbuildProject": "../../MvvmNavigation/code/src/MvvmNavigation.Abstractions/MvvmNavigation.Abstractions.csproj"
-    },
-    "MvvmNavigation.Core/1.0.0": {
-      "type": "project",
-      "path": "../../MvvmNavigation/code/src/MvvmNavigation.Core/MvvmNavigation.Core.csproj",
-      "msbuildProject": "../../MvvmNavigation/code/src/MvvmNavigation.Core/MvvmNavigation.Core.csproj"
-    },
-    "MvvmNavigation.Wpf/1.0.0": {
-      "type": "project",
-      "path": "../../MvvmNavigation/code/src/MvvmNavigation.Wpf/MvvmNavigation.Wpf.csproj",
-      "msbuildProject": "../../MvvmNavigation/code/src/MvvmNavigation.Wpf/MvvmNavigation.Wpf.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -6180,14 +6525,17 @@
       "MemeFolder.Domain >= 1.0.0",
       "MemeFolder.EntityFramework >= 1.0.0",
       "MemeFolder.Mvvm >= 1.0.0",
+      "MemeFolder.Navigation >= 1.0.0",
       "MemeFolder.Wpf >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 5.0.1",
       "Microsoft.Extensions.Configuration >= 5.0.0",
+      "Microsoft.Extensions.Configuration.Json >= 5.0.0",
       "Microsoft.Extensions.DependencyInjection >= 5.0.1",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 5.0.0",
       "Microsoft.WindowsAPICodePack-Core >= 1.1.0.2",
       "Microsoft.WindowsAPICodePack-Shell >= 1.1.0",
-      "MvvmNavigation.Wpf >= 1.0.0"
+      "NAudio >= 1.10.0",
+      "gong-wpf-dragdrop >= 2.3.2"
     ]
   },
   "packageFolders": {
@@ -6234,11 +6582,11 @@
             "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj": {
               "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Mvvm\\MemeFolder.Mvvm.csproj"
             },
+            "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Navigation\\MemeFolder.Navigation.csproj": {
+              "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Navigation\\MemeFolder.Navigation.csproj"
+            },
             "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Wpf\\MemeFolder.Wpf.csproj": {
               "projectPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Wpf\\MemeFolder.Wpf.csproj"
-            },
-            "C:\\Users\\ivans\\source\\repos\\MvvmNavigation\\code\\src\\MvvmNavigation.Wpf\\MvvmNavigation.Wpf.csproj": {
-              "projectPath": "C:\\Users\\ivans\\source\\repos\\MvvmNavigation\\code\\src\\MvvmNavigation.Wpf\\MvvmNavigation.Wpf.csproj"
             }
           }
         }
@@ -6265,6 +6613,10 @@
             "target": "Package",
             "version": "[5.0.0, )"
           },
+          "Microsoft.Extensions.Configuration.Json": {
+            "target": "Package",
+            "version": "[5.0.0, )"
+          },
           "Microsoft.Extensions.DependencyInjection": {
             "target": "Package",
             "version": "[5.0.1, )"
@@ -6280,6 +6632,14 @@
           "Microsoft.WindowsAPICodePack-Shell": {
             "target": "Package",
             "version": "[1.1.0, )"
+          },
+          "NAudio": {
+            "target": "Package",
+            "version": "[1.10.0, )"
+          },
+          "gong-wpf-dragdrop": {
+            "target": "Package",
+            "version": "[2.3.2, )"
           }
         },
         "imports": [

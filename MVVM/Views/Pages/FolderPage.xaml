@@ -3,11 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-
+      xmlns:dd="urn:gong-wpf-dragdrop"
       xmlns:t="clr-namespace:MemeFolder.MVVM.ViewModels"      
       xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:converter="clr-namespace:MemeFolder.Wpf.Converters;assembly=MemeFolder.Wpf"
       xmlns:vm="clr-namespace:MemeFolder.MVVM.ViewModels"
+      
       xmlns:local="clr-namespace:MemeFolder.MVVM.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -167,13 +168,6 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                    <!--<Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource ManyValueConverter}">
-                            <Binding Path="Text" ElementName="TitleName"/>
-                            <Binding Path="Text" ElementName="Description"/>
-                            <Binding Path="Source" ElementName="ImageD"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>-->
                 </Button>
             </Grid>
         </DataTemplate>
@@ -181,7 +175,7 @@
         <!-- Dialog for Folders -->
         <DataTemplate DataType="{x:Type t:FolderVM}">
             <Grid Background="{StaticResource GrayLVL1}" 
-                                          Height="370" Width="680">
+                  Height="370" Width="680">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="37"/>
@@ -197,20 +191,20 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
-                                   Padding="0"
-                                   Margin="50,15,0,0"
-                                   HorizontalAlignment="Center"
+                                Padding="0"
+                                Margin="50,15,0,0"
+                                HorizontalAlignment="Center"
                                
-                                   Text="Создание папки"
-                                   Foreground="{StaticResource StandartLightColor2}"
-                                   FontSize="19"
-                                   FontWeight="Bold"/>
+                                Text="Создание папки"
+                                Foreground="{StaticResource StandartLightColor2}"
+                                FontSize="19"
+                                FontWeight="Bold"/>
 
                     <Button Grid.Column="1"
-                                Margin="5,5,0,0"
-                                Command="{x:Static md:DialogHost.CloseDialogCommand}"
-                                Background="{StaticResource GrayLVL1}"
-                                Style="{StaticResource CloseButton}"/>
+                            Margin="5,5,0,0"
+                            Command="{x:Static md:DialogHost.CloseDialogCommand}"
+                            Background="{StaticResource GrayLVL1}"
+                            Style="{StaticResource CloseButton}"/>
 
                 </Grid>
 
@@ -222,14 +216,14 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0"
-                                    Height="225"
-                                    Margin="25,30,0,0"
-                                
-                                Command="{Binding SetPlayListImage}">
+                            Height="225"
+                            Margin="25,30,0,0"
+                            Command="{Binding SetPlayListImage}">
 
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
-                                <Grid Background="{DynamicResource GrayLVL0}">
+                                <Grid Background="{DynamicResource GrayLVL0}"
+                                      DataContext="{Binding Model}">
 
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2.5*"/>
@@ -237,8 +231,8 @@
                                     </Grid.RowDefinitions>
 
                                     <Image x:Name="ImageD" Grid.Row="0" Grid.RowSpan="2"
-                                               Stretch="Fill"
-                                               Source="{Binding TempImageUri, UpdateSourceTrigger=PropertyChanged}"/>
+                                           Stretch="Fill"
+                                           Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"/>
 
                                     <md:PackIcon x:Name="IconD" Kind="Music" Grid.Row="0"
                                                          Height="100"
@@ -269,7 +263,8 @@
 
                     </Button>
 
-                    <Grid Grid.Column="1" Margin="20,30,25,0">
+                    <Grid Grid.Column="1" Margin="20,30,25,0"
+                          DataContext="{Binding Model}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="24"/>
@@ -279,26 +274,28 @@
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0"
-                                       Padding="0"
-                                       VerticalAlignment="Top"
+                               Padding="0"
+                               VerticalAlignment="Top"
                                    
-                                       Content="Название"
-                                       FontSize="14"
-                                       Foreground="{StaticResource StandartLightColor}"/>
+                               Content="Название"
+                               FontSize="14"
+                               Foreground="{StaticResource StandartLightColor}"/>
                         <TextBox x:Name="TitleName" Grid.Row="1"
-                                        Style="{x:Null}"/>
+                                 Text="{Binding Title}"
+                                 Style="{x:Null}"/>
 
                         <Label Grid.Row="2"
-                                       Padding="0"
-                                       Margin="0,12,0,0"
-                                       VerticalAlignment="Top"
+                                Padding="0"
+                                Margin="0,12,0,0"
+                                VerticalAlignment="Top"
                                    
-                                       Content="Описание"
-                                       FontSize="14"
-                                       Foreground="{StaticResource StandartLightColor}"/>
+                                Content="Описание"
+                                FontSize="14"
+                                Foreground="{StaticResource StandartLightColor}"/>
 
                         <TextBox x:Name="Description" Grid.Row="3"
-                                         Style="{x:Null}"/>
+                                 Text="{Binding Description}"
+                                 Style="{x:Null}"/>
 
 
                     </Grid>
@@ -306,7 +303,8 @@
                 </Grid>
 
                 <Button Grid.Row="2"
-                                Command="{Binding AddFolder}">
+                        Command="{x:Static md:DialogHost.CloseDialogCommand}"
+                        CommandParameter="{Binding Model}">
                     <Button.Template>
                         <ControlTemplate>
                             <Border CornerRadius="25"
@@ -319,12 +317,12 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                    <Button.CommandParameter>
+                    <!--<Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource ManyValueConverter}">
                             <Binding Path="Text" ElementName="TitleName"/>
                             <Binding Path="Text" ElementName="Description"/>
                         </MultiBinding>
-                    </Button.CommandParameter>
+                    </Button.CommandParameter>-->
                 </Button>
             </Grid>
 
@@ -334,62 +332,35 @@
 
     <ScrollViewer Style="{StaticResource ContentSV}"
                   Background="{DynamicResource GrayLVL3}">
+        
         <Grid Background="{StaticResource GrayLVL2}">
-
-            <!--<Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="{DynamicResource GrayLVL3_Color}" Offset="0.27"/>
-                    <GradientStop Color="{DynamicResource GrayLVL0_Color}" Offset="0.083"/>
-                </LinearGradientBrush>
-            </Grid.Background>-->
-
-
 
             <ListBox ItemsSource="{Binding FolderObjects}"
                      Style="{StaticResource DefLB}"
-                     Background="{x:Null}">
+                     Background="{x:Null}"
+                     
+                    
+                     dd:DragDrop.IsDropTarget="True"
+                     dd:DragDrop.DropHandler="{Binding}">
 
                 <ListBox.ContextMenu>
                     <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.DataContext}">
-                        <MenuItem Header="AddFolder" Command="{Binding OpenDialogCommand}"
-                                                     CommandParameter="Folder"/>
-                        <MenuItem Header="AddMeme" Command="{Binding OpenDialogCommand}"
-                                                   CommandParameter="Meme"/>
+                        <MenuItem Header="Создать папку" Command="{Binding AddFolderCommand}"/>
+                        <MenuItem Header="Создать папку с параметрами" Command="{Binding OpenDialogCommand}" CommandParameter="Folder"/>
+                        <MenuItem Header="Создать мемчик" Command="{Binding AddMemeCommand}"/>
+                        <MenuItem Header="Создать мемчик с параметрами" Command="{Binding OpenDialogCommand}" CommandParameter="Meme"/>
+                        <MenuItem Header="Test" Command="{Binding TestCommand}" />
                     </ContextMenu>
                 </ListBox.ContextMenu>
-            </ListBox>
-            
-            
-            
-            <md:DialogHost Grid.Row="0"
-                            Background="Red" CloseOnClickAway="True"
-                            IsOpen="{Binding IsDialogOpen, UpdateSourceTrigger=PropertyChanged}"
-                            x:Name="rootD"
-                           Identifier="RootDialog">
-                <!--<md:DialogHost.Style>
-                    <Style TargetType="md:DialogHost" BasedOn="{StaticResource MaterialDesignEmbeddedDialogHost}">
-
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext,
-                                                       Converter={StaticResource ObjToType}}" 
-                                         Value="{x:Type t:Folder}">
-                                <Setter Property="md:DialogHost.DialogContent" Value="{StaticResource CreateFolderDH}"/>
-                            </DataTrigger>
-
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext,
-                                                       Converter={StaticResource ObjToType}}" 
-                                         Value="{x:Type t:Meme}">
-                                <Setter Property="md:DialogHost.DialogContent" Value="{StaticResource CreateFolderDH}"/>
-                            </DataTrigger>
-
-                        </Style.Triggers>
-                    </Style>
-                </md:DialogHost.Style>-->
                 
-              
+            </ListBox>
 
-            </md:DialogHost>
-
+            <md:DialogHost Grid.Row="0"
+                           Background="Red" CloseOnClickAway="False"
+                           IsOpen="{Binding IsDialogOpen, UpdateSourceTrigger=PropertyChanged}"
+                           x:Name="rootD"
+                           Identifier="RootDialog"/>
         </Grid>
+        
     </ScrollViewer>
 </Page>

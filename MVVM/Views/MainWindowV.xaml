@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:converter="clr-namespace:MemeFolder.Wpf.Converters;assembly=MemeFolder.Wpf"
-        
+        xmlns:vm="clr-namespace:MemeFolder.MVVM.ViewModels"  
+        xmlns:m="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:ii="av"
         xmlns:local="clr-namespace:MemeFolder.MVVM.Views"
+        d:DataContext="{d:DesignInstance vm:MainWindowVM, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Height="800" Width="1500"
         MinHeight="600" MinWidth="800" WindowStyle="SingleBorderWindow">
@@ -17,6 +22,18 @@
         <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
         <converter:StringToBoolConverter x:Key="StringToBoolConverter"/>
         <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
+
+        <!--<DataTemplate x:Key="SearchGrid" DataType="{x:Type Grid}">
+            <Border x:Name="Border">
+                
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Source=SearchTB, Path=Text}" Value="">
+                    <Setter Property="Visibility" TargetName="Border" Value="Hidden"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>-->
+        
 
     </Window.Resources>
     
@@ -72,15 +89,16 @@
 
         <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1"
               Background="{DynamicResource GrayLVL3}">
-            <Frame x:Name="FrameContent" Margin="0,0,0,0"
+            <Frame x:Name="FrameContent" Margin="0,0,0,0" BorderThickness="0,0,0,0"
                    NavigationUIVisibility="Hidden"/>
         </Grid>
-
+        
         <Grid x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
               Background="{DynamicResource GrayLVL4}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="220"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -102,8 +120,36 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Column="2" Background="{x:Null}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            
+            
+            <Grid Grid.Column="2" Background="{x:Null}" >
+
+                <TextBox x:Name="SearchTB"
+                         Style="{StaticResource TB_Search}"
+                         WindowChrome.IsHitTestVisibleInChrome="True"   
+                         Height="28"
+                         Text="{Binding SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+
+                
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding SearchCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBox},
+                                                                              Path=Text}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+
+            </Grid>
+
+            <Grid Grid.Column="3" Background="{x:Null}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button x:Name="Settings"
+                            WindowChrome.IsHitTestVisibleInChrome="True"      
+                            Command="{Binding OpenSettingsCommand}"
+                            Background="{StaticResource GrayLVL4}"
+                            Style="{StaticResource SettingsButton}"/>
                     <Button x:Name="Minimize"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding MinimizedWindowCommand}"
@@ -126,17 +172,35 @@
 
         </Grid>
 
+        
         <Grid x:Name="MenuGrid" Grid.Row="1" Grid.Column="0"
               Background="{StaticResource  GrayLVL3}">
+
+            <TreeView ItemsSource="{Binding Folders}" Foreground="{DynamicResource Gor}">
+                <TreeView.Resources>
+                    <!-- template for showing the Enterprise's properties
+                     the ItemsSource specifies what the next nested level's
+                     datasource is -->
+                    <HierarchicalDataTemplate DataType="{x:Type vm:FolderVM}"
+                                          ItemsSource="{Binding Children}">
+                        <Label Content="{Binding Model.Title}"
+                               Foreground="{DynamicResource Gor}"/>
+                    </HierarchicalDataTemplate>
+                    <!-- the template for showing the Employee's properties-->
+                    <DataTemplate DataType="{x:Type m:Folder}">
+                        <Label Content="{Binding Title}"
+                               Foreground="{DynamicResource Gor}"/>
+                    </DataTemplate>
+                </TreeView.Resources>
+            </TreeView>
             
         </Grid>
 
+        
         <Grid x:Name="FooterGrid" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
               Background="{StaticResource LightLVL0}">
             
         </Grid>
-       
-    
 
     </Grid>
 </Window>

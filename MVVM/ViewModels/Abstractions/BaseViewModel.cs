@@ -1,13 +1,12 @@
-﻿using Egor92.MvvmNavigation.Abstractions;
-using MemeFolder.Abstractions;
+﻿using MemeFolder.Abstractions;
+using MemeFolder.Navigation;
 using System.Windows.Input;
-//using MemeFolder.Services;
 
 namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
 {
     public abstract class BaseViewModel : OnPropertyChangedClass
     {
-        public INavigationManager _navigationManager;
+        public INavigationService _navigationService;
 
         #region Навигация
         public ICommand NavigationToCommand { get; }
@@ -16,25 +15,25 @@ namespace MemeFolder.Pc.Mvvm.ViewModels.Abstractions
         public ICommand NavigationToFolderCommand { get; set; }
 
         protected virtual void NavigationToExecute(object parameter)
-            => _navigationManager.Navigate(parameter.ToString(), NavigateType.Default);
+            => _navigationService.Navigate(parameter.ToString(), NavigationType.Default);
 
         protected virtual void NavigationBackExecute(object parameter)
-            => _navigationManager.GoBack();
+            => _navigationService.GoBack();
 
         protected virtual void NavigationForwardExecute(object parameter)
-            => _navigationManager.GoForward();
+            => _navigationService.GoForward();
 
         #endregion
 
         #region Конструкторы 
 
-        public BaseViewModel(INavigationManager navigationManager)
+        public BaseViewModel(INavigationService navigationService)
         {
-            _navigationManager = navigationManager;
+            _navigationService = navigationService;
 
-            NavigationToCommand = new RelayCommand(NavigationToExecute, (o) => _navigationManager.CanNavigate(o.ToString()));
-            NavigationBackCommand = new RelayCommand(NavigationBackExecute, (o) => _navigationManager.CanGoBack());
-            NavigationForwardCommand = new RelayCommand(NavigationForwardExecute, (o) => _navigationManager.CanGoForward());
+            NavigationToCommand = new RelayCommand(NavigationToExecute, (o) => _navigationService.CanNavigate(o.ToString()));
+            NavigationBackCommand = new RelayCommand(NavigationBackExecute, (o) => _navigationService.CanGoBack());
+            NavigationForwardCommand = new RelayCommand(NavigationForwardExecute, (o) => _navigationService.CanGoForward());
         }
 
         #endregion
