@@ -339,8 +339,7 @@
                      Style="{StaticResource DefLB}"
                      Background="{x:Null}"
                      
-                     PreviewMouseWheel="empListBox_PreviewMouseWheel"
-                     
+                    
                      dd:DragDrop.IsDropTarget="True"
                      dd:DragDrop.DropHandler="{Binding}">
 

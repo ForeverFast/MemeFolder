@@ -46,7 +46,7 @@ namespace MemeFolder.MVVM.ViewModels
 
             if (string.IsNullOrEmpty(SearchText))
             {
-                _navigationService.Navigate("root", NavigationType.Root);
+                _navigationService.Navigate("root", NavigationType.Root, null);
                 return;
             }
           
