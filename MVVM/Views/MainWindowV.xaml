@@ -9,7 +9,8 @@
         xmlns:m="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
-        xmlns:ii="av"
+        
+        
         xmlns:local="clr-namespace:MemeFolder.MVVM.Views"
         d:DataContext="{d:DesignInstance vm:MainWindowVM, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
@@ -127,10 +128,8 @@
                 <TextBox x:Name="SearchTB"
                          Style="{StaticResource TB_Search}"
                          WindowChrome.IsHitTestVisibleInChrome="True"   
-                         Height="28"
-                         Text="{Binding SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                         Height="28">
 
-                
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding SearchCommand}"
@@ -138,6 +137,7 @@
                                                                               Path=Text}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    
                 </TextBox>
 
 
