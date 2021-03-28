@@ -8,7 +8,7 @@
       xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:converter="clr-namespace:MemeFolder.Wpf.Converters;assembly=MemeFolder.Wpf"
       xmlns:vm="clr-namespace:MemeFolder.MVVM.ViewModels"
-      
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       xmlns:local="clr-namespace:MemeFolder.MVVM.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -16,7 +16,8 @@
       d:DataContext="{d:DesignInstance vm:FolderVM, IsDesignTimeCreatable=True}">
 
     <Page.Resources>
-        
+
+        <converter:ImageAsyncToContentTypeConverter x:Key="IAS"/>
         <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
         <converter:StringToBoolConverter x:Key="StringToBoolConverter"/>
         <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
@@ -343,6 +344,12 @@
                      
                      dd:DragDrop.IsDropTarget="True"
                      dd:DragDrop.DropHandler="{Binding}">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding PageLoadedCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
                 <ListBox.ContextMenu>
                     <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.DataContext}">

@@ -411,8 +411,8 @@ namespace MemeFolder.MVVM.ViewModels
 
 
 
-            NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute, null);
-           
+            NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
+            PageLoadedCommand = new RelayCommand(PageLoadedExecute);
         }
 
         public FolderVM(DataService dataService) : this(dataService._navigationService,
@@ -424,6 +424,9 @@ namespace MemeFolder.MVVM.ViewModels
 
             var temp = Task.Run(() => _folderDataService.GetAll());
             Model = temp.Result.FirstOrDefault(f => f.Title == "root");
+
+            Children = new ObservableCollection<FolderVM>();
+            FolderObjects = new ImageAsyncCollection<ImageAsync<FolderObject>>();
         }
 
         public FolderVM(Folder model,
@@ -435,10 +438,16 @@ namespace MemeFolder.MVVM.ViewModels
             _dataService = dataService;
 
             Model = model;
+
+            Children = new ObservableCollection<FolderVM>();
+            FolderObjects = new ImageAsyncCollection<ImageAsync<FolderObject>>();
         }
 
         private void DownloadData()
         {
+            System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
+            myStopwatch.Start(); //запуск
+         
             Model.PropertyChanged += Model_PropertyChanged;
 
             foreach (var item in Model.Folders)
@@ -454,7 +463,7 @@ namespace MemeFolder.MVVM.ViewModels
                 item.PropertyChanged += Model_PropertyChanged;
                 FolderObjects.Add(new ImageAsync<FolderObject>(item.ImagePath, item));
             }
-                
+            myStopwatch.Stop(); //остановить
         }
 
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -473,12 +482,16 @@ namespace MemeFolder.MVVM.ViewModels
 
         public void OnNavigatedTo(object arg)
         {
-            if (Children == null || FolderObjects == null)
-            {
-                Children = new ObservableCollection<FolderVM>();
-                FolderObjects = new ImageAsyncCollection<ImageAsync<FolderObject>>();
-                DownloadData();
-            }
+           
+        }
+
+        public ICommand PageLoadedCommand { get; }
+
+        private void PageLoadedExecute(object parameter)
+        {
+           
+
+            DownloadData();
         }
 
         #endregion
