@@ -11,9 +11,11 @@ using MemeFolder.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -23,14 +25,17 @@ namespace MemeFolder.MVVM.ViewModels
 {
     public class SearchPageVM : BasePageViewModel
     {
+        private readonly SearchData Model;
 
         #region Поля
         private IFolderDataService _folderDataService;
         private IMemeDataService _memeDataService;
+
+        private DataService _dataService;
         #endregion
 
-        public ObservableCollection<FolderVM> NavigationData { get; }
-        public ObservableCollection<FolderObject> SearchResult { get; }
+        public ObservableCollection<FolderVM> NavigationData { get; private set; }
+        public ObservableCollection<FolderObject> SearchResult { get; private set; }
 
 
         #region Команды - Мемы
@@ -125,25 +130,68 @@ namespace MemeFolder.MVVM.ViewModels
             CopyMemeInBufferCommand = new RelayCommand(CopyMemeInBufferExecute);
             RemoveMemeCommand = new AsyncRelayCommand(RemoveMemeExecuteAsync);
 
-            NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute, null);   
+            NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
+            PageLoadedCommand = new AsyncRelayCommand(PageLoadedExecuteAsync);
         }
 
         public SearchPageVM(SearchData searchData,
                             DataService dataService) : this(dataService._navigationService)
         {
-            //NavigationData = searchData.NavigationData;
-            //SearchResult = searchData.SearchResult;
-
-            //OnAllPropertyChanged();
-            NavigationData = new ObservableCollection<FolderVM>();
-            SearchResult = new ObservableCollection<FolderObject>();
-            foreach (var item in searchData.NavigationData)
-                NavigationData.Add(item);
-            foreach (var item in searchData.SearchResult)
-                SearchResult.Add(item);
-
+            _dataService = dataService;
             _folderDataService = dataService._folderDataService;
             _memeDataService = dataService._memeDataService;
+
+            Model = searchData;
         }
+
+        public ICommand PageLoadedCommand { get; }
+
+        private async Task PageLoadedExecuteAsync(object parameter)
+        {
+            NavigationData = new ObservableCollection<FolderVM>();
+            SearchResult = new ObservableCollection<FolderObject>();
+
+            var uiContext = SynchronizationContext.Current;
+            await Task.Run(() => {
+                
+                foreach (var item in Model.SearchResult)
+                {
+                    if(item is Folder folder)
+                    {
+                        uiContext.Send(x => {
+                            NavigationData.Add(new FolderVM(folder,
+                                          _dataService));
+                            folder.PropertyChanged += Model_PropertyChanged;
+                            SearchResult.Add(item);
+                        }, null);
+                       
+                    } else if (item is Meme meme)
+                    {
+                        uiContext.Send(x => {
+                            meme.PropertyChanged += Model_PropertyChanged;
+                            SearchResult.Add(item);
+                        }, null);
+                       
+                    }
+
+                   
+                }
+            });
+        }
+
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is Meme)
+            {
+                var memeObj = (Meme)sender;
+                _memeDataService.Update(memeObj.Id, memeObj);
+            }
+            else if (sender is Folder)
+            {
+                var folderObj = (Folder)sender;
+                _folderDataService.Update(folderObj.Id, folderObj);
+            }
+        }
+
     }
 }

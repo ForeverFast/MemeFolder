@@ -22,5 +22,15 @@ namespace MemeFolder.MVVM.Views.Pages
         {
             InitializeComponent();
         }
+
+        private void empListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = sender;
+            var parent = ((ListBox)sender).Parent as UIElement;
+            parent.RaiseEvent(eventArg);
+        }
     }
 }

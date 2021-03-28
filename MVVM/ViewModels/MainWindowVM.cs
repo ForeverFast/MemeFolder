@@ -1,8 +1,4 @@
-﻿using Egor92.MvvmNavigation.Abstractions;
-using GongSolutions.Wpf.DragDrop;
-using MemeFolder.Domain.Models;
-using MemeFolder.Domain.Models.AbstractModels;
-using MemeFolder.EntityFramework.Services;
+﻿using MemeFolder.Domain.Models.AbstractModels;
 using MemeFolder.Mvvm.Commands;
 using MemeFolder.MVVM.Models;
 using MemeFolder.MVVM.Views.Pages;
@@ -10,14 +6,10 @@ using MemeFolder.Navigation;
 using MemeFolder.Pc.Mvvm;
 using MemeFolder.Pc.Mvvm.ViewModels.Abstractions;
 using MemeFolder.Services;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace MemeFolder.MVVM.ViewModels

@@ -8,7 +8,7 @@
       xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:converter="clr-namespace:MemeFolder.Wpf.Converters;assembly=MemeFolder.Wpf"
       xmlns:vm="clr-namespace:MemeFolder.MVVM.ViewModels"
-      
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       xmlns:local="clr-namespace:MemeFolder.MVVM.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -332,14 +332,21 @@
 
     <ScrollViewer Style="{StaticResource ContentSV}"
                   Background="{DynamicResource GrayLVL3}">
-        
+
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding PageLoadedCommand}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
         <Grid Background="{StaticResource GrayLVL2}">
 
             <ListBox ItemsSource="{Binding FolderObjects}"
                      Style="{StaticResource DefLB}"
                      Background="{x:Null}"
                      
-                    
+                     PreviewMouseWheel="empListBox_PreviewMouseWheel"
+                     
                      dd:DragDrop.IsDropTarget="True"
                      dd:DragDrop.DropHandler="{Binding}">
 
@@ -352,14 +359,18 @@
                         <MenuItem Header="Test" Command="{Binding TestCommand}" />
                     </ContextMenu>
                 </ListBox.ContextMenu>
-                
+
             </ListBox>
+
+
 
             <md:DialogHost Grid.Row="0"
                            Background="Red" CloseOnClickAway="False"
                            IsOpen="{Binding IsDialogOpen, UpdateSourceTrigger=PropertyChanged}"
                            x:Name="rootD"
                            Identifier="RootDialog"/>
+
+            <!--<Button Content="SS" Command="{Binding OpenDialogCommand}"/>-->
         </Grid>
         
     </ScrollViewer>

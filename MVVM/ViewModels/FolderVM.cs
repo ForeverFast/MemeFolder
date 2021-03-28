@@ -16,8 +16,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -33,6 +35,7 @@ namespace MemeFolder.MVVM.ViewModels
 
         private readonly DataService _dataService;
         #endregion
+
 
         public Folder Model { get => _model; set => SetProperty(ref _model, value); }
         public ObservableCollection<FolderVM> Children { get; private set; }
@@ -77,63 +80,7 @@ namespace MemeFolder.MVVM.ViewModels
 
        
 
-        #region Логика - Диалоговое окно
-
-        public ICommand OpenDialogCommand
-        {
-            get => new AsyncRelayCommand( async (o) => {
-
-                switch(o.ToString())
-                {
-                    case "Meme":
-
-                        var memeModel = new Meme();
-                        var memeVM = new MemeVM(memeModel, _navigationService, _dialogService);
-
-                        object meme = await MaterialDesignThemes.Wpf.DialogHost.Show(memeVM, "RootDialog");
-
-                        if (meme == null)
-                            break;
-
-                        var CreatedMemeEnitiy = await _memeDataService.Create(meme as Meme);
-                        FolderObjects.Add(CreatedMemeEnitiy);
-
-                        break;
-
-                    case "Folder":
-
-                        var folderModel = new Folder();
-                        var folderVM = new FolderVM(folderModel, _dataService);
-
-                        object folder = await MaterialDesignThemes.Wpf.DialogHost.Show(folderVM, "RootDialog");
-
-                        if (folder == null)
-                            break;
-
-                        var CreatedFolderEnitiy = await _folderDataService.Create(folder as Folder);
-                        FolderObjects.Add(CreatedFolderEnitiy);
-                        Children.Add(folderVM);
-
-                        break;
-                }
-
-            });
-        }
-
-        public ICommand SetPlayListImage
-        {
-            get => new RelayCommand((o) => {
-                TempImageUri = _dialogService.FileBrowserDialog("*.jpg;*.png");
-            });
-        }
-
-
-        private bool _isDialogOpen;
-        private string _tempImageUri;
-        public bool IsDialogOpen { get => _isDialogOpen; set { SetProperty(ref _isDialogOpen, value); if (value == false) TempImageUri = ""; } }
-        public string TempImageUri { get => _tempImageUri; set => SetProperty(ref _tempImageUri, value); }
-
-        #endregion
+       
 
         #endregion
 
@@ -334,12 +281,71 @@ namespace MemeFolder.MVVM.ViewModels
         #endregion
 
 
+        #region Логика - Диалоговое окно
+
+        public ICommand OpenDialogCommand
+        {
+            get => new AsyncRelayCommand(async (o) => {
+
+                switch (o.ToString())
+                {
+                    case "Meme":
+
+                        var memeModel = new Meme();
+                        var memeVM = new MemeVM(memeModel, _navigationService, _dialogService);
+
+                        object meme = await MaterialDesignThemes.Wpf.DialogHost.Show(memeVM, "RootDialog");
+
+                        if (meme == null)
+                            break;
+
+                        var CreatedMemeEnitiy = await _memeDataService.Create(meme as Meme);
+                        FolderObjects.Add(CreatedMemeEnitiy);
+
+                        break;
+
+                    case "Folder":
+
+                        var folderModel = new Folder();
+                        var folderVM = new FolderVM(folderModel, _dataService);
+
+                        object folder = await MaterialDesignThemes.Wpf.DialogHost.Show(folderVM, "RootDialog");
+
+                        if (folder == null)
+                            break;
+
+                        var CreatedFolderEnitiy = await _folderDataService.Create(folder as Folder);
+                        FolderObjects.Add(CreatedFolderEnitiy);
+                        Children.Add(folderVM);
+
+                        break;
+                }
+
+            });
+        }
+
+        public ICommand SetPlayListImage
+        {
+            get => new RelayCommand((o) => {
+                TempImageUri = _dialogService.FileBrowserDialog("*.jpg;*.png");
+            });
+        }
+
+
+        private bool _isDialogOpen;
+        private string _tempImageUri;
+        public bool IsDialogOpen { get => _isDialogOpen; set { SetProperty(ref _isDialogOpen, value); if (value == false) TempImageUri = ""; } }
+        public string TempImageUri { get => _tempImageUri; set => SetProperty(ref _tempImageUri, value); }
+
+        #endregion
+
+
         #region Тест
 
         public async Task GetData(SearchData searchData)
         {
-            foreach (var item in FolderObjects)
-                searchData.SearchResult.Add(item);
+            //foreach (var item in FolderObjects)
+            //    searchData.SearchResult.Add(item);
             foreach (var item in Children)
             {
                 searchData.NavigationData.Add(item);
@@ -358,7 +364,7 @@ namespace MemeFolder.MVVM.ViewModels
 
         #endregion
 
-
+         
         #region Конструкторы
 
         private FolderVM(INavigationService navigationService,
@@ -378,8 +384,8 @@ namespace MemeFolder.MVVM.ViewModels
 
 
 
-            NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute, null);
-           
+            NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
+            PageLoadedCommand = new AsyncRelayCommand(PageLoadedExecuteAsync);
         }
 
         public FolderVM(DataService dataService) : this(dataService._navigationService,
@@ -404,25 +410,7 @@ namespace MemeFolder.MVVM.ViewModels
             Model = model;
         }
 
-        private void DownloadData()
-        {
-            Model.PropertyChanged += Model_PropertyChanged;
-
-            foreach (var item in Model.Folders)
-            {
-                Children.Add(new FolderVM(item,
-                                          _dataService));
-                item.PropertyChanged += Model_PropertyChanged;
-                FolderObjects.Add(item);
-            }
-
-            foreach (var item in Model.Memes)
-            {
-                item.PropertyChanged += Model_PropertyChanged;
-                FolderObjects.Add(item);
-            }
-                
-        }
+       
 
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -440,12 +428,70 @@ namespace MemeFolder.MVVM.ViewModels
 
         public void OnNavigatedTo(object arg)
         {
-            if (Children == null || FolderObjects == null)
+            
+        }
+
+        public ICommand PageLoadedCommand { get; }
+        
+        private async Task PageLoadedExecuteAsync(object parameter)
+        {
+            Children = new ObservableCollection<FolderVM>();
+            FolderObjects = new ObservableCollection<FolderObject>();
+
+            //Model.PropertyChanged += Model_PropertyChanged;
+            //foreach (var item in Model.Folders)
+            //{
+
+            //    Children.Add(new FolderVM(item,
+            //                        _dataService));
+            //    item.PropertyChanged += Model_PropertyChanged;
+            //    FolderObjects.Add(item);
+
+
+            //}
+
+            //foreach (var item in Model.Memes)
+            //{
+
+            //    item.PropertyChanged += Model_PropertyChanged;
+            //    FolderObjects.Add(item);
+
+            //}
+           
+            var uiContext = SynchronizationContext.Current;
+
+            await Task.Run(() =>
             {
-                Children = new ObservableCollection<FolderVM>();
-                FolderObjects = new ObservableCollection<FolderObject>();
-                DownloadData();
-            }
+                //Model.PropertyChanged += Model_PropertyChanged;
+                
+                foreach (var item in Model.Folders)
+                {
+                    uiContext.Send(x =>
+                    {
+                        Children.Add(new FolderVM(item,_dataService));
+                        //item.PropertyChanged += Model_PropertyChanged;
+                        FolderObjects.Add(item);
+                    }, null);
+
+                }
+
+                foreach (var item in Model.Memes)
+                {
+                    uiContext.Send(x =>
+                    {
+                        //item.PropertyChanged += Model_PropertyChanged;
+                        FolderObjects.Add(item);
+                    }, null);
+                }
+
+                uiContext.Send(x => {
+                    OnPropertyChanged(nameof(FolderObjects));
+                    OnPropertyChanged(nameof(Children));
+                }, null);
+            });
+
+          
+           
         }
 
         #endregion

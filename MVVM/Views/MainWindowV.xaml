@@ -127,8 +127,7 @@
                 <TextBox x:Name="SearchTB"
                          Style="{StaticResource TB_Search}"
                          WindowChrome.IsHitTestVisibleInChrome="True"   
-                         Height="28"
-                         Text="{Binding SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                         Height="28">
 
                 
                     <i:Interaction.Triggers>
