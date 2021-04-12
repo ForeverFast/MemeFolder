@@ -432,67 +432,137 @@ namespace MemeFolder.MVVM.ViewModels
         }
 
         public ICommand PageLoadedCommand { get; }
-        
+
         private async Task PageLoadedExecuteAsync(object parameter)
         {
-            Children = new ObservableCollection<FolderVM>();
-            FolderObjects = new ObservableCollection<FolderObject>();
-
-            //Model.PropertyChanged += Model_PropertyChanged;
-            //foreach (var item in Model.Folders)
-            //{
-
-            //    Children.Add(new FolderVM(item,
-            //                        _dataService));
-            //    item.PropertyChanged += Model_PropertyChanged;
-            //    FolderObjects.Add(item);
-
-
-            //}
-
-            //foreach (var item in Model.Memes)
-            //{
-
-            //    item.PropertyChanged += Model_PropertyChanged;
-            //    FolderObjects.Add(item);
-
-            //}
-           
-            var uiContext = SynchronizationContext.Current;
-
-            await Task.Run(() =>
+            if (Children == null || FolderObjects == null)
             {
+                Children = new ObservableCollection<FolderVM>();
+                FolderObjects = new ObservableCollection<FolderObject>();
+
+                BackgroundWorker bgW = new BackgroundWorker();
+                bgW.DoWork += BgW_DoWork;
+                bgW.RunWorkerCompleted += BgW_RunWorkerCompleted;
+                bgW.ProgressChanged += BgW_ProgressChanged;
+                bgW.RunWorkerAsync(Model);
+
                 //Model.PropertyChanged += Model_PropertyChanged;
-                
-                foreach (var item in Model.Folders)
-                {
-                    uiContext.Send(x =>
-                    {
-                        Children.Add(new FolderVM(item,_dataService));
-                        //item.PropertyChanged += Model_PropertyChanged;
-                        FolderObjects.Add(item);
-                    }, null);
+                //foreach (var item in Model.Folders)
+                //{
 
-                }
+                //    Children.Add(new FolderVM(item,
+                //                        _dataService));
+                //    item.PropertyChanged += Model_PropertyChanged;
+                //    FolderObjects.Add(item);
 
-                foreach (var item in Model.Memes)
-                {
-                    uiContext.Send(x =>
-                    {
-                        //item.PropertyChanged += Model_PropertyChanged;
-                        FolderObjects.Add(item);
-                    }, null);
-                }
 
-                uiContext.Send(x => {
-                    OnPropertyChanged(nameof(FolderObjects));
-                    OnPropertyChanged(nameof(Children));
-                }, null);
-            });
+                //}
 
-          
-           
+                //foreach (var item in Model.Memes)
+                //{
+
+                //    item.PropertyChanged += Model_PropertyChanged;
+                //    FolderObjects.Add(item);
+
+                //}
+
+                //var uiContext = SynchronizationContext.Current;
+                //Stopwatch myStopwatch = new Stopwatch();
+                //myStopwatch.Start(); //запуск
+                //await Task.Run(() =>
+                //{
+                //    //Model.PropertyChanged += Model_PropertyChanged;
+
+                //    foreach (var item in Model.Folders)
+                //    {
+                //        uiContext.Post(x =>
+                //        {
+                //            Children.Add(new FolderVM(item, _dataService));
+                //            //item.PropertyChanged += Model_PropertyChanged;
+                //            FolderObjects.Add(item);
+                //            OnPropertyChanged(nameof(Children));
+                //            OnPropertyChanged(nameof(FolderObjects));
+                //        }, null);
+
+                //    }
+
+                //    foreach (var item in Model.Memes)
+                //    {
+                //        uiContext.Post(x =>
+                //        {
+                //            //item.PropertyChanged += Model_PropertyChanged;
+                //            FolderObjects.Add(item);
+                //            OnPropertyChanged(nameof(FolderObjects));
+                           
+                //        }, null);
+                       
+                //    }
+
+                  
+                //});
+
+                //myStopwatch.Stop();
+            }
         }
+
+        private void BgW_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            
+        }
+
+        private void BgW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var data = (SearchData)e.Result;
+            Children = data.NavigationData;
+            FolderObjects = data.SearchResult;
+
+            OnPropertyChanged(nameof(Children));
+            OnPropertyChanged(nameof(FolderObjects));
+        }
+
+        private void BgW_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var model = (Folder)e.Argument;
+            var data = new SearchData();
+            //Model.PropertyChanged += Model_PropertyChanged;
+            foreach (var item in model.Folders)
+            {
+
+                data.NavigationData.Add(new FolderVM(item,
+                                    _dataService));
+                //item.PropertyChanged += Model_PropertyChanged;
+                data.SearchResult.Add(item);
+
+
+            }
+
+            foreach (var item in model.Memes)
+            {
+
+                //item.PropertyChanged += Model_PropertyChanged;
+                var i = new BitmapImage();
+
+                i.BeginInit();
+                //i.DecodePixelHeight = 72;
+                i.DecodePixelWidth = 120;
+                i.CacheOption = BitmapCacheOption.Default;
+               
+                i.CreateOptions = BitmapCreateOptions.None;
+                
+                i.UriSource = new Uri(item.ImagePath);
+                i.EndInit();
+
+                
+
+                item.Image = i;
+                item.Image.Freeze();
+                data.SearchResult.Add(item);
+            }
+            //Thread.Sleep(10000);
+
+            e.Result = data;
+        }
+
 
         #endregion
     }

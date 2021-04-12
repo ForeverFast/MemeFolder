@@ -14,7 +14,7 @@
         d:DataContext="{d:DesignInstance vm:MainWindowVM, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Height="800" Width="1500"
-        MinHeight="600" MinWidth="800" WindowStyle="SingleBorderWindow">
+        MinHeight="600" MinWidth="822" WindowStyle="SingleBorderWindow">
 
     <Window.Resources>
 

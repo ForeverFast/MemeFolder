@@ -103,3 +103,8 @@ C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\conf.j
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\GongSolutions.WPF.DragDrop.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\MemeFolder.Navigation.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\MemeFolder.Navigation.pdb
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

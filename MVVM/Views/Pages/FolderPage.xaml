@@ -339,12 +339,23 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
 
+        <!-- 
+            VirtualizingPanel.CacheLength="30"
+                     VirtualizingPanel.CacheLengthUnit="Item"
+        
+        -->
+        
         <Grid Background="{StaticResource GrayLVL2}">
 
             <ListBox ItemsSource="{Binding FolderObjects}"
                      Style="{StaticResource DefLB}"
                      Background="{x:Null}"
                      
+                     ScrollViewer.CanContentScroll="True"
+                     
+                     VirtualizingStackPanel.IsVirtualizing="True"
+                     VirtualizingStackPanel.ScrollUnit="Item"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" 
                      PreviewMouseWheel="empListBox_PreviewMouseWheel"
                      
                      dd:DragDrop.IsDropTarget="True"
