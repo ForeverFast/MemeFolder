@@ -1,14 +1,18 @@
 ﻿<Application x:Class="MemeFolder.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MemeFolder">
+             xmlns:local="clr-namespace:MemeFolder"
+             xmlns:srd="clr-namespace:MemeFolder.Extentions.Data">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
 
-                <ResourceDictionary
-                    Source="pack://application:,,,/MemeFolder.Wpf;component/Styles/Default/DefaultDictionary.xaml" />
+                <srd:SharedResourceDictionary 
+                    Source="Styles/Default/DefaultDictionary.xaml" />
+                <srd:SharedResourceDictionary 
+                    Source="Brushes.xaml" />
+
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

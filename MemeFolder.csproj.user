@@ -2,6 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
+    <_LastSelectedProfileId>C:\Users\ivans\source\repos\MemeFolder\MemeFolder\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">
@@ -9,30 +10,54 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="MVVM\Views\MainWindowV.xaml.cs">
+    <Compile Update="Views\MainWindowV.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\Views\Pages\FolderPage.xaml.cs">
+    <Compile Update="Pages\FolderPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\Views\Pages\SearchPage.xaml.cs">
+    <Compile Update="Pages\SearchPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\Views\Pages\SettingsPage.xaml.cs">
+    <Compile Update="Pages\SettingsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MVVM\Views\MainWindowV.xaml">
+    <Page Update="Brushes.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\Views\Pages\FolderPage.xaml">
+    <Page Update="Styles\Default\Dictionaries\Buttons.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\Views\Pages\SearchPage.xaml">
+    <Page Update="Styles\Default\DefaultDictionary.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\Views\Pages\SettingsPage.xaml">
+    <Page Update="Styles\Default\Dictionaries\ListBoxStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Default\Dictionaries\ScrollElements.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Default\Dictionaries\SliderStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Default\Dictionaries\SystemButtons.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Default\Dictionaries\TextBoxStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MainWindowV.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\FolderPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SearchPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

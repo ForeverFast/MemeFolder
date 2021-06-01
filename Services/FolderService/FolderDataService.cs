@@ -1,55 +1,30 @@
 ﻿using MemeFolder.Domain.Models;
 using MemeFolder.EntityFramework;
-using MemeFolder.EntityFramework.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Services
 {
-    public class FolderDataService : GenericDataService<Folder>, IFolderDataService
+    public class FolderDataService : IFolderDataService
     {
-        private readonly IMemeDataService _memeDataService;
+        private readonly MemeFolderDbContextFactory _contextFactory;
 
-        public override async Task<IEnumerable<Folder>> GetAll()
+        public virtual async Task<Folder> Get(Guid guid)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-                IEnumerable<Folder> entities = await context.Set<Folder>().Include(f => f.Memes).ToListAsync();
-                return entities;
+                Folder entity = await context.Folders.Include(f => f.Memes).FirstOrDefaultAsync(e => e.Id == guid);
+                return entity;
             }
         }
 
-        public async Task<ObservableCollection<Folder>> GetFoldersByTitle(string Title)
-        {
-            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
-            {
-                Expression<Func<Folder, bool>> expression = x => x.Title == Title;
-                IEnumerable<Folder> entities = await context.Set<Folder>().Where(expression)//.ToListAsync();
-                //IEnumerable<Folder> entities = await context.Folders.Where(expression)
-                    //.Include(x => x.Folders)
-                    //.ThenInclude(x => x.Folders)
-                    .Include(x => x.Memes)
-                    .ToListAsync();
-
-                
-                return new ObservableCollection<Folder>(entities);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="folder">Сущность</param>
-        /// <param name="folderGuid">Id родителя</param>
-        /// <returns></returns>
-        public override async Task<Folder> Create(Folder folder)
+        public virtual async Task<Folder> Create(Folder folder)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
@@ -64,7 +39,27 @@ namespace MemeFolder.Services
             }
         }
 
-        public override async Task<bool> Delete(Guid guid)
+        public async Task<Folder> CreateRootFolder(Folder folder)
+        {
+            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
+            {
+                try
+                {
+                    EntityEntry<Folder> createdResult = await context.Set<Folder>().AddAsync(folder);
+                    context.SaveChanges();
+
+                    return createdResult.Entity;
+
+                }
+                catch(Exception)
+                {
+
+                }
+                return null;
+            }
+        }
+
+        public virtual async Task<bool> Delete(Guid guid)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
@@ -84,6 +79,68 @@ namespace MemeFolder.Services
             }
         }
 
+        public virtual async Task<Folder> Update(Guid guid, Folder folder)
+        {
+            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
+            {
+                try
+                {
+                    var original = await context.Folders.FirstOrDefaultAsync(e => e.Id == guid);
+
+                    foreach (PropertyInfo propertyInfo in original.GetType().GetProperties())
+                    {
+                        if (propertyInfo.GetValue(folder, null) == null)
+                            propertyInfo.SetValue(folder, propertyInfo.GetValue(original, null), null);
+                    }
+                    context.Entry(original).CurrentValues.SetValues(folder);
+                    await context.SaveChangesAsync();
+
+                    return folder;
+
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+
+            }
+        }
+
+        public virtual async Task<IEnumerable<Folder>> GetAll()
+        {
+            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
+            {
+                try
+                {
+                    IEnumerable<Folder> entities = await Task.FromResult(context.Folders
+                        .Include(f => f.Memes)
+                        .ToList());
+                    return entities;
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
+               
+            }
+        }
+
+        public async Task<ObservableCollection<Folder>> GetFoldersByTitle(string Title)
+        {
+            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
+            {
+                IEnumerable<Folder> entities = await Task.FromResult(context.Folders
+                    .Include(x => x.Memes)
+                    .ToList()
+                    .Where(x => x.Title == Title));
+                return new ObservableCollection<Folder>(entities);
+            }
+        }
+
+
+
+        #region Вспомогательные методы
+        
         private void RemoveAllData(Folder folder, MemeFolderDbContext context)
         {
             foreach (var item in folder.Folders)
@@ -112,12 +169,19 @@ namespace MemeFolder.Services
             context.SaveChanges();
         }
 
+        #endregion
+
+
         #region Конструкторы
 
-        public FolderDataService(MemeFolderDbContextFactory dbf,
-                                 IMemeDataService memeDataService) : base(dbf)
+        public FolderDataService()
         {
-            _memeDataService = memeDataService;
+            _contextFactory = new MemeFolderDbContextFactory();
+        }
+
+        public FolderDataService(MemeFolderDbContextFactory contextFactory)
+        {
+            _contextFactory = contextFactory;
         }
 
         #endregion

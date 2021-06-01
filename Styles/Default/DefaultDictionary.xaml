@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    
+                    xmlns:srd="clr-namespace:MemeFolder.Extentions.Data">
+
+    <ResourceDictionary.MergedDictionaries>
+
+        <srd:SharedResourceDictionary  
+                    Source="Dictionaries/ListBoxStyles.xaml"/>
+        <srd:SharedResourceDictionary  
+                    Source="Dictionaries/SystemButtons.xaml"/>
+        <srd:SharedResourceDictionary  
+                    Source="Dictionaries/ScrollElements.xaml"/>
+        <srd:SharedResourceDictionary  
+                    Source="Dictionaries/SliderStyles.xaml"/>
+        <srd:SharedResourceDictionary  
+                    Source="Dictionaries/TextBoxStyles.xaml"/>
+        <srd:SharedResourceDictionary  
+                    Source="Dictionaries/Buttons.xaml"/>
+
+       
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>
