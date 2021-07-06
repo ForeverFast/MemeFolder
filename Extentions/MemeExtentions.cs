@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
+using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace MemeFolder.Extentions
 {
@@ -15,38 +14,39 @@ namespace MemeFolder.Extentions
     {
         public static byte[] ConvertImageToByteArray(string fileName)
         {
-            Bitmap bitMap = new Bitmap(fileName);
-            Bitmap bitMapMini = new Bitmap(bitMap, new Size(120,72));
-            ImageFormat bmpFormat = bitMapMini.RawFormat;
-
-            byte[] data;
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+            try
             {
-                bitMapMini.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-                stream.Position = 0;
-                data = new byte[stream.Length];
-                stream.Read(data, 0, (int)stream.Length);
-                stream.Close();
-                return data;
-            }
+                Bitmap bitMap = new Bitmap(fileName);
+                Bitmap bitMapMini = new Bitmap(bitMap, new System.Drawing.Size(120, 72));
+                ImageFormat bmpFormat = bitMapMini.RawFormat;
 
-            //using (MemoryStream ms = new MemoryStream())
-            //{
-            //    bitMapMini.Save(ms, bmpFormat);
-            //    return ms.ToArray();
-            //}
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    byte[] data;
+                    bitMapMini.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                    stream.Position = 0;
+                    data = new byte[stream.Length];
+                    stream.Read(data, 0, (int)stream.Length);
+                    stream.Close();
+                    return data;
+
+                }
+            }
+            finally
+            {
+                GC.Collect();
+            }
         }
 
         public static ImageSource ConvertByteArrayToImage(byte[] array)
         {
             if (array != null)
             {
-                Bitmap bmp;
-                using (var ms = new MemoryStream(array))
+                using (MemoryStream ms = new MemoryStream(array))
                 {
-                    bmp = new Bitmap(ms);
+                    return new Bitmap(ms).ToImageSource();
                 }
-                return bmp.ToImageSource();
+                
                 //using (var ms = new MemoryStream(array, 0, array.Length))
                 //{
                 //    var image = new BitmapImage();
@@ -59,6 +59,18 @@ namespace MemeFolder.Extentions
                 //}
             }
             return null;
+        }
+
+        public static void ReplaceReference<T>(IList<T> list, T newReference, Func<T, bool> predicate)
+        {
+            for (int i = 0; i < list.Count; ++i)
+            {
+                if (predicate(list[i]))
+                {
+                    list[i] = newReference;
+                    break;
+                }
+            }
         }
     }
 }

@@ -12,25 +12,30 @@ namespace MemeFolder.ViewModels.DialogVM
         #region Поля
         private Folder _model;
         private readonly IDialogService _dialogService;
+        private string _dialogTitle;
         #endregion
 
         public Folder Model { get => _model; set => SetProperty(ref _model, value); }
+        public string DialogTitle { get => _dialogTitle; set => SetProperty(ref _dialogTitle, value); }
 
 
         #region Команды - Мемы
 
-      
+
 
         #endregion
 
 
         #region Конструкторы
         public DialogFolderVM(Folder model,
-                             IDialogService dialogService) : base()
+                             IDialogService dialogService,
+                             string dialogTitle) : base()
         {
             Model = model;
 
             _dialogService = dialogService;
+
+            DialogTitle = dialogTitle;
         }
 
         #endregion

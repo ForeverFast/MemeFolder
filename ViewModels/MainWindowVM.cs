@@ -20,8 +20,7 @@ namespace MemeFolder.ViewModels
         private DataService _dataService;
         #endregion
 
-
-        public FolderVM TreeRoot { get => _model; set => SetProperty(ref _model, value); }
+        public FolderVM RootVM { get => _model; set => SetProperty(ref _model, value); }
         public ObservableCollection<FolderVM> Folders { get; set; }
 
 
@@ -33,24 +32,33 @@ namespace MemeFolder.ViewModels
 
         private async Task SearchExecuteAsync(object parameter)
         {
-            string SearchText = parameter.ToString();
-
-            if (string.IsNullOrEmpty(SearchText))
+            if (!IsBusy)
             {
-                _navigationService.Navigate("root", NavigationType.Root, null);
-                return;
+                IsBusy = true;
+                string SearchText = parameter.ToString();
+
+                if (string.IsNullOrEmpty(SearchText))
+                {
+                    IsBusy = false;
+                    _navigationService.Navigate("root", NavigationType.Root, null);
+                    return;
+                }
+
+                var searchResult = new SearchData();
+
+               
+                await RootVM.GetData(searchResult);
+
+                searchResult.SearchResult = new ObservableCollection<FolderObject>(searchResult.SearchResult.Where(p => p.Title.Contains(SearchText)));
+                searchResult.NavigationData = new ObservableCollection<FolderVM>(searchResult.NavigationData.Where(p => p.Model.Title.Contains(SearchText)));
+
+                string navKey = "searchPage " + Guid.NewGuid().ToString();
+                SearchPageVM searchPageVM = new SearchPageVM(searchResult, _dataService);
+                _navigationService.Navigate<SearchPage>(navKey, searchPageVM, null);
+
+                IsBusy = false;
             }
-          
-            var searchResult = new SearchData();
-
-            await TreeRoot.GetData(searchResult);
-            searchResult.SearchResult = new ObservableCollection<FolderObject>(searchResult.SearchResult.Where(p => p.Title.Contains(SearchText)));
-            searchResult.NavigationData = new ObservableCollection<FolderVM>(searchResult.NavigationData.Where(p => p.Model.Title.Contains(SearchText)));
-
-            _navigationService.Navigate<SearchPage>("searchPage " + Guid.NewGuid().ToString(),
-                                                    new SearchPageVM(searchResult,
-                                                                     _dataService),
-                                                    null);
+           
         }
 
         private void OpenSettingsExecute(object parameter)
@@ -66,7 +74,7 @@ namespace MemeFolder.ViewModels
         public MainWindowVM(FolderVM model,
                             DataService dataService) : base(dataService._navigationService)
         {
-            TreeRoot = model;
+            RootVM = model;
             Folders = model.Children;
             _dataService = dataService;
 

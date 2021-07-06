@@ -27,13 +27,22 @@
     <Page Update="Brushes.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Old\Styles\LVI_CT.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Default\Dictionaries\Buttons.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\Default\DefaultDictionary.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\Default\Dictionaries\DataTemplateDH.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\Default\Dictionaries\ListBoxStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Default\Dictionaries\ListViewItemCT.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\Default\Dictionaries\ScrollElements.xaml">

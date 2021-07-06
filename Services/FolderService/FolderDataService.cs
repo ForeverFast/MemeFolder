@@ -2,6 +2,7 @@
 using MemeFolder.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ namespace MemeFolder.Services
     public class FolderDataService : IFolderDataService
     {
         private readonly MemeFolderDbContextFactory _contextFactory;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public virtual async Task<Folder> Get(Guid guid)
         {
@@ -51,11 +53,12 @@ namespace MemeFolder.Services
                     return createdResult.Entity;
 
                 }
-                catch(Exception)
+                catch(Exception ex)
                 {
-
+                    logger.Error(ex,"Ошибка созданиея");
+                    return null;
                 }
-                return null;
+               
             }
         }
 
@@ -63,18 +66,27 @@ namespace MemeFolder.Services
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-
-                var entities = await GetAll();
-                var entity = entities.ToList().FirstOrDefault(x => x.Id == guid);
-                if (entity != null)
+                try
                 {
-                    RemoveAllData(entity, context);
-                    context.Folders.Remove(entity);
-                    await context.SaveChangesAsync();
-                    return true;
+                    var entities = await GetAll();
+                    var entity = entities.ToList().FirstOrDefault(x => x.Id == guid);
+                    if (entity != null)
+                    {
+                        RemoveAllData(entity, context);
+                        context.Folders.Remove(entity);
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    else
+                        return false;
+                    
                 }
-                else
+                catch(Exception ex)
+                {
+                    logger.Error(ex, "Ошибка удаления");
                     return false;
+                }
+               
 
             }
         }
@@ -100,6 +112,7 @@ namespace MemeFolder.Services
                 }
                 catch (Exception ex)
                 {
+                    logger.Error(ex, "Ошибка обновления");
                     return null;
                 }
 
@@ -117,11 +130,12 @@ namespace MemeFolder.Services
                         .ToList());
                     return entities;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
+                    logger.Error(ex, "Ошибка получения");
                     return null;
                 }
-               
+
             }
         }
 
@@ -129,14 +143,22 @@ namespace MemeFolder.Services
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-                IEnumerable<Folder> entities = await Task.FromResult(context.Folders
-                    .Include(x => x.Memes)
-                    .ToList()
-                    .Where(x => x.Title == Title));
-                return new ObservableCollection<Folder>(entities);
+                try
+                {
+                    IEnumerable<Folder> entities = await Task.FromResult(context.Folders
+                      .Include(x => x.Memes)
+                      .ToList()
+                      .Where(x => x.Title == Title));
+                    return new ObservableCollection<Folder>(entities);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Ошибка получения");
+                    return null;
+                }
+              
             }
         }
-
 
 
         #region Вспомогательные методы

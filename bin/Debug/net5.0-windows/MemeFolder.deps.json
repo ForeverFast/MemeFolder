@@ -8,21 +8,24 @@
     ".NETCoreApp,Version=v5.0": {
       "MemeFolder/1.0.0": {
         "dependencies": {
-          "MaterialDesignThemes": "3.2.0",
+          "MaterialDesignThemes": "4.1.0",
           "MemeFolder.Domain": "1.0.0",
           "MemeFolder.EntityFramework": "1.0.0",
           "MemeFolder.Navigation": "1.0.0",
+          "Microsoft-WindowsAPICodePack-Core": "1.1.4",
+          "Microsoft-WindowsAPICodePack-Shell": "1.1.4",
           "Microsoft.EntityFrameworkCore": "5.0.6",
           "Microsoft.Extensions.Configuration": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "5.0.0",
-          "Microsoft.WindowsAPICodePack-Core": "1.1.0.2",
-          "Microsoft.WindowsAPICodePack-Shell": "1.1.0",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.31",
           "NAudio": "1.10.0",
+          "NLog": "4.7.10",
+          "NLog.Config": "4.7.10",
           "System.Drawing.Common": "5.0.2",
-          "System.Windows.Interactivity.WPF": "2.0.20525",
           "TagLibSharp": "2.2.0",
+          "VirtualizingWrapPanel": "1.5.4",
           "gong-wpf-dragdrop": "2.3.2"
         },
         "runtime": {
@@ -45,22 +48,41 @@
           }
         }
       },
-      "MaterialDesignColors/1.2.7": {
+      "MaterialDesignColors/2.0.1": {
         "runtime": {
           "lib/netcoreapp3.1/MaterialDesignColors.dll": {
-            "assemblyVersion": "1.2.7.1979",
-            "fileVersion": "1.2.7.1979"
+            "assemblyVersion": "2.0.1.2556",
+            "fileVersion": "2.0.1.2556"
           }
         }
       },
-      "MaterialDesignThemes/3.2.0": {
+      "MaterialDesignThemes/4.1.0": {
         "dependencies": {
-          "MaterialDesignColors": "1.2.7"
+          "MaterialDesignColors": "2.0.1"
         },
         "runtime": {
           "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.dll": {
-            "assemblyVersion": "3.2.0.1979",
-            "fileVersion": "3.2.0.1979"
+            "assemblyVersion": "4.1.0.2556",
+            "fileVersion": "4.1.0.2556"
+          }
+        }
+      },
+      "Microsoft-WindowsAPICodePack-Core/1.1.4": {
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.dll": {
+            "assemblyVersion": "1.1.4.0",
+            "fileVersion": "1.1.4.0"
+          }
+        }
+      },
+      "Microsoft-WindowsAPICodePack-Shell/1.1.4": {
+        "dependencies": {
+          "Microsoft-WindowsAPICodePack-Core": "1.1.4"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.Shell.dll": {
+            "assemblyVersion": "1.1.4.0",
+            "fileVersion": "1.1.4.0"
           }
         }
       },
@@ -528,23 +550,11 @@
           "Microsoft.NETCore.Platforms": "5.0.0"
         }
       },
-      "Microsoft.WindowsAPICodePack-Core/1.1.0.2": {
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.31": {
         "runtime": {
-          "lib/Microsoft.WindowsAPICodePack.dll": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
             "assemblyVersion": "1.1.0.0",
-            "fileVersion": "1.1.0.0"
-          }
-        }
-      },
-      "Microsoft.WindowsAPICodePack-Shell/1.1.0": {
-        "runtime": {
-          "lib/Microsoft.WindowsAPICodePack.Shell.dll": {
-            "assemblyVersion": "1.1.0.0",
-            "fileVersion": "1.1.0.0"
-          },
-          "lib/Microsoft.WindowsAPICodePack.ShellExtensions.dll": {
-            "assemblyVersion": "1.1.0.0",
-            "fileVersion": "1.1.0.0"
+            "fileVersion": "1.1.31.10800"
           }
         }
       },
@@ -636,6 +646,21 @@
           }
         }
       },
+      "NLog/4.7.10": {
+        "runtime": {
+          "lib/netstandard2.0/NLog.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.7.10.13013"
+          }
+        }
+      },
+      "NLog.Config/4.7.10": {
+        "dependencies": {
+          "NLog": "4.7.10",
+          "NLog.Schema": "4.7.10"
+        }
+      },
+      "NLog.Schema/4.7.10": {},
       "runtime.native.System/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0",
@@ -1291,18 +1316,6 @@
           "System.Drawing.Common": "5.0.2"
         }
       },
-      "System.Windows.Interactivity.WPF/2.0.20525": {
-        "runtime": {
-          "lib/net40/Microsoft.Expression.Interactions.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "2.0.20525.0"
-          },
-          "lib/net40/System.Windows.Interactivity.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "2.0.20525.0"
-          }
-        }
-      },
       "System.Xml.ReaderWriter/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -1381,6 +1394,14 @@
           }
         }
       },
+      "VirtualizingWrapPanel/1.5.4": {
+        "runtime": {
+          "lib/net5.0-windows7.0/VirtualizingWrapPanel.dll": {
+            "assemblyVersion": "1.5.4.0",
+            "fileVersion": "1.5.4.0"
+          }
+        }
+      },
       "MemeFolder.Domain/1.0.0": {
         "runtime": {
           "MemeFolder.Domain.dll": {}
@@ -1427,19 +1448,33 @@
       "path": "jetbrains.annotations/2019.1.3",
       "hashPath": "jetbrains.annotations.2019.1.3.nupkg.sha512"
     },
-    "MaterialDesignColors/1.2.7": {
+    "MaterialDesignColors/2.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-e+shDlaSAJcuTArqtfWjVUgAOlwQlgWq8akkzCGe1MvfV1ozmOqqXyWxg5w0vC/3/KZ84wnPUJeI1wzEpI0uJQ==",
-      "path": "materialdesigncolors/1.2.7",
-      "hashPath": "materialdesigncolors.1.2.7.nupkg.sha512"
+      "sha512": "sha512-Azl8nN23SD6QPE0PdsfpKiIqWTvH7rzXwgXPiFSEt91NFOrwB5cx3iq/sbINWMZunhXJ32+jVUHiV03B8eJbZw==",
+      "path": "materialdesigncolors/2.0.1",
+      "hashPath": "materialdesigncolors.2.0.1.nupkg.sha512"
     },
-    "MaterialDesignThemes/3.2.0": {
+    "MaterialDesignThemes/4.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-aOZQShQuV7sCWOwO98dYz1S4stmIWDBH+Q6KoR3wDiDyuG7twoGnBDzQBhrxuS16I3GQiG5nfvUjEJFVc/zdKg==",
-      "path": "materialdesignthemes/3.2.0",
-      "hashPath": "materialdesignthemes.3.2.0.nupkg.sha512"
+      "sha512": "sha512-WqrO9AbtdE4pLPtDk/C5BZRnkgWFwVGyUHWj7tRJrgnKl089DEobVXBCLeqp2mkgBeFHj4Xe3AfWyhmlnO6AZA==",
+      "path": "materialdesignthemes/4.1.0",
+      "hashPath": "materialdesignthemes.4.1.0.nupkg.sha512"
+    },
+    "Microsoft-WindowsAPICodePack-Core/1.1.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gsEStalyKPTR5/HKyAHYvIoDZTGUTUgIBS1eeGvkjWgDYB7f5aSBFAAJfxhhDsOGDjLs6O0uzw1H0EWYWZGDmg==",
+      "path": "microsoft-windowsapicodepack-core/1.1.4",
+      "hashPath": "microsoft-windowsapicodepack-core.1.1.4.nupkg.sha512"
+    },
+    "Microsoft-WindowsAPICodePack-Shell/1.1.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EtoEx9Fx3ZGW//sni9TB1vuBvzXIlyG8E2KNaX7bqV240aiU8RP+NmDHd1ox0YKbJDMxq7AWSI2jPhpLMYXKyw==",
+      "path": "microsoft-windowsapicodepack-shell/1.1.4",
+      "hashPath": "microsoft-windowsapicodepack-shell.1.1.4.nupkg.sha512"
     },
     "Microsoft.CSharp/4.5.0": {
       "type": "package",
@@ -1721,19 +1756,12 @@
       "path": "microsoft.win32.systemevents/5.0.0",
       "hashPath": "microsoft.win32.systemevents.5.0.0.nupkg.sha512"
     },
-    "Microsoft.WindowsAPICodePack-Core/1.1.0.2": {
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.31": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-rfcfF2KwFVLt/zAaJfkqFPk/WPRAgFIamvGw+SSC0lYWNKMT+hTtIcNNifc/ZFDmoozYtldDgrHsj4qbsLQZtQ==",
-      "path": "microsoft.windowsapicodepack-core/1.1.0.2",
-      "hashPath": "microsoft.windowsapicodepack-core.1.1.0.2.nupkg.sha512"
-    },
-    "Microsoft.WindowsAPICodePack-Shell/1.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-8WvLG0TNTylzMB8gnZeZDG68/DsagAF64K35RC2Y/zocHp4e03Uj/kba6egQlq1+0uVv04FpLG+CmENEIN53rg==",
-      "path": "microsoft.windowsapicodepack-shell/1.1.0",
-      "hashPath": "microsoft.windowsapicodepack-shell.1.1.0.nupkg.sha512"
+      "sha512": "sha512-LZpuf82ACZWldmfMuv3CTUMDh3o0xo0uHUaybR5HgqVLDBJJ9RZLykplQ/bTJd0/VDt3EhD4iDgUgbdIUAM+Kg==",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.31",
+      "hashPath": "microsoft.xaml.behaviors.wpf.1.1.31.nupkg.sha512"
     },
     "MvvmNavigation.Abstractions/3.2.0": {
       "type": "package",
@@ -1769,6 +1797,27 @@
       "sha512": "sha512-ebWzW9j2nwxQeBo59As2TYn7nYr9BHicqqCwHOD1Vdo+50HBtLPuqdiCYJcLdTRknpYis/DSEOQz5KmZxwrIAg==",
       "path": "newtonsoft.json/10.0.1",
       "hashPath": "newtonsoft.json.10.0.1.nupkg.sha512"
+    },
+    "NLog/4.7.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rcegW7kYOCjl7wX0SzsqpPBqnJ51JKi1WkYb6QBVX0Wc5IgH19Pv4t/co+T0s06OS0Ne44xgkY/mHg0PdrmJow==",
+      "path": "nlog/4.7.10",
+      "hashPath": "nlog.4.7.10.nupkg.sha512"
+    },
+    "NLog.Config/4.7.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/XohRf2gTEUzOF64WI/slTGbFekGT9XmP4Idx9LdcMSMDM+ot3dwtysnzukvOjysPJuIReCTBEXJ6JdCXnUx2A==",
+      "path": "nlog.config/4.7.10",
+      "hashPath": "nlog.config.4.7.10.nupkg.sha512"
+    },
+    "NLog.Schema/4.7.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SgsNWHO8rA/cVMMjuFNnuun0VlR+m79vuh5trIat43qtIw882vxCIJvgLNef7LtrePrF7r9TXIz4XOy5xjZ6tw==",
+      "path": "nlog.schema/4.7.10",
+      "hashPath": "nlog.schema.4.7.10.nupkg.sha512"
     },
     "runtime.native.System/4.3.0": {
       "type": "package",
@@ -2246,13 +2295,6 @@
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
-    "System.Windows.Interactivity.WPF/2.0.20525": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-0r+Le4E7hCm4zToUvBzjSUyTcuU3rFeoPa7JyTdWIzR/F7wH6+O/pWkjHIG40hIA0z1wvRdZayvoizA4wcK1dg==",
-      "path": "system.windows.interactivity.wpf/2.0.20525",
-      "hashPath": "system.windows.interactivity.wpf.2.0.20525.nupkg.sha512"
-    },
     "System.Xml.ReaderWriter/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -2287,6 +2329,13 @@
       "sha512": "sha512-X8UOWeaJgHGrN3xilg3O0lqowhUSwNEiGrE8ITDd1rCn14LqGCWKgn5GX++SW4vuXBMne8+pyic6aUvOFQMRlA==",
       "path": "taglibsharp/2.2.0",
       "hashPath": "taglibsharp.2.2.0.nupkg.sha512"
+    },
+    "VirtualizingWrapPanel/1.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MKUn9S8HHBWkyba560GNUQsj3eQNjM62BTVhu0SN5hRdYd8TYN6hitsaqqh0kf36J+Xgq5P3M2tOyVwccNRAEg==",
+      "path": "virtualizingwrappanel/1.5.4",
+      "hashPath": "virtualizingwrappanel.1.5.4.nupkg.sha512"
     },
     "MemeFolder.Domain/1.0.0": {
       "type": "project",

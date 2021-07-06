@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MemeFolder.Pages
 {
@@ -23,15 +25,16 @@ namespace MemeFolder.Pages
             var parent = ((ListBox)sender).Parent as UIElement;
             parent.RaiseEvent(eventArg);
         }
+      
 
-        private bool IsUserVisible(FrameworkElement element, FrameworkElement container)
-        {
-            if (!element.IsVisible)
-                return false;
+        //private bool IsUserVisible(FrameworkElement element, FrameworkElement container)
+        //{
+        //    if (!element.IsVisible)
+        //        return false;
 
-            Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
-            Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
-            return rect.Contains(bounds.TopLeft) || rect.Contains(bounds.BottomRight);
-        }
+        //    Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
+        //    Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
+        //    return rect.Contains(bounds.TopLeft) || rect.Contains(bounds.BottomRight);
+        //}
     }
 }

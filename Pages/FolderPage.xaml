@@ -6,9 +6,8 @@
       xmlns:dd="urn:gong-wpf-dragdrop"
       xmlns:t="clr-namespace:MemeFolder.ViewModels.DialogVM"      
       xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:converter="clr-namespace:MemeFolder.Converters"
+      xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:vm="clr-namespace:MemeFolder.ViewModels"
-      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       xmlns:local="clr-namespace:MemeFolder.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -17,417 +16,58 @@
 
     <Page.Resources>
 
-        <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
-        <converter:StringToBoolConverter x:Key="StringToBoolConverter"/>
-        <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
-        <converter:ObjectToTypeConverter x:Key="ObjToType"/>
-
-
-        <!-- Dialog for Memes -->
-        <DataTemplate DataType="{x:Type t:DialogMemeVM}">
-            <Grid Background="{StaticResource GrayLVL1}" 
-                  Height="370" Width="680">
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="37"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="80"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="40"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0"
-                                Padding="0"
-                                Margin="50,15,0,0"
-                                HorizontalAlignment="Center"
-                               
-                                Text="Добавление мемчика"
-                                Foreground="{StaticResource StandartLightColor2}"
-                                FontSize="19"
-                                FontWeight="Bold"/>
-
-                    <Button Grid.Column="1"
-                            Margin="5,5,0,0"
-                            Command="{x:Static md:DialogHost.CloseDialogCommand}"
-                            Background="{StaticResource GrayLVL1}"
-                            Style="{StaticResource CloseButton}"/>
-
-                </Grid>
-
-                <Grid Grid.Row="1" >
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="255"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Grid.Column="0"
-                            Height="225"
-                            Margin="25,30,0,0"
-                            
-                            Command="{Binding SetImage}">
-
-                        <Button.Template>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Grid Background="{DynamicResource GrayLVL0}"
-                                      DataContext="{Binding Model}">
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2.5*"/>
-                                        <RowDefinition Height="1.5*"/>
-                                    </Grid.RowDefinitions>
-
-                                    <Image Name="ImageD" Grid.Row="0" Grid.RowSpan="2"
-                                           Stretch="Fill"
-                                           Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"/>
-
-                                    <md:PackIcon Name="IconD" Kind="Music" Grid.Row="0"
-                                                Height="100"
-                                                Width="100"
-                                                BorderThickness="0"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Center"/>
-
-                                    <TextBlock Name="TextD" Grid.Row="1"
-                                               Text="Выбрать картнику"
-                                               HorizontalAlignment="Center"/>
-
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=ImageD, Path=Source,
-                                                                   Converter={StaticResource StringToBoolConverter}}" Value="False">
-                                        <Setter Property="Visibility"  TargetName="IconD" Value="Hidden"/>
-                                        <Setter Property="Visibility"  TargetName="TextD" Value="Hidden"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=ImageD, Path=Source,
-                                                                   Converter={StaticResource StringToBoolConverter}}" Value="True">
-                                        <Setter Property="Visibility"  TargetName="IconD" Value="Visible"/>
-                                        <Setter Property="Visibility"  TargetName="TextD" Value="Visible"/>
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-
-                    </Button>
-
-                    <Grid Grid.Column="1" Margin="20,30,25,0" 
-                          DataContext="{Binding Model}">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <Label Grid.Row="0"
-                                Padding="0"
-                                VerticalAlignment="Top"
-                                   
-                                Content="Название"
-                                FontSize="14"
-                                Foreground="{StaticResource StandartLightColor}"/>
-                        <TextBox Name="TitleName" Grid.Row="1" Text="{Binding Title}"
-                                        Style="{x:Null}"/>
-
-                        <Label Grid.Row="2"
-                                       Padding="0"
-                                       Margin="0,12,0,0"
-                                       VerticalAlignment="Top"
-                                   
-                                       Content="Описание"
-                                       FontSize="14"
-                                       Foreground="{StaticResource StandartLightColor}"/>
-
-                        <TextBox Name="Description" Grid.Row="3"
-                                 Style="{x:Null}"
-                                 Text="{Binding Description}"/>
-
-
-                    </Grid>
-
-                </Grid>
-
-                <Button Grid.Row="2"
-                        Command="{x:Static md:DialogHost.CloseDialogCommand}"
-                        CommandParameter="{Binding Model}">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border CornerRadius="25"
-                                        Width="100" Height="30"
-                                        Background="{StaticResource GrayLVL0}">
-                                <TextBlock Text="Создать"
-                                            Foreground="{StaticResource StandartLightColor2}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </Grid>
-        </DataTemplate>
-
-        <!-- Dialog for Folders -->
-        <DataTemplate DataType="{x:Type t:DialogFolderVM}">
-            <Grid Background="{StaticResource GrayLVL1}" 
-                  Height="370" Width="680">
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="37"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="80"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="40"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0"
-                                Padding="0"
-                                Margin="50,15,0,0"
-                                HorizontalAlignment="Center"
-                               
-                                Text="Создание папки"
-                                Foreground="{StaticResource StandartLightColor2}"
-                                FontSize="19"
-                                FontWeight="Bold"/>
-
-                    <Button Grid.Column="1"
-                            Margin="5,5,0,0"
-                            Command="{x:Static md:DialogHost.CloseDialogCommand}"
-                            Background="{StaticResource GrayLVL1}"
-                            Style="{StaticResource CloseButton}"/>
-
-                </Grid>
-
-                <Grid Grid.Row="1">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="255"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Grid.Column="0"
-                            Height="225"
-                            Margin="25,30,0,0"
-                            Command="{Binding SetPlayListImage}">
-
-                        <Button.Template>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Grid Background="{DynamicResource GrayLVL0}"
-                                      DataContext="{Binding Model}">
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2.5*"/>
-                                        <RowDefinition Height="1.5*"/>
-                                    </Grid.RowDefinitions>
-
-                                    <Image Name="ImageD" Grid.Row="0" Grid.RowSpan="2"
-                                           Stretch="Fill"
-                                           Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"/>
-
-                                    <md:PackIcon Name="IconD" Kind="Music" Grid.Row="0"
-                                                         Height="100"
-                                                         Width="100"
-                                                         BorderThickness="0"
-                                                         VerticalAlignment="Bottom"
-                                                         HorizontalAlignment="Center"/>
-
-                                    <TextBlock Name="TextD" Grid.Row="1"
-                                                   Text="Выбрать картнику"
-                                                   HorizontalAlignment="Center"/>
-
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=ImageD, Path=Source,
-                                                                       Converter={StaticResource StringToBoolConverter}}" Value="False">
-                                        <Setter Property="Visibility"  TargetName="IconD" Value="Hidden"/>
-                                        <Setter Property="Visibility"  TargetName="TextD" Value="Hidden"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=ImageD, Path=Source,
-                                                                       Converter={StaticResource StringToBoolConverter}}" Value="True">
-                                        <Setter Property="Visibility"  TargetName="IconD" Value="Visible"/>
-                                        <Setter Property="Visibility"  TargetName="TextD" Value="Visible"/>
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-
-                    </Button>
-
-                    <Grid Grid.Column="1" Margin="20,30,25,0"
-                          DataContext="{Binding Model}">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <Label Grid.Row="0"
-                               Padding="0"
-                               VerticalAlignment="Top"
-                                   
-                               Content="Название"
-                               FontSize="14"
-                               Foreground="{StaticResource StandartLightColor}"/>
-                        <TextBox Name="TitleName" Grid.Row="1"
-                                 Text="{Binding Title}"
-                                 Style="{x:Null}"/>
-
-                        <Label Grid.Row="2"
-                                Padding="0"
-                                Margin="0,12,0,0"
-                                VerticalAlignment="Top"
-                                   
-                                Content="Описание"
-                                FontSize="14"
-                                Foreground="{StaticResource StandartLightColor}"/>
-
-                        <TextBox Name="Description" Grid.Row="3"
-                                 Text="{Binding Description}"
-                                 Style="{x:Null}"/>
-
-
-                    </Grid>
-
-                </Grid>
-
-                <Button Grid.Row="2"
-                        Command="{x:Static md:DialogHost.CloseDialogCommand}"
-                        CommandParameter="{Binding Model}">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border CornerRadius="25"
-                                        Width="100" Height="30"
-                                        Background="{StaticResource GrayLVL0}">
-                                <TextBlock Text="Создать"
-                                               Foreground="{StaticResource StandartLightColor2}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                    <!--<Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource ManyValueConverter}">
-                            <Binding Path="Text" ElementName="TitleName"/>
-                            <Binding Path="Text" ElementName="Description"/>
-                        </MultiBinding>
-                    </Button.CommandParameter>-->
-                </Button>
-            </Grid>
-
-        </DataTemplate>
-
     </Page.Resources>
 
-    <Grid Name="MainFolderGrid">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0"
-              Background="{StaticResource GrayLVL1}">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition />
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0"
-                        Background="{StaticResource StandartLightColor}"
-                        Style="{StaticResource NavigationBack2}"
-                        Command="{Binding GoBCommand}"/>
-
-                <TextBox Grid.Column="1"
-                         Background="{StaticResource GrayLVL1}"
-                         Style="{StaticResource TB_NumInput}"
-                         Margin="0,0,0,0"/>
-
-                <Button Grid.Column="2"
-                        
-                        Style="{StaticResource NavigationForward2}"/>
-
-
-            </Grid>
-
-        </Grid>
-
-        <ScrollViewer Grid.Row="1"    
+    <ScrollViewer 
             Style="{StaticResource ContentSV}"
             Background="{DynamicResource GrayLVL3}">
 
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Loaded">
-                    <i:InvokeCommandAction Command="{Binding PageLoadedCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+        <ib:Interaction.Triggers>
+            <ib:EventTrigger EventName="Loaded">
+                <ib:InvokeCommandAction Command="{Binding PageLoadedCommand}" />
+            </ib:EventTrigger>
+        </ib:Interaction.Triggers>
 
-            <StackPanel Background="{StaticResource GrayLVL2}">
+        <Grid Background="{StaticResource GrayLVL2}">
 
-                <ListBox ItemsSource="{Binding FolderObjects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <ListView ItemsSource="{Binding FolderObjects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource DefLB}"
                      Background="{x:Null}"
-
-                     PreviewMouseWheel="empListBox_PreviewMouseWheel"
+                    
+                     VirtualizingStackPanel.IsVirtualizing="True"
+                     VirtualizingStackPanel.VirtualizationMode="Standard"
+                
+                     VirtualizingStackPanel.CacheLength="20"
+                     VirtualizingStackPanel.CacheLengthUnit="Item"
+                 
+                     ScrollViewer.CanContentScroll="False"
+                     ScrollViewer.IsDeferredScrollingEnabled="False"
                      
+                     PreviewMouseWheel="empListBox_PreviewMouseWheel"
+                         
                      dd:DragDrop.IsDropTarget="True"
                      dd:DragDrop.DropHandler="{Binding}">
 
-                    <ListBox.ContextMenu>
-                        <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.DataContext}">
-                            <MenuItem Header="Создать папку" Command="{Binding AddFolderCommand}"/>
-                            <MenuItem Header="Создать папку с параметрами" Command="{Binding OpenDialogCommand}" CommandParameter="Folder"/>
-                            <MenuItem Header="Создать мемчик" Command="{Binding AddMemeCommand}"/>
-                            <MenuItem Header="Создать мемчик с параметрами" Command="{Binding OpenDialogCommand}" CommandParameter="Meme"/>
-                            <MenuItem Header="Test" Command="{Binding TestCommand}" />
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
+                <ListView.ContextMenu>
+                    <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.DataContext}">
+                        <MenuItem Header="Создать папку" Command="{Binding AddFolderCommand}"/>
+                        <MenuItem Header="Создать папку с параметрами" Command="{Binding OpenAddDialogCommand}" CommandParameter="Folder"/>
+                        <MenuItem Header="Создать мемчик" Command="{Binding AddMemeCommand}"/>
+                        <MenuItem Header="Создать мемчик с параметрами" Command="{Binding OpenAddDialogCommand}" CommandParameter="Meme"/>
+                        <MenuItem Header="Test" Command="{Binding TestCommand}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
 
-                </ListBox>
+           
+            <!--HorizontalAlignment="Center"
+                           VerticalAlignment="Center"-->
+        </Grid>
 
-                <!--<Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Command="{Binding GoBCommand}" />
-                    <Button Grid.Column="1" Command="{Binding GoFCommand}" />
-                </Grid>-->
+    </ScrollViewer>
 
-                <md:DialogHost Grid.Row="0"
-                           Background="Red" CloseOnClickAway="False"
-                           IsOpen="{Binding IsDialogOpen, UpdateSourceTrigger=PropertyChanged}"
-                           Name="rootD"
-                           Identifier="RootDialog"/>
 
-                <!--<Button Content="SS" Command="{Binding OpenDialogCommand}"/>-->
-            </StackPanel>
-
-        </ScrollViewer>
-
-    </Grid>
 
 
 </Page>

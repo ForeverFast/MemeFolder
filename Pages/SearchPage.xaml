@@ -18,12 +18,12 @@
 
 
 
-            <ListBox ItemsSource="{Binding SearchResult}"
+            <ListView ItemsSource="{Binding SearchResult}"
                      Style="{StaticResource DefLB}"
                      Background="{x:Null}">
 
          
-            </ListBox>
+            </ListView>
 
         </Grid>
     </ScrollViewer>
