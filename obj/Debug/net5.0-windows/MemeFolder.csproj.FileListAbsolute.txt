@@ -132,3 +132,5 @@ C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\net5.0-windows\MemeF
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\net5.0-windows\ref\MemeFolder.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\net5.0-windows\MemeFolder.pdb
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\net5.0-windows\MemeFolder.genruntimeconfig.cache
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Debug\net5.0-windows\LoadingSpinnerControl.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Debug\net5.0-windows\Styles\Default\Dictionaries\TreeViewStyles.baml

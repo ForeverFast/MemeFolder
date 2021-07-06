@@ -48,6 +48,7 @@ namespace MemeFolder.Mvvm.Commands
                     if (folder == null)
                         break;
 
+                    folder.ParentFolder = _folderVM.GetModel();
                     Folder CreatedFolderEnitiy = await _folderDataService.Create(folder);
                     if (CreatedFolderEnitiy != null)
                         _folderVM.GetWorkerCollection().Add(CreatedFolderEnitiy);

@@ -15,11 +15,10 @@ namespace MemeFolder.ViewModels
 
         private void PageLoadedExecuteAsync(object parameter)
         {
-            if (Children == null || FolderObjects == null)
+            if (FolderObjects == null)
             {
                 IsBusy = true;
 
-                Children = new ObservableCollection<FolderVM>();
                 FolderObjects = new ObservableCollection<FolderObject>();
 
                 BackgroundWorker bgW = new BackgroundWorker();
@@ -38,7 +37,6 @@ namespace MemeFolder.ViewModels
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            GC.Collect();
             
             IsLoaded = true;
             IsBusy = false;
@@ -50,8 +48,8 @@ namespace MemeFolder.ViewModels
 
             List<FolderObject> folderObjects = new List<FolderObject>();
 
-            foreach (var item in model.Folders)
-                folderObjects.Add(item);
+            //foreach (var item in model.Folders)
+            //    folderObjects.Add(item);
 
             foreach (var item in model.Memes)
             {

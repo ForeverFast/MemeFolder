@@ -10,6 +10,7 @@
         xmlns:m="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:MemeFolder.Views"
+        xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
         d:DataContext="{d:DesignInstance vm:MainWindowVM, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Height="800" Width="1500"
@@ -21,7 +22,7 @@
 
 
         <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
-        <converter:StringToBoolConverter x:Key="StringToBoolConverter"/>
+        <converter:StringToBoolConverter x:Key="StringToBoolConverter"/> 
         <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
 
         <!--<DataTemplate x:Key="SearchGrid" DataType="{x:Type Grid}">
@@ -88,6 +89,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        
         <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1"
               Background="{DynamicResource GrayLVL3}">
             <Frame x:Name="FrameContent" Margin="0,0,0,0" BorderThickness="0,0,0,0"
@@ -101,7 +103,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="500"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -122,24 +124,31 @@
             </Grid>
 
             <Grid Grid.Column="2">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <TextBox x:Name="SearchTB"
+                             Style="{StaticResource TB_Search}"
+                        
+                             Margin="10,0"
+                             WindowChrome.IsHitTestVisibleInChrome="True"   
+                             Height="28" Width="280">
 
-                <TextBox x:Name="SearchTB"
-                         Style="{StaticResource TB_Search}"
-                         HorizontalAlignment="Stretch"
-                         Margin="10,0"
-                         WindowChrome.IsHitTestVisibleInChrome="True"   
-                         Height="28">
-                    
-                    <ib:Interaction.Triggers>
-                        <ib:EventTrigger EventName="TextChanged">
-                            <ib:InvokeCommandAction Command="{Binding SearchCommand}"
-                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                               AncestorType=TextBox},
-                                                                               Path=Text}" />
-                        </ib:EventTrigger>
-                    </ib:Interaction.Triggers>
-                    
-                </TextBox>
+                        <ib:Interaction.Triggers>
+                            <ib:EventTrigger EventName="TextChanged">
+                                <ib:InvokeCommandAction Command="{Binding EmptySearchTextCheckCommand}"
+                                                        CommandParameter="{Binding ElementName=SearchTB,
+                                                                                   Path=Text}"/>    
+                            </ib:EventTrigger>
+                        </ib:Interaction.Triggers>
+
+                    </TextBox>
+                    <Button Style="{DynamicResource SearchButton}"
+                            Command="{Binding SearchCommand}"
+                            CommandParameter="{Binding ElementName=SearchTB,
+                                                       Path=Text}"
+                            WindowChrome.IsHitTestVisibleInChrome="True"   />
+                </StackPanel>
+                
 
             </Grid>
 
@@ -172,37 +181,58 @@
 
         </Grid>
 
-        
+      
+
         <Grid x:Name="MenuGrid" Grid.Row="1" Grid.Column="0"
               Background="{StaticResource GrayLVL3}">
 
-            <!--<TreeView ItemsSource="{Binding Folders}" Foreground="{DynamicResource Gor}">
+
+
+            <TreeView ItemsSource="{Binding Folders}"
+                      Foreground="{DynamicResource StandartLightColor2}"
+                      ItemContainerStyle="{DynamicResource TreeViewItemStyle}"
+                      Margin="10">
+                
                 <TreeView.Resources>
-                    --><!-- template for showing the Enterprise's properties
-                     the ItemsSource specifies what the next nested level's
-                     datasource is --><!--
-                    <HierarchicalDataTemplate DataType="{x:Type vm:FolderVM}"
-                                          ItemsSource="{Binding Children}">
-                        <Label Content="{Binding Model.Title}"
-                               Foreground="{DynamicResource Gor}"/>
+                    <HierarchicalDataTemplate DataType="{x:Type m:Folder}"
+                                              ItemsSource="{Binding Folders}">
+                        <Border Height="25" >
+                            <TextBlock Text="{Binding Title}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+
                     </HierarchicalDataTemplate>
-                    --><!-- the template for showing the Employee's properties--><!--
-                    <DataTemplate DataType="{x:Type m:Folder}">
-                        <Label Content="{Binding Title}"
-                               Foreground="{DynamicResource Gor}"/>
-                    </DataTemplate>
+                    
                 </TreeView.Resources>
-            </TreeView>-->
+            
+                
+            </TreeView>
             
         </Grid>
 
         
         <Grid x:Name="FooterGrid" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
               Background="{StaticResource GrayLVL4}">
-            
-        </Grid>
 
-       
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Style="{DynamicResource AddNewTagButton}"/>
+
+            <ListBox Grid.Column="1"
+                     Style="{DynamicResource TagLB}">
+                
+                
+            </ListBox>
+
+          
+
+        </Grid>
 
     </Grid>
 </Window>

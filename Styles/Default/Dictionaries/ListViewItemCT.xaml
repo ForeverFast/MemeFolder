@@ -8,7 +8,8 @@
         <StackPanel Height="110" Width="110" Background="{DynamicResource GrayLVL4WithLowOpacity}"
                     Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                               AncestorType={x:Type ListView}},
-                              Path=DataContext}">
+                              Path=DataContext}"
+                    ToolTip="{Binding Title}">
             <StackPanel.InputBindings>
 
                 <MouseBinding Gesture="LeftDoubleClick"
@@ -41,7 +42,7 @@
             <Image Source="{Binding Image}"
                    Width="110"
                    Height="81"/>
-            <TextBlock FontSize="15"
+            <TextBlock FontSize="13"
                        Foreground="{DynamicResource StandartTextColor}"
                        TextTrimming="WordEllipsis"
                        Text="{Binding Title}"/>

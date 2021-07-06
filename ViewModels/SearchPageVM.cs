@@ -1,5 +1,5 @@
-﻿using MemeFolder.Abstractions;
-using MemeFolder.Data;
+﻿using Egor92.MvvmNavigation.Abstractions;
+using MemeFolder.Abstractions;
 using MemeFolder.Domain.Models;
 using MemeFolder.Domain.Models.AbstractModels;
 using MemeFolder.Extentions;
@@ -15,20 +15,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace MemeFolder.ViewModels
 {
-    public class SearchPageVM : BasePageViewModel, IFolderObjectWorker
+    public class SearchPageVM : BasePageViewModel, IFolderObjectWorker, IDisposable, INavigatingFromAware
     {
-        private readonly SearchData Model;
-       
-        #region Поля
-        private IFolderDataService _folderDataService;
-        private IMemeDataService _memeDataService;
-
-        private DataService _dataService;
-        #endregion
-
+        private IEnumerable<FolderObject> Model;
+        private readonly DataService _dataService;
+        private readonly ISearchService _searchService;
 
         public ObservableCollection<FolderObject> FolderObjects { get; private set; }
 
@@ -85,12 +80,9 @@ namespace MemeFolder.ViewModels
 
         private void PageLoadedExecute(object parameter)
         {
-            if (FolderObjects == null)
+            if (!IsBusy)
             {
                 IsBusy = true;
-
-                FolderObjects = new ObservableCollection<FolderObject>();
-
                 BackgroundWorker bgW = new BackgroundWorker();
                 bgW.DoWork += BgW_DoWork;
                 bgW.RunWorkerCompleted += BgW_RunWorkerCompleted;
@@ -99,51 +91,83 @@ namespace MemeFolder.ViewModels
             }
         }
 
-        private void BgW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            OnPropertyChanged(nameof(FolderObjects));
-            foreach (var item in (List<FolderObject>)e.Result)
-                FolderObjects.Add(item);
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-
-            IsLoaded = true;
-            IsBusy = false;
-        }
-
         private void BgW_DoWork(object sender, DoWorkEventArgs e)
         {
-            var model = (Folder)e.Argument;
+            IEnumerable<FolderObject> model = (IEnumerable<FolderObject>)e.Argument;
 
             List<FolderObject> folderObjects = new List<FolderObject>();
-
-            foreach (var item in model.Folders)
-                folderObjects.Add(item);
-
-            foreach (var item in model.Memes)
+            foreach(FolderObject item in model)
             {
-                item.Image = MemeExtentions.ConvertByteArrayToImage(item.ImageData);
-                item.ImageData = null;
-                if (item.Image != null)
-                    item.Image.Freeze();
+                if (item is Meme meme)
+                {
+                    if (meme.ImageData != null)
+                    {
+                        meme.Image = MemeExtentions.ConvertByteArrayToImage(meme.ImageData);
+                        meme.ImageData = null;
+                        if (meme.Image != null)
+                            meme.Image.Freeze();
+                    }
+                }
                 folderObjects.Add(item);
             }
 
             e.Result = folderObjects;
         }
 
+        private void BgW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            OnPropertyChanged(nameof(FolderObjects));
+            foreach (var item in (List<FolderObject>)e.Result)
+                FolderObjects.Add(item);
+
+            
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+           
+
+            IsLoaded = true;
+            IsBusy = false;
+        }
+
         #endregion
 
 
-        private SearchPageVM(INavigationService navigationService) : base(navigationService)
+        public void Dispose()
         {
+            FolderObjects.Clear();
+            OnAllPropertyChanged();
+        }
+
+        private void _searchService_NewRequest(IEnumerable<FolderObject> folderObjects)
+        {
+            if (folderObjects != null && !IsBusy)
+            {
+                Model = folderObjects;
+                App.Current.Dispatcher.BeginInvoke(() => {
+                    FolderObjects.Clear();
+                    PageLoadedCommand.Execute(null);
+                });
+                
+            }
+        }
+
+        public void OnNavigatingFrom()
+        {
+            this.Dispose();
+        }
+
+        public SearchPageVM(DataService dataService) : base(dataService._navigationService)
+        {
+            _dataService = dataService;
+            _searchService = dataService._searchService;
+            _searchService.NewRequest += _searchService_NewRequest;
+
+            FolderObjects = new ObservableCollection<FolderObject>();
 
             OpenMemePictureCommand = new OpenMemePictureCommand();
             CopyMemeInBufferCommand = new CopyMemeInBufferCommand();
 
-           
+
             OpenAddDialogCommand = new OpenAddDialogCommand(this, _dataService);
             OpenEditDialogCommand = new OpenEditDialogCommand(this, _dataService);
 
@@ -152,16 +176,6 @@ namespace MemeFolder.ViewModels
             PageLoadedCommand = new RelayCommand(PageLoadedExecute);
         }
 
-        public SearchPageVM(SearchData searchData,
-                            DataService dataService) : this(dataService._navigationService)
-        {
-            _dataService = dataService;
-            _folderDataService = dataService._folderDataService;
-            _memeDataService = dataService._memeDataService;
-
-            Model = searchData;
-        }
-
-        
+       
     }
 }

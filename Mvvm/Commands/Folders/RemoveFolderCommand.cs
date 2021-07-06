@@ -13,7 +13,16 @@ namespace MemeFolder.Mvvm.Commands.Folders
         private readonly IFolderObjectWorker _folderVM;
         private readonly IFolderDataService _folderDataService;
 
+        public override bool CanExecute(object parameter)
+        {
+            if (parameter is Folder folder)
+            {
+                if (folder.Title == "root")
+                    return false;
+            }
 
+            return base.CanExecute(parameter);
+        }
         protected override async Task ExecuteAsync(object parameter)
         {
             if (await _folderDataService.Delete((parameter as Folder).Id))

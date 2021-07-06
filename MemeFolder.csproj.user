@@ -57,6 +57,9 @@
     <Page Update="Styles\Default\Dictionaries\TextBoxStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\Default\Dictionaries\TreeViewStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\MainWindowV.xaml">
       <SubType>Designer</SubType>
     </Page>

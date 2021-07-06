@@ -30,14 +30,24 @@ namespace MemeFolder.Services
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-                var check = await context.Folders.Where(x => x.Id == folder.ParentFolder.Id).FirstOrDefaultAsync();
-                if (check != null)
-                    folder.ParentFolder = check;
+                try
+                {
+                    if (folder.Title == "root")
+                        throw new Exception("Fig tebe, a ne root folder");
 
-                EntityEntry<Folder> createdResult = await context.Set<Folder>().AddAsync(folder);
-                await context.SaveChangesAsync();
+                    var check = await context.Folders.Where(x => x.Id == folder.ParentFolder.Id).FirstOrDefaultAsync();
+                    if (check != null)
+                        folder.ParentFolder = check;
 
-                return createdResult.Entity;
+                    EntityEntry<Folder> createdResult = await context.Set<Folder>().AddAsync(folder);
+                    await context.SaveChangesAsync();
+                    return createdResult.Entity;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Ошибка добавления");
+                    return null;
+                }
             }
         }
 

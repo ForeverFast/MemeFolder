@@ -11,6 +11,7 @@ using MemeFolder.Navigation;
 using MemeFolder.Pages;
 using MemeFolder.Services;
 using MemeFolder.ViewModels.Abstractions;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -30,7 +31,6 @@ namespace MemeFolder.ViewModels
         #endregion
 
         public Folder Model { get => _model; set => SetProperty(ref _model, value); }
-        public ObservableCollection<FolderVM> Children { get; set; }
         public ObservableCollection<FolderObject> FolderObjects { get; set; }
 
 
@@ -115,18 +115,6 @@ namespace MemeFolder.ViewModels
 
 
         #region Тест
-
-        public async Task GetData(SearchData searchData)
-        {
-            //foreach (var item in FolderObjects)
-            //    searchData.SearchResult.Add(item);
-            foreach (var item in Children)
-            {
-                searchData.NavigationData.Add(item);
-                await item.GetData(searchData);
-            }
-
-        }
 
         public ICommand TestCommand
         {

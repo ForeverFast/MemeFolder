@@ -61,6 +61,7 @@ namespace MemeFolder
 
                 navigationService.Register<FolderPage>("root", ServiceProvider.GetRequiredService<FolderVM>());
                 navigationService.Register<SettingsPage>("settings", ServiceProvider.GetRequiredService<SettingsPageVM>());
+                navigationService.Register<SearchPage>("searchPage", ServiceProvider.GetRequiredService<SearchPageVM>());
                 navigationService.Navigate("root", NavigationType.Root);
 
                 #endregion
@@ -82,6 +83,7 @@ namespace MemeFolder
             services.AddSingleton(typeof(MemeFolderDbContextFactory));
             services.AddSingleton(typeof(DataService));
             services.AddSingleton<IFolderDataService, FolderDataService>();
+            services.AddSingleton<ISearchService, SearchService>();
             services.AddSingleton<IMemeDataService, MemeDataService>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IInitDataBaseService, InitDataBaseService>();
@@ -97,6 +99,7 @@ namespace MemeFolder
             });
 
             services.AddSingleton(typeof(FolderVM));
+            services.AddSingleton(typeof(SearchPageVM));
             services.AddSingleton(typeof(SettingsPageVM));
             services.AddSingleton(typeof(MainWindowVM));
             services.AddSingleton(typeof(MainWindowV));

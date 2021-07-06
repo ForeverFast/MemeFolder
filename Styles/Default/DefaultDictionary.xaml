@@ -6,7 +6,9 @@
     <ResourceDictionary.MergedDictionaries>
         
         <srd:SharedResourceDictionary  
-                    Source="Dictionaries/DataTemplateDH.xaml"/>
+                    Source="Dictionaries/TreeViewStyles.xaml"/>
+        <srd:SharedResourceDictionary  
+                    Source="Dictionaries/DataTemplateDH.xaml"/> 
         <srd:SharedResourceDictionary  
                     Source="Dictionaries/ListBoxStyles.xaml"/>
         <srd:SharedResourceDictionary  
@@ -20,7 +22,6 @@
         <srd:SharedResourceDictionary  
                     Source="Dictionaries/Buttons.xaml"/>
 
-       
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

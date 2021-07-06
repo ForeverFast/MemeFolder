@@ -17,6 +17,17 @@ namespace MemeFolder.Mvvm.Commands
         private readonly IMemeDataService _memeDataService;
         private readonly IFolderDataService _folderDataService;
 
+        public override bool CanExecute(object parameter)
+        {
+            if (parameter is Folder folder)
+            {
+                if (folder.Title == "root")
+                    return false;
+            }
+
+            return base.CanExecute(parameter);
+        }
+
         protected override async Task ExecuteAsync(object parameter)
         {
             if (parameter is Meme meme)

@@ -264,6 +264,10 @@
         "net5.0-windows7.0": {
           "targetAlias": "net5.0-windows",
           "dependencies": {
+            "LoadingSpinner.WPF": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "MaterialDesignThemes": {
               "target": "Package",
               "version": "[4.1.0, )"

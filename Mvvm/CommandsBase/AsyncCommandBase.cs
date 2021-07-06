@@ -29,7 +29,7 @@ namespace MemeFolder.Mvvm.CommandsBase
             _onException = onException;
         }
 
-        public bool CanExecute(object parameter)
+        public virtual bool CanExecute(object parameter)
         {
             return !IsExecuting;
         }

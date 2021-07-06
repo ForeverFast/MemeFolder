@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Ks0fa1+Q4/Fq91gCKtv5HF6DTC9tZCW9Pm5kCFU34MvOm/SggTAdXzUoUx+EkNkd+1HAGNboort3rW/FtYULYg==",
+  "dgSpecHash": "VNjedgbdDF9tq4Q/1j1wsTOHNj7/SIEA+De8uBwsAqMUXpvsdiN/x2DDvJHwlrScBBLZi4taUJQ1NqvQKRo0fQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder\\MemeFolder.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivans\\.nuget\\packages\\gong-wpf-dragdrop\\2.3.2\\gong-wpf-dragdrop.2.3.2.nupkg.sha512",
     "C:\\Users\\ivans\\.nuget\\packages\\jetbrains.annotations\\2019.1.3\\jetbrains.annotations.2019.1.3.nupkg.sha512",
+    "C:\\Users\\ivans\\.nuget\\packages\\loadingspinner.wpf\\1.0.0\\loadingspinner.wpf.1.0.0.nupkg.sha512",
     "C:\\Users\\ivans\\.nuget\\packages\\materialdesigncolors\\2.0.1\\materialdesigncolors.2.0.1.nupkg.sha512",
     "C:\\Users\\ivans\\.nuget\\packages\\materialdesignthemes\\4.1.0\\materialdesignthemes.4.1.0.nupkg.sha512",
     "C:\\Users\\ivans\\.nuget\\packages\\microsoft-windowsapicodepack-core\\1.1.4\\microsoft-windowsapicodepack-core.1.1.4.nupkg.sha512",

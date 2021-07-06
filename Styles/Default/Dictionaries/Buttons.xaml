@@ -3,6 +3,71 @@
                     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:local="clr-namespace:MemeFolder.Styles.Default.Dictionaries">
 
+    <Style x:Key="AddNewTagButton" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{DynamicResource GrayLVL4WithLowOpacity}"
+                            BorderBrush="{DynamicResource StandartLightColor2}"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Height="25"
+                            Width="140">
+                        <StackPanel Name="ButtonBorder" Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Margin="15,0,0,0">
+                            <md:PackIcon Name="Icon" Kind="Plus"
+                                     Background="{x:Null}"
+                                     VerticalAlignment="Center"
+                                     Width="25" Height="25"/>
+                            <TextBlock Text="Новый тег"
+                                       FontSize="14"
+                                       Margin="0,-2,0,0"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                   
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource StandartLightColor2}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource StandartLightColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+    
+    <Style x:Key="SearchButton" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Name="ButtonBorder" Background="{DynamicResource GrayLVL4WithLowOpacity}" Height="28" Width="42">
+                        <Ellipse Stroke="AliceBlue" Width="35" Height="28"/>
+                        <md:PackIcon Name="Icon" Kind="Search"
+                                     Background="{x:Null}"
+                                     Width="25" Height="25"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource StandartLightColor2}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource StandartLightColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
     <Style x:Key="SettingsButton" TargetType="{x:Type Button}">
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Template">

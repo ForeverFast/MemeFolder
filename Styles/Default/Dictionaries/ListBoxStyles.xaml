@@ -18,9 +18,8 @@
         <srd:SharedResourceDictionary 
                     Source="ListViewItemCT.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
     <cn:ObjectToTypeConverter x:Key="ObjToType"/>
-    <cn:ImageAsyncToContentTypeConverter x:Key="ImageAsyncToContentType"/>
     <cn:BitmapImageToImageSourceConverter x:Key="BItoIS"/>
     
     <Style x:Key="DefLB" TargetType="{x:Type ListView}">
@@ -68,5 +67,18 @@
         
     </Style>
 
+    <Style x:Key="TagLB" TargetType="{x:Type ListBox}">
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        
+        
+    </Style>
 
 </ResourceDictionary>

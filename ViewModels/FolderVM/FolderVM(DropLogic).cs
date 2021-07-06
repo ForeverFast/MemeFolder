@@ -68,8 +68,7 @@ namespace MemeFolder.ViewModels
                         if (createdFolder != null)
                         {
                             var updatedFolder = await GetAllFiles(createdFolder);
-                            Children.Add(new FolderVM(updatedFolder, _dataService));
-
+                            
                             Model.Folders.Add(updatedFolder);
                             FolderObjects.Add(updatedFolder);
                             updatedFolder.PropertyChanged += Model_PropertyChanged;

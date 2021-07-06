@@ -9,6 +9,7 @@
       xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:vm="clr-namespace:MemeFolder.ViewModels"
       xmlns:local="clr-namespace:MemeFolder.Pages"
+      xmlns:ssc="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="FolderPage"
@@ -60,9 +61,10 @@
                 </ListView.ContextMenu>
             </ListView>
 
-           
-            <!--HorizontalAlignment="Center"
-                           VerticalAlignment="Center"-->
+
+            <ssc:LoadingSpinner IsLoading="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
+                                              Color="AliceBlue"
+                                              />
         </Grid>
 
     </ScrollViewer>

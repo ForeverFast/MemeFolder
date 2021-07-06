@@ -7,10 +7,6 @@
         <srd:SharedResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-               
-                
-                   
-
                 <srd:SharedResourceDictionary 
                     Source="Styles/Default/DefaultDictionary.xaml" />
                 <srd:SharedResourceDictionary 
