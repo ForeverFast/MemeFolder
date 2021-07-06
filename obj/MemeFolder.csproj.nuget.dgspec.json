@@ -14,12 +14,10 @@
         "outputPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\ivans\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -63,7 +61,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -77,12 +75,10 @@
         "outputPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.EntityFramework\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\ivans\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -150,7 +146,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -164,12 +160,10 @@
         "outputPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder.Navigation\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\ivans\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -216,7 +210,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -230,12 +224,10 @@
         "outputPath": "C:\\Users\\ivans\\source\\repos\\MemeFolder\\MemeFolder\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\ivans\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -274,7 +266,15 @@
           "dependencies": {
             "MaterialDesignThemes": {
               "target": "Package",
-              "version": "[3.2.0, )"
+              "version": "[4.1.0, )"
+            },
+            "Microsoft-WindowsAPICodePack-Core": {
+              "target": "Package",
+              "version": "[1.1.4, )"
+            },
+            "Microsoft-WindowsAPICodePack-Shell": {
+              "target": "Package",
+              "version": "[1.1.4, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -296,29 +296,33 @@
               "target": "Package",
               "version": "[5.0.0, )"
             },
-            "Microsoft.WindowsAPICodePack-Core": {
+            "Microsoft.Xaml.Behaviors.Wpf": {
               "target": "Package",
-              "version": "[1.1.0.2, )"
-            },
-            "Microsoft.WindowsAPICodePack-Shell": {
-              "target": "Package",
-              "version": "[1.1.0, )"
+              "version": "[1.1.31, )"
             },
             "NAudio": {
               "target": "Package",
               "version": "[1.10.0, )"
             },
+            "NLog": {
+              "target": "Package",
+              "version": "[4.7.10, )"
+            },
+            "NLog.Config": {
+              "target": "Package",
+              "version": "[4.7.10, )"
+            },
             "System.Drawing.Common": {
               "target": "Package",
               "version": "[5.0.2, )"
             },
-            "System.Windows.Interactivity.WPF": {
-              "target": "Package",
-              "version": "[2.0.20525, )"
-            },
             "TagLibSharp": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "VirtualizingWrapPanel": {
+              "target": "Package",
+              "version": "[1.5.4, )"
             },
             "gong-wpf-dragdrop": {
               "target": "Package",
@@ -343,7 +347,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

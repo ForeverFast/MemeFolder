@@ -4,17 +4,19 @@
              xmlns:local="clr-namespace:MemeFolder"
              xmlns:srd="clr-namespace:MemeFolder.Extentions.Data">
     <Application.Resources>
-        <ResourceDictionary>
+        <srd:SharedResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
+               
+                
+                   
 
                 <srd:SharedResourceDictionary 
                     Source="Styles/Default/DefaultDictionary.xaml" />
                 <srd:SharedResourceDictionary 
                     Source="Brushes.xaml" />
 
-
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        </srd:SharedResourceDictionary>
     </Application.Resources>
 </Application>

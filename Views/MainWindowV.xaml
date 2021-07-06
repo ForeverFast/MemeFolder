@@ -6,15 +6,16 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:converter="clr-namespace:MemeFolder.Converters"
         xmlns:vm="clr-namespace:MemeFolder.ViewModels"  
+        xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:m="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
-        xmlns:ii="av"
         xmlns:local="clr-namespace:MemeFolder.Views"
         d:DataContext="{d:DesignInstance vm:MainWindowVM, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Height="800" Width="1500"
-        MinHeight="600" MinWidth="822" WindowStyle="SingleBorderWindow">
+        MinHeight="600" MinWidth="822"
+        WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
 
@@ -91,6 +92,8 @@
               Background="{DynamicResource GrayLVL3}">
             <Frame x:Name="FrameContent" Margin="0,0,0,0" BorderThickness="0,0,0,0"
                    NavigationUIVisibility="Hidden"/>
+            <md:DialogHost CloseOnClickAway="False"
+                           Identifier="RootDialog"/>
         </Grid>
         
         <Grid x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
@@ -98,8 +101,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="220"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" Background="{x:Null}">
@@ -118,48 +121,48 @@
                 </StackPanel>
             </Grid>
 
-            
-            
-            <Grid Grid.Column="2" Background="{x:Null}" >
+            <Grid Grid.Column="2">
 
                 <TextBox x:Name="SearchTB"
                          Style="{StaticResource TB_Search}"
+                         HorizontalAlignment="Stretch"
+                         Margin="10,0"
                          WindowChrome.IsHitTestVisibleInChrome="True"   
                          Height="28">
-
-                
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TextChanged">
-                            <i:InvokeCommandAction Command="{Binding SearchCommand}"
-                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBox},
-                                                                              Path=Text}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    
+                    <ib:Interaction.Triggers>
+                        <ib:EventTrigger EventName="TextChanged">
+                            <ib:InvokeCommandAction Command="{Binding SearchCommand}"
+                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                               AncestorType=TextBox},
+                                                                               Path=Text}" />
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
+                    
                 </TextBox>
-
 
             </Grid>
 
             <Grid Grid.Column="3" Background="{x:Null}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button x:Name="Settings"
+                    <Button x:Name="SettingsButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding OpenSettingsCommand}"
                             Background="{StaticResource GrayLVL4}"
                             Style="{StaticResource SettingsButton}"/>
-                    <Button x:Name="Minimize"
+                    <Button x:Name="MinimizeButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding MinimizedWindowCommand}"
                             Background="{StaticResource GrayLVL4}"
                             Style="{StaticResource MinimizeButton}"/>
 
-                    <Button x:Name="Resize"
+                    <Button x:Name="ResizeButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding ResizeWindowCommand}"
                             Background="{DynamicResource GrayLVL4}"
                             Style="{StaticResource ResizeButton}"/>
 
-                    <Button x:Name="Close"
+                    <Button x:Name="CloseButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding CloseWindowCommand}"
                             Background="{DynamicResource GrayLVL4}"
@@ -198,6 +201,8 @@
               Background="{StaticResource GrayLVL4}">
             
         </Grid>
+
+       
 
     </Grid>
 </Window>

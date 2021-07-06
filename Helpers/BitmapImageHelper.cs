@@ -21,15 +21,6 @@ namespace MemeFolder.Wpf.Helpers
            
             using (MemoryStream outStream = new MemoryStream())
             {
-                //BitmapEncoder enc = new BmpBitmapEncoder();
-                //enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-                //enc.Save(outStream);
-                //Bitmap bitmap = new Bitmap(outStream);
-                //bitmap = new Bitmap(bitmap);
-
-                //if (bitmap == null)
-                //    return null;
-
                 IntPtr hBitmap = bitmap.GetHbitmap();
 
                 ImageSource image =
@@ -43,7 +34,6 @@ namespace MemeFolder.Wpf.Helpers
                 {
                     MessageBox.Show("Failed to delete unused bitmap object");
                 }
-
                 return image;
             }
             

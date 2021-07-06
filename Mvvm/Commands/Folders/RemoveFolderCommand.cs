@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace MemeFolder.Mvvm.Commands.Folders
 {
-
+    /// <summary> Команда удаления Folder </summary>
     public class RemoveFolderCommand : AsyncCommandBase
     {
-        private readonly IFolderVM _folderVM;
+        private readonly IFolderObjectWorker _folderVM;
         private readonly IFolderDataService _folderDataService;
 
 
@@ -18,11 +18,11 @@ namespace MemeFolder.Mvvm.Commands.Folders
         {
             if (await _folderDataService.Delete((parameter as Folder).Id))
             {
-                _folderVM.FolderObjects.Remove((parameter as Folder));
+                _folderVM.GetWorkerCollection().Remove(parameter as Folder);
             }
         }
 
-        public RemoveFolderCommand(IFolderVM folderVM,
+        public RemoveFolderCommand(IFolderObjectWorker folderVM,
           IFolderDataService folderDataService,
           Action<Exception> onException = null) : base(onException)
         {

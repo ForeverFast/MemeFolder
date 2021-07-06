@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET5_0;NETCOREAPP
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\App.xaml
-12169088276
+15-868246952
 
-661674413856
-249-1573415727
-Brushes.xaml;Pages\FolderPage.xaml;Pages\SearchPage.xaml;Pages\SettingsPage.xaml;Styles\Default\DefaultDictionary.xaml;Styles\Default\Dictionaries\Buttons.xaml;Styles\Default\Dictionaries\ListBoxStyles.xaml;Styles\Default\Dictionaries\ScrollElements.xaml;Styles\Default\Dictionaries\SliderStyles.xaml;Styles\Default\Dictionaries\SystemButtons.xaml;Styles\Default\Dictionaries\TextBoxStyles.xaml;Views\MainWindowV.xaml;
+7388741869
+2561930673144
+Brushes.xaml;Old\Styles\LVI_CT.xaml;Pages\FolderPage.xaml;Pages\SearchPage.xaml;Pages\SettingsPage.xaml;Styles\Default\DefaultDictionary.xaml;Styles\Default\Dictionaries\Buttons.xaml;Styles\Default\Dictionaries\DataTemplateDH.xaml;Styles\Default\Dictionaries\ListBoxStyles.xaml;Styles\Default\Dictionaries\ListViewItemCT.xaml;Styles\Default\Dictionaries\ScrollElements.xaml;Styles\Default\Dictionaries\SliderStyles.xaml;Styles\Default\Dictionaries\SystemButtons.xaml;Styles\Default\Dictionaries\TextBoxStyles.xaml;Views\MainWindowV.xaml;
 
 True
 

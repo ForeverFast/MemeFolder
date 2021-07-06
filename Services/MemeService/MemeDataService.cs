@@ -1,7 +1,9 @@
 ﻿using MemeFolder.Domain.Models;
 using MemeFolder.EntityFramework;
+using MemeFolder.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace MemeFolder.Services
     public class MemeDataService : IMemeDataService
     {
         protected readonly MemeFolderDbContextFactory _contextFactory;
-
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public virtual async Task<bool> Delete(Guid guid)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
@@ -42,6 +44,12 @@ namespace MemeFolder.Services
             {
                 try
                 {
+                    if (string.IsNullOrEmpty(meme.ImagePath))
+                        throw new Exception("No image path");
+
+                    if (meme.ImageData == null)
+                        meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
+
                     var check = await context.Folders
                         .Where(x => x.Id == meme.Folder.Id)
                         .FirstOrDefaultAsync();
@@ -55,30 +63,7 @@ namespace MemeFolder.Services
                 }
                 catch (Exception ex)
                 {
-                    return null;
-                }
-            }
-        }
-
-        public virtual async Task<Meme> Create(Meme entity, Guid containerId)
-        {
-            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
-            {
-                try
-                {
-                    var check = await context.Folders
-                        .Where(x => x.Id == containerId)
-                        .FirstOrDefaultAsync();
-                    if (check != null)
-                        entity.Folder = check;
-
-                    EntityEntry<Meme> createdResult = await context.Set<Meme>().AddAsync(entity);
-                    await context.SaveChangesAsync();
-
-                    return createdResult.Entity;
-                }
-                catch (Exception ex)
-                {
+                    logger.Error(ex, "Ошибка создания");
                     return null;
                 }
             }
@@ -105,6 +90,7 @@ namespace MemeFolder.Services
                 }
                 catch (Exception ex)
                 {
+                    logger.Error(ex, "Ошибка обновления");
                     return null;
                 }
 

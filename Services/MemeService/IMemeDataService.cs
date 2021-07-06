@@ -7,6 +7,6 @@ namespace MemeFolder.Services
 {
     public interface IMemeDataService : IGenericDataService<Meme>
     {
-        Task<Meme> Create(Meme entity, Guid containerId);
+        
     }
 }
