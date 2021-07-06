@@ -145,7 +145,7 @@ namespace MemeFolder.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/MemeFolder;component/views/mainwindowv.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/MemeFolder;V1.0.0.0;component/views/mainwindowv.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\MainWindowV.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

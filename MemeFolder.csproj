@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\FolderViewModel\**" />
+    <EmbeddedResource Remove="ViewModels\FolderViewModel\**" />
+    <None Remove="ViewModels\FolderViewModel\**" />
+    <Page Remove="ViewModels\FolderViewModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="bababooey-sound-effect.wav" />
   </ItemGroup>
 
@@ -109,10 +116,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\FolderViewModel\" />
   </ItemGroup>
 
 </Project>
