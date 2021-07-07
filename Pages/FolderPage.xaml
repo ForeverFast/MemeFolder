@@ -52,8 +52,6 @@
 
                 <ListView.ContextMenu>
                     <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.DataContext}">
-                        <MenuItem Header="Создать папку" Command="{Binding AddFolderCommand}"/>
-                        <MenuItem Header="Создать папку с параметрами" Command="{Binding OpenAddDialogCommand}" CommandParameter="Folder"/>
                         <MenuItem Header="Создать мемчик" Command="{Binding AddMemeCommand}"/>
                         <MenuItem Header="Создать мемчик с параметрами" Command="{Binding OpenAddDialogCommand}" CommandParameter="Meme"/>
                         <MenuItem Header="Test" Command="{Binding TestCommand}" />

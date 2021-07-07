@@ -19,7 +19,7 @@ using System.Windows.Threading;
 
 namespace MemeFolder.ViewModels
 {
-    public class SearchPageVM : BasePageViewModel, IFolderObjectWorker, IDisposable, INavigatingFromAware
+    public class SearchPageVM : BasePageViewModel, IObjectWorker, IDisposable, INavigatingFromAware
     {
         private IEnumerable<FolderObject> Model;
         private readonly DataService _dataService;
@@ -28,11 +28,11 @@ namespace MemeFolder.ViewModels
         public ObservableCollection<FolderObject> FolderObjects { get; private set; }
 
 
-        #region Имплементация - IFolderObjectWorker
+        #region Имплементация - IObjectWorker
 
         public Folder GetModel() => null;
 
-        public ObservableCollection<FolderObject> GetWorkerCollection() => FolderObjects;
+        public object GetWorkerCollection(ObjectType collectionType) => FolderObjects;
 
         #endregion
 

@@ -5,6 +5,7 @@ using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using MemeFolder.ViewModels.DialogVM;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Mvvm.Commands
@@ -12,7 +13,7 @@ namespace MemeFolder.Mvvm.Commands
     /// <summary> Команда открытия диалога изменения производных FolderObject </summary>
     public class OpenEditDialogCommand : AsyncCommandBase
     {
-        private readonly IFolderObjectWorker _folderVM;
+        private readonly IObjectWorker _folderVM;
         private readonly IDialogService _dialogService;
         private readonly IMemeDataService _memeDataService;
         private readonly IFolderDataService _folderDataService;
@@ -43,7 +44,8 @@ namespace MemeFolder.Mvvm.Commands
                 if (UpdatedMemeEnitiy != null)
                 {
                     UpdatedMemeEnitiy.Image = MemeExtentions.ConvertByteArrayToImage(UpdatedMemeEnitiy.ImageData);
-                    MemeExtentions.ReplaceReference(_folderVM.GetWorkerCollection(), UpdatedMemeEnitiy, x => x.Id == UpdatedMemeEnitiy.Id);
+                    ObservableCollection<Meme> memes = (ObservableCollection<Meme>)_folderVM.GetWorkerCollection(ObjectType.Meme);
+                    MemeExtentions.ReplaceReference(memes, UpdatedMemeEnitiy, x => x.Id == UpdatedMemeEnitiy.Id);
                     UpdatedMemeEnitiy.OnAllPropertyChanged();
                 }
                    
@@ -59,14 +61,15 @@ namespace MemeFolder.Mvvm.Commands
                 Folder CreatedFolderEnitiy = await _folderDataService.Update(editedFolder.Id, editedFolder);
                 if (CreatedFolderEnitiy != null)
                 {
-                    MemeExtentions.ReplaceReference(_folderVM.GetWorkerCollection(), CreatedFolderEnitiy, x => x.Id == CreatedFolderEnitiy.Id);
+                    ObservableCollection<Folder> folders = (ObservableCollection<Folder>)_folderVM.GetWorkerCollection(ObjectType.Folder);
+                    MemeExtentions.ReplaceReference(folders, CreatedFolderEnitiy, x => x.Id == CreatedFolderEnitiy.Id);
                     CreatedFolderEnitiy.OnAllPropertyChanged();
                 }
                    
             }
         }
 
-        public OpenEditDialogCommand(IFolderObjectWorker folderVM,
+        public OpenEditDialogCommand(IObjectWorker folderVM,
             DataService dataService,
             Action<Exception> onException = null) : base(onException)
         {

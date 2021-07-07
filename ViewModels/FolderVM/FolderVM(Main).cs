@@ -20,7 +20,7 @@ using System.Windows.Input;
 
 namespace MemeFolder.ViewModels
 {
-    public partial class FolderVM : BasePageViewModel, INavigatedToAware, IMemeWorker, IFolderObjectWorker
+    public partial class FolderVM : BasePageViewModel, INavigatedToAware, IMemeWorker, IObjectWorker
     {
         #region Поля
         private Folder _model;
@@ -34,11 +34,11 @@ namespace MemeFolder.ViewModels
         public ObservableCollection<FolderObject> FolderObjects { get; set; }
 
 
-        #region Имплементация - IFolderObjectWorker
+        #region Имплементация - IObjectWorker
 
         public Folder GetModel() => Model;
 
-        public ObservableCollection<FolderObject> GetWorkerCollection() => FolderObjects;
+        public object GetWorkerCollection(ObjectType collectionType) => FolderObjects;
 
         #endregion
 
@@ -51,14 +51,7 @@ namespace MemeFolder.ViewModels
         #endregion
 
 
-        #region Команды - Папки
-
-        public ICommand AddFolderCommand { get; }
-
-        public ICommand RemoveFolderCommand { get; }
-
-        #endregion
-
+        
 
         #region Команды - Мемы
 
@@ -153,8 +146,7 @@ namespace MemeFolder.ViewModels
             _memeDataService = dataService._memeDataService;
             _folderDataService = dataService._folderDataService;
 
-            AddFolderCommand = new AddFolderCommand(this, _folderDataService);
-            RemoveFolderCommand = new RemoveFolderCommand(this, _folderDataService);
+           
 
             OpenMemePictureCommand = new OpenMemePictureCommand();
             CopyMemeInBufferCommand = new CopyMemeInBufferCommand();

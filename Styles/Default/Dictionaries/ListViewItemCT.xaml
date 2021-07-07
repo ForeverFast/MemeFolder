@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    
+
     <ControlTemplate x:Key="LBI_Meme" TargetType="{x:Type ListViewItem}">
 
         <StackPanel Height="110" Width="110" Background="{DynamicResource GrayLVL4WithLowOpacity}"
@@ -49,50 +49,7 @@
         </StackPanel>
 
     </ControlTemplate>
-
     
-    <ControlTemplate x:Key="LBI_Folder" TargetType="{x:Type ListViewItem}">
-
-        <StackPanel Height="110" Width="110" Background="{DynamicResource GrayLVL4WithLowOpacity}"
-                    Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                              AncestorType={x:Type ListView}},
-                              Path=DataContext}">
-            <StackPanel.InputBindings>
-                <MouseBinding Gesture="LeftDoubleClick"
-                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                            AncestorType={x:Type ListView}},
-                                         Path=DataContext.NavigationToFolderCommand}"
-                              CommandParameter="{Binding}"/>
-            </StackPanel.InputBindings>
-
-            <StackPanel.ContextMenu>
-                <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                    <MenuItem Header="Открыть"
-                              CommandParameter="{Binding DataContext.DataContext, RelativeSource={RelativeSource Self}}"
-                              Command="{Binding Tag.NavigationToFolderCommand}"/>
-                    <MenuItem Header="Изменить"
-                              CommandParameter="{Binding DataContext.DataContext, RelativeSource={RelativeSource Self}}"
-                              Command="{Binding Tag.OpenEditDialogCommand}"/>
-                    <MenuItem Header="Удалить" 
-                              CommandParameter="{Binding DataContext.DataContext, RelativeSource={RelativeSource Self}}"
-                              Command="{Binding Tag.RemoveFolderCommand}"/>
-                </ContextMenu>
-            </StackPanel.ContextMenu>
-
-
-            <md:PackIcon Kind="Folder"
-                         Foreground="{DynamicResource GrayLVL0}"
-                         HorizontalAlignment="Center"
-                         Height="80" Width="80"/>
-            <TextBlock HorizontalAlignment="Center"
-                       FontSize="15"
-                       Foreground="{DynamicResource StandartTextColor}"
-                       TextTrimming="WordEllipsis"
-                       Text="{Binding Title}"/>
-        </StackPanel>
-
-    </ControlTemplate>
-
 </ResourceDictionary>
     
     

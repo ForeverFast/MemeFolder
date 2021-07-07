@@ -3,6 +3,7 @@ using MemeFolder.Domain.Models;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Mvvm.Commands.Memes
@@ -10,7 +11,7 @@ namespace MemeFolder.Mvvm.Commands.Memes
     /// <summary> Команда удаления Meme </summary>
     public class RemoveMemeCommand : AsyncCommandBase
     {
-        private readonly IFolderObjectWorker _folderVM;
+        private readonly IObjectWorker _folderVM;
         private readonly IMemeDataService _memeDataService;
 
         protected override async Task ExecuteAsync(object parameter)
@@ -19,11 +20,12 @@ namespace MemeFolder.Mvvm.Commands.Memes
 
             if (await _memeDataService.Delete(meme.Id))
             {
-                _folderVM.GetWorkerCollection().Remove(meme);
+                ObservableCollection<Meme> memes = (ObservableCollection<Meme>)_folderVM.GetWorkerCollection(ObjectType.Meme);
+                memes.Remove(meme);
             }
         }
 
-        public RemoveMemeCommand(IFolderObjectWorker folderVM,
+        public RemoveMemeCommand(IObjectWorker folderVM,
             IMemeDataService memeDataService,
             Action<Exception> onException = null) : base(onException)
         {

@@ -8,6 +8,8 @@
         xmlns:vm="clr-namespace:MemeFolder.ViewModels"  
         xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:m="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:abs="clr-namespace:MemeFolder.Abstractions"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:MemeFolder.Views"
         xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
@@ -19,11 +21,15 @@
         WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
-
-
+       
         <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
+        <converter:ManyValuesConverter x:Key="ManyValueConverter2"/>
         <converter:StringToBoolConverter x:Key="StringToBoolConverter"/> 
         <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
+
+        <abs:ObjectType x:Key="OT_MemeTag">
+            MemeTag
+        </abs:ObjectType>
 
         <!--<DataTemplate x:Key="SearchGrid" DataType="{x:Type Grid}">
             <Border x:Name="Border">
@@ -36,6 +42,9 @@
             </DataTemplate.Triggers>
         </DataTemplate>-->
         
+        <!--<sys:String x:Key="FolderStr">Folder</sys:String>
+        <sys:String x:Key="MemeStr">Meme</sys:String>
+        <sys:String x:Key="MemeTagStr">MemeTag</sys:String>-->
 
     </Window.Resources>
     
@@ -88,15 +97,14 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-
+        
         
         <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1"
               Background="{DynamicResource GrayLVL3}">
             <Frame x:Name="FrameContent" Margin="0,0,0,0" BorderThickness="0,0,0,0"
                    NavigationUIVisibility="Hidden"/>
-            <md:DialogHost CloseOnClickAway="False"
-                           Identifier="RootDialog"/>
         </Grid>
+        
         
         <Grid x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
               Background="{DynamicResource GrayLVL4}">
@@ -182,11 +190,8 @@
         </Grid>
 
       
-
         <Grid x:Name="MenuGrid" Grid.Row="1" Grid.Column="0"
               Background="{StaticResource GrayLVL3}">
-
-
 
             <TreeView ItemsSource="{Binding Folders}"
                       Foreground="{DynamicResource StandartLightColor2}"
@@ -196,17 +201,57 @@
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type m:Folder}"
                                               ItemsSource="{Binding Folders}">
-                        <Border Height="25" >
+                        <Border Height="25"
+                                Tag="{Binding DataContext,
+                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}">
+                            
                             <TextBlock Text="{Binding Title}"
                                        FontSize="14"
                                        VerticalAlignment="Center"/>
+                            
+                            <Border.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick"
+                                              Command="{Binding DataContext.NavigationToFolderCommand,
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}"
+                                              CommandParameter="{Binding}"/>
+                            </Border.InputBindings>
+                            
+                            <Border.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem Header="Открыть"
+                                              Command="{Binding Tag.NavigationToFolderCommand}"
+                                              CommandParameter="{Binding DataContext}" />
+                                    
+                                    <MenuItem Header="Изменить"
+                                              Command="{Binding Tag.OpenEditDialogCommand}"
+                                              CommandParameter="{Binding DataContext}"/>
+                                  
+                                    <MenuItem Header="Создать папку"
+                                              Command="{Binding Tag.AddFolderCommand}"
+                                              CommandParameter="{Binding DataContext}"/>
+                                    
+                                    <MenuItem Header="Создать папку с параметрами"
+                                              Command="{Binding Tag.OpenAddDialogCommand}">
+                                        <MenuItem.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ManyValueConverter}">
+                                                <Binding Path="DataContext"/>
+                                                <Binding ConverterParameter="{x:Static abs:ObjectType.Folder}" />
+                                            </MultiBinding>
+                                        </MenuItem.CommandParameter> 
+                                    </MenuItem>
+
+                                    <MenuItem Header="Удалить" 
+                                              Command="{Binding Tag.RemoveFolderCommand}"
+                                              CommandParameter="{Binding DataContext}"/>
+                                </ContextMenu>
+                            </Border.ContextMenu>
                         </Border>
 
+                       
                     </HierarchicalDataTemplate>
                     
                 </TreeView.Resources>
-            
-                
+           
             </TreeView>
             
         </Grid>
@@ -222,7 +267,15 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
-                    Style="{DynamicResource AddNewTagButton}"/>
+                    Style="{DynamicResource AddNewTagButton}"
+                    Command="{Binding OpenAddDialogCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource ManyValueConverter}">
+                        <Binding Path="Model"/>
+                        <Binding Source="{StaticResource OT_MemeTag}"  />
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
 
             <ListBox Grid.Column="1"
                      Style="{DynamicResource TagLB}">
@@ -233,6 +286,12 @@
           
 
         </Grid>
+
+
+        <md:DialogHost Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
+                       CloseOnClickAway="False"
+                       Identifier="RootDialog"/>
+
 
     </Grid>
 </Window>

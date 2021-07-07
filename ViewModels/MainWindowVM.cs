@@ -1,6 +1,9 @@
-﻿using MemeFolder.Data;
+﻿using MemeFolder.Abstractions;
+using MemeFolder.Data;
 using MemeFolder.Domain.Models;
 using MemeFolder.Domain.Models.AbstractModels;
+using MemeFolder.Mvvm.Commands;
+using MemeFolder.Mvvm.Commands.Folders;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Navigation;
 using MemeFolder.Pages;
@@ -17,7 +20,7 @@ using System.Windows.Threading;
 
 namespace MemeFolder.ViewModels
 {
-    public class MainWindowVM : BaseWindowViewModel
+    public class MainWindowVM : BaseWindowViewModel, IObjectWorker
     {
         #region Поля
         private Folder _model;
@@ -25,8 +28,45 @@ namespace MemeFolder.ViewModels
         #endregion
 
         public Folder Model { get => _model; set => SetProperty(ref _model, value); }
+
         public ObservableCollection<Folder> Folders { get; set; }
-      
+        public ObservableCollection<MemeTag> MemeTags { get; set; }
+
+
+        public Folder GetModel() => Model;
+
+        public object GetWorkerCollection(ObjectType objectType)
+        {
+            switch (objectType)
+            {
+                case ObjectType.Folder:
+                    return Folders;
+                case ObjectType.MemeTag:
+                    return MemeTags;
+                case ObjectType.Meme:
+                    return null;
+                default:
+                    return null;
+            }
+            
+        }
+        
+
+        #region Команды - Общее
+
+        public ICommand OpenAddDialogCommand { get; }
+        public ICommand OpenEditDialogCommand { get; }
+
+        #endregion
+
+        #region Команды - Папки
+
+        public ICommand AddFolderCommand { get; }
+
+        public ICommand RemoveFolderCommand { get; }
+
+        #endregion
+
 
         #region Команды - Навигация
 
@@ -93,6 +133,7 @@ namespace MemeFolder.ViewModels
 
         #endregion
 
+
         private bool CheckInputNavKey(object key)
         {
             IsBusy = true;
@@ -112,14 +153,22 @@ namespace MemeFolder.ViewModels
             return false;
         }
 
+        
         #region Конструкторы
 
         public MainWindowVM(FolderVM model,
                             DataService dataService) : base(dataService._navigationService)
         {
+
             Model = model.Model;
-           
+            
             _dataService = dataService;
+
+            OpenAddDialogCommand = new OpenAddDialogCommand(this, _dataService);
+            OpenEditDialogCommand = new OpenEditDialogCommand(this, _dataService);
+
+            AddFolderCommand = new AddFolderCommand(this, _dataService._folderDataService);
+            RemoveFolderCommand = new RemoveFolderCommand(this, _dataService._folderDataService);
 
             SearchCommand = new RelayCommand(SearchExecuteAsync);
             EmptySearchTextCheckCommand = new RelayCommand(EmptySearchTextCheckExecute);
@@ -127,12 +176,10 @@ namespace MemeFolder.ViewModels
 
             NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
 
+            MemeTags = new ObservableCollection<MemeTag>();
             Folders = new ObservableCollection<Folder>();
             Folders.Add(Model);
-            //foreach (Folder folder in Model.Folders)
-            //    Folders.Add(folder);
 
-           
         }
 
         #endregion

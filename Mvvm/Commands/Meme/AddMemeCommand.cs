@@ -4,6 +4,7 @@ using MemeFolder.Extentions;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Mvvm.Commands.Memes
@@ -11,7 +12,7 @@ namespace MemeFolder.Mvvm.Commands.Memes
     /// <summary> Команда добавления Meme </summary>
     public class AddMemeCommand : AsyncCommandBase
     {
-        private readonly IFolderObjectWorker _folderVM;
+        private readonly IObjectWorker _folderVM;
         private readonly IDialogService _dialogService;
         private readonly IMemeDataService _memeDataService;
 
@@ -29,11 +30,13 @@ namespace MemeFolder.Mvvm.Commands.Memes
             {
                 createdEntity.Image = MemeExtentions.ConvertByteArrayToImage(createdEntity.ImageData);
                 createdEntity.ImageData = null;
-                _folderVM.GetWorkerCollection().Add(meme);
+
+                ObservableCollection<Meme> memes = (ObservableCollection<Meme>)_folderVM.GetWorkerCollection(ObjectType.Meme);
+                memes.Add(meme);
             }
         }
 
-        public AddMemeCommand(IFolderObjectWorker folderVM,
+        public AddMemeCommand(IObjectWorker folderVM,
             DataService dataService,
             Action<Exception> onException = null) : base(onException)
         {

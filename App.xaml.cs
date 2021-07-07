@@ -83,8 +83,11 @@ namespace MemeFolder
             services.AddSingleton(typeof(MemeFolderDbContextFactory));
             services.AddSingleton(typeof(DataService));
             services.AddSingleton<IFolderDataService, FolderDataService>();
-            services.AddSingleton<ISearchService, SearchService>();
             services.AddSingleton<IMemeDataService, MemeDataService>();
+            services.AddSingleton<IMemeTagDataService, MemeTagDataService>();
+
+            services.AddSingleton<ISearchService, SearchService>();
+           
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IInitDataBaseService, InitDataBaseService>();
 

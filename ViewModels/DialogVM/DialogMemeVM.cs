@@ -2,9 +2,6 @@
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using MemeFolder.ViewModels.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace MemeFolder.ViewModels.DialogVM
