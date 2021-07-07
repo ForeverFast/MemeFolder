@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -89,9 +90,18 @@ namespace MemeFolder.Services
         public virtual async Task<IEnumerable<MemeTag>> GetAll()
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
-            {
-                IEnumerable<MemeTag> entities = await context.MemeTags.ToListAsync();
-                return entities;
+            {             
+                try
+                {
+                    IEnumerable<MemeTag> entities = await Task.FromResult(context.MemeTags
+                        .ToList());
+                    return entities;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Ошибка получения");
+                    return null;
+                }
             }
         }
 

@@ -2,16 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    
                     xmlns:t="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
-                    xmlns:ia="clr-namespace:MemeFolder.Services.ImageAsyncService"
                     
-                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
+             
                     xmlns:cn="clr-namespace:MemeFolder.Converters"
-                    xmlns:me="clr-namespace:MemeFolder.Extentions.Data"
-                    
+                    xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:srd="clr-namespace:MemeFolder.Extentions.Data"
+                    xmlns:ext="clr-namespace:MemeFolder.Extentions"
                     
-                    mc:Ignorable="po"
+                    
                     xmlns:controls="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel">
     
     <ResourceDictionary.MergedDictionaries>
@@ -76,8 +75,82 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        
-        
+
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                    
+                    <Setter Property="Background" Value="{x:Null}"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Background="{DynamicResource StandartLightColor2}"
+                                        MinWidth="100"
+                                        MinHeight="20"
+                                        Height="25"
+                                        CornerRadius="15"
+                                        Margin="0,0,15,0"
+                                        Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                    AncestorType={x:Type ListView}},
+                                    Path=DataContext}">
+                                    
+                                    <Border.InputBindings>
+
+                                        <MouseBinding Gesture="LeftDoubleClick"
+                                                      Command="{Binding Tag.OpenMemePictureCommand,
+                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" 
+                                                      CommandParameter="{Binding}"/>
+                                        <!--<MouseBinding Gesture="LeftClick"
+                                                      Command="{Binding Tag.CopyMemeInBufferCommand,
+                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}}"
+                                                      CommandParameter="{Binding}"/>-->
+
+                                    </Border.InputBindings>
+
+                                    <Border.ContextMenu>
+                                        <ContextMenu DataContext="{Binding PlacementTarget,
+                                            RelativeSource={RelativeSource Mode=Self}}">
+
+                                            <MenuItem Header="Открыть"
+                                                      CommandParameter="{Binding DataContext.DataContext,
+                                                RelativeSource={RelativeSource Self}}"
+                                                      Command="{Binding Tag.OpenMemePictureCommand}"/>
+                                            <MenuItem Header="Изменить"
+                                                      CommandParameter="{Binding DataContext.DataContext,
+                                                RelativeSource={RelativeSource Self}}"
+                                                      Command="{Binding Tag.OpenEditDialogCommand}"/>
+                                            <MenuItem Header="Удалить" 
+                                                      CommandParameter="{Binding DataContext}"
+                                                      Command="{Binding Tag.RemoveMemeCommand}" />
+
+                                        </ContextMenu>
+                                    </Border.ContextMenu>
+                                    <TextBlock Text="{Binding Title, StringFormat=#{0}}"
+                                               FontSize="15"
+                                               Margin="10,0,10,0"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               Foreground="{DynamicResource GrayLVL4}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    
+                </Style>
+            </Setter.Value>
+        </Setter>
         
     </Style>
 

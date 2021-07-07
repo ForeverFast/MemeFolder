@@ -52,16 +52,17 @@ namespace MemeFolder.Mvvm.Commands
 
                     DialogFolderVM dialogFolderVM = new DialogFolderVM(new Folder(), _dialogService, "Создание папки");
 
+                    Folder parentFolder = (Folder)parameters[0];
+
                     Folder folder = (Folder)await MaterialDesignThemes.Wpf.DialogHost.Show(dialogFolderVM, "RootDialog");
                     if (folder == null)
                         break;
 
-                    folder.ParentFolder = (Folder)parameters[0];
+                    folder.ParentFolder = parentFolder;
                     Folder CreatedFolderEnitiy = await _folderDataService.Create(folder);
                     if (CreatedFolderEnitiy != null)
                     {
-                        ObservableCollection<Folder> folders = (ObservableCollection<Folder>)_folderVM.GetWorkerCollection(ObjectType.Folder);
-                        folders.Add(CreatedFolderEnitiy);
+                        parentFolder.Folders.Add(CreatedFolderEnitiy);
                     }
                        
 

@@ -263,7 +263,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="40"/>
+               
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
@@ -278,8 +278,49 @@
             </Button>
 
             <ListBox Grid.Column="1"
-                     Style="{DynamicResource TagLB}">
-                
+                     ItemsSource="{Binding MemeTags}"
+                     Style="{DynamicResource TagLB}"
+                     Background="{DynamicResource GrayLVL4}">
+
+                <ListBox.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" 
+                                
+                                CommandTarget="{Binding ElementName=ScrollElem}"
+                                Command="{x:Static ScrollBar.LineLeftCommand}"
+                                
+                                VerticalAlignment="Center"
+                                Style="{DynamicResource NavigationBack2}"/>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                          x:Name="ScrollElem"
+                                          CanContentScroll="True"
+                                          PreviewMouseWheel="empListBox_PreviewMouseWheel"
+                                          Grid.Column="1">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+
+                            <Button Grid.Column="2"
+                                                              
+                                CommandTarget="{Binding ElementName=ScrollElem}"
+                                Command="{x:Static ScrollBar.LineRightCommand}"
+                               
+                                VerticalAlignment="Center"
+                                Style="{DynamicResource NavigationForward2}"/>
+                        </Grid>
+
+                     
+
+                    </ControlTemplate>
+                </ListBox.Template>
                 
             </ListBox>
 

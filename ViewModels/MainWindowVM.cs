@@ -44,7 +44,6 @@ namespace MemeFolder.ViewModels
                 case ObjectType.MemeTag:
                     return MemeTags;
                 case ObjectType.Meme:
-                    return null;
                 default:
                     return null;
             }
@@ -58,6 +57,7 @@ namespace MemeFolder.ViewModels
         public ICommand OpenEditDialogCommand { get; }
 
         #endregion
+
 
         #region Команды - Папки
 
@@ -177,6 +177,11 @@ namespace MemeFolder.ViewModels
             NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
 
             MemeTags = new ObservableCollection<MemeTag>();
+            foreach (MemeTag mt in _dataService._memeTagDataService.GetAll().Result)
+            {
+                MemeTags.Add(mt);
+            }
+
             Folders = new ObservableCollection<Folder>();
             Folders.Add(Model);
 

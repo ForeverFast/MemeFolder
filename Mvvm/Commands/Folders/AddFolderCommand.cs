@@ -16,17 +16,19 @@ namespace MemeFolder.Mvvm.Commands.Folders
 
         protected override async Task ExecuteAsync(object parameter)
         {
+            Folder parentFolder = (Folder)parameter;
+
             Folder NewFolder = new Folder()
             {
-                ParentFolder = (Folder)parameter,
+                ParentFolder = parentFolder,
                 Title = "Новая папка"
             };
 
             Folder createdEntity = await _folderDataService.Create(NewFolder);
             if (createdEntity != null)
             {
-                ObservableCollection<Folder> folders = (ObservableCollection<Folder>)_folderVM.GetWorkerCollection(ObjectType.Folder);
-                folders.Add(createdEntity);
+                //ObservableCollection<Folder> folders = (ObservableCollection<Folder>)_folderVM.GetWorkerCollection(ObjectType.Folder);
+                parentFolder.Folders.Add(createdEntity);
             }
         }
 

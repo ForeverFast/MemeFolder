@@ -64,7 +64,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border>
+                    <Border Background="{DynamicResource GrayLVL4WithLowOpacity}">
                         <md:PackIcon Kind="ChevronLeft"
                                      Foreground="{DynamicResource StandartLightColor}"
                              Width="25" Height="25"
@@ -81,7 +81,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border>
+                    <Border Background="{DynamicResource GrayLVL4WithLowOpacity}">
                         <md:PackIcon Kind="ChevronRight"
                                      Foreground="{DynamicResource StandartLightColor}"
                              Width="25" Height="25"
