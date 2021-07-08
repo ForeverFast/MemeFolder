@@ -22,8 +22,6 @@ namespace MemeFolder.ViewModels
             dropInfo.Effects = dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop)
                 ? DragDropEffects.Copy
                 : DragDropEffects.Move;
-
-
         }
 
         public async void Drop(IDropInfo dropInfo)
@@ -40,39 +38,22 @@ namespace MemeFolder.ViewModels
                         {
                             Title = Path.GetFileName(file),
                             Folder = this.Model,
-                            ImagePath = file,
-                            ImageData = MemeExtentions.ConvertImageToByteArray(file)
+                            ImagePath = file
                         };
 
-                        var createdMeme = await _memeDataService.Create(meme);
-                        if (createdMeme != null)
-                        {
-                            Model.Memes.Add(createdMeme);
-
-                            createdMeme.Image = MemeExtentions.ConvertByteArrayToImage(createdMeme.ImageData);//.ToImageSource();
-                            createdMeme.Image.Freeze();
-
-                            FolderObjects.Add(createdMeme);
-                            createdMeme.PropertyChanged += Model_PropertyChanged;
-                        }
+                        await _dataStorage.AddMeme(meme, this.Model);
                     }
                     else if (Directory.Exists(file))
                     {
-
-                        Folder folder = new Folder();
-                        folder.ParentFolder = this.Model;
-                        folder.ImageFolderPath = file;
-                        folder.Title = new DirectoryInfo(file).Name;
-
-                        var createdFolder = await _folderDataService.Create(folder);
-                        if (createdFolder != null)
+                        Folder folder = new Folder()
                         {
-                            var updatedFolder = await GetAllFiles(createdFolder);
-                            
-                            Model.Folders.Add(updatedFolder);
-                            FolderObjects.Add(updatedFolder);
-                            updatedFolder.PropertyChanged += Model_PropertyChanged;
-                        }
+                            Title = new DirectoryInfo(file).Name,
+                            ParentFolder = this.Model,
+                            ImageFolderPath = file
+                        };
+
+                        Folder dbCreatedFolder = await _dataStorage.AddFolder(folder, this.Model);
+                        await GetAllFiles(Model.Folders.FirstOrDefault(f => f.Id == dbCreatedFolder.Id));
                     }
 
                 }
@@ -93,31 +74,24 @@ namespace MemeFolder.ViewModels
                     {
                         Title = Path.GetFileName(path),
                         Folder = rootFolder,
-                        ImagePath = path,
-                        ImageData = MemeExtentions.ConvertImageToByteArray(path)
+                        ImagePath = path
                     };
 
-                    var createdMeme = await _memeDataService.Create(meme);
-                    if (createdMeme != null)
-                    {
-                        rootFolder.Memes.Add(createdMeme);
-                    }
+                    await _dataStorage.AddMeme(meme, rootFolder);
                 }
 
             if (directories.Length != 0)
                 foreach (string path in directories)
                 {
-                    Folder f = new Folder();
-                    f.ImageFolderPath = path;
-                    f.ParentFolder = rootFolder;
-                    f.Title = new DirectoryInfo(path).Name;
-
-                    var createdFolder = await _folderDataService.Create(f);
-                    if (createdFolder != null)
+                    Folder folder = new Folder()
                     {
-                        var updatedFolder = await GetAllFiles(createdFolder);
-                        rootFolder.Folders.Add(updatedFolder);
-                    }
+                        Title = new DirectoryInfo(path).Name,
+                        ParentFolder = rootFolder,
+                        ImageFolderPath = path
+                    };
+
+                    Folder dbCreatedFolder = await _dataStorage.AddFolder(folder, rootFolder);
+                    await GetAllFiles(rootFolder.Folders.FirstOrDefault(f => f.Id == dbCreatedFolder.Id));
 
                 }
             return rootFolder;

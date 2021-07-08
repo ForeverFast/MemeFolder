@@ -93,7 +93,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
@@ -101,181 +101,189 @@
         
         <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1"
               Background="{DynamicResource GrayLVL3}">
-            <Frame x:Name="FrameContent" Margin="0,0,0,0" BorderThickness="0,0,0,0"
+            <Frame x:Name="FrameContent" Margin="0,0,0,0" 
+                   BorderThickness="0,0,0,0"
                    NavigationUIVisibility="Hidden"/>
         </Grid>
-        
-        
-        <Grid x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
-              Background="{DynamicResource GrayLVL4}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="500"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Background="{x:Null}">
+        <Border x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                BorderBrush="{DynamicResource GrayLVL0}"
+                BorderThickness="0,0,0,0.25">
+            
+            <Grid Background="{DynamicResource GrayLVL4}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-            </Grid>
+                <Grid Grid.Column="0" Background="{x:Null}">
 
-            <Grid Grid.Column="1" Background="{x:Null}">
-                <StackPanel Orientation="Horizontal">
-                    <Button WindowChrome.IsHitTestVisibleInChrome="True"                                            
+                </Grid>
+
+                <Grid Grid.Column="1" Background="{x:Null}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button WindowChrome.IsHitTestVisibleInChrome="True"                                            
                             Command="{Binding NavigationBackCommand}"
                             Style="{StaticResource NavigationBack}"/>
 
-                    <Button WindowChrome.IsHitTestVisibleInChrome="True"      
+                        <Button WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding NavigationForwardCommand}"
                             Style="{StaticResource NavigationForward}"/>
-                </StackPanel>
-            </Grid>
+                    </StackPanel>
+                </Grid>
 
-            <Grid Grid.Column="2">
-                <StackPanel Orientation="Horizontal"
+                <Grid Grid.Column="2">
+                    <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Left">
-                    <TextBox x:Name="SearchTB"
+                        <TextBox x:Name="SearchTB"
                              Style="{StaticResource TB_Search}"
                         
                              Margin="10,0"
                              WindowChrome.IsHitTestVisibleInChrome="True"   
                              Height="28" Width="280">
 
-                        <ib:Interaction.Triggers>
-                            <ib:EventTrigger EventName="TextChanged">
-                                <ib:InvokeCommandAction Command="{Binding EmptySearchTextCheckCommand}"
+                            <ib:Interaction.Triggers>
+                                <ib:EventTrigger EventName="TextChanged">
+                                    <ib:InvokeCommandAction Command="{Binding EmptySearchTextCheckCommand}"
                                                         CommandParameter="{Binding ElementName=SearchTB,
-                                                                                   Path=Text}"/>    
-                            </ib:EventTrigger>
-                        </ib:Interaction.Triggers>
+                                                                                   Path=Text}"/>
+                                </ib:EventTrigger>
+                            </ib:Interaction.Triggers>
 
-                    </TextBox>
-                    <Button Style="{DynamicResource SearchButton}"
+                        </TextBox>
+                        <Button Style="{DynamicResource SearchButton}"
                             Command="{Binding SearchCommand}"
                             CommandParameter="{Binding ElementName=SearchTB,
                                                        Path=Text}"
                             WindowChrome.IsHitTestVisibleInChrome="True"   />
-                </StackPanel>
-                
+                    </StackPanel>
 
-            </Grid>
 
-            <Grid Grid.Column="3" Background="{x:Null}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button x:Name="SettingsButton"
+                </Grid>
+
+                <Grid Grid.Column="3" Background="{x:Null}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button x:Name="SettingsButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding OpenSettingsCommand}"
                             Background="{StaticResource GrayLVL4}"
                             Style="{StaticResource SettingsButton}"/>
-                    <Button x:Name="MinimizeButton"
+                        <Button x:Name="MinimizeButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding MinimizedWindowCommand}"
                             Background="{StaticResource GrayLVL4}"
                             Style="{StaticResource MinimizeButton}"/>
 
-                    <Button x:Name="ResizeButton"
+                        <Button x:Name="ResizeButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding ResizeWindowCommand}"
                             Background="{DynamicResource GrayLVL4}"
                             Style="{StaticResource ResizeButton}"/>
 
-                    <Button x:Name="CloseButton"
+                        <Button x:Name="CloseButton"
                             WindowChrome.IsHitTestVisibleInChrome="True"      
                             Command="{Binding CloseWindowCommand}"
                             Background="{DynamicResource GrayLVL4}"
                             Style="{StaticResource CloseButton}"/>
-                </StackPanel>
+                    </StackPanel>
+                </Grid>
+
             </Grid>
 
-        </Grid>
+        </Border>
 
-      
-        <Grid x:Name="MenuGrid" Grid.Row="1" Grid.Column="0"
-              Background="{StaticResource GrayLVL3}">
+        <Border x:Name="MenuGrid" Grid.Row="1" Grid.Column="0"
+                BorderBrush="{DynamicResource GrayLVL0}"
+                BorderThickness="0,0,0.25,0">
+            
+            <Grid Background="{StaticResource GrayLVL3}">
 
-            <TreeView ItemsSource="{Binding Folders}"
-                      Foreground="{DynamicResource StandartLightColor2}"
-                      ItemContainerStyle="{DynamicResource TreeViewItemStyle}"
-                      Margin="10">
-                
-                <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type m:Folder}"
-                                              ItemsSource="{Binding Folders}">
-                        <Border Height="25"
+                <TreeView ItemsSource="{Binding Folders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Foreground="{DynamicResource StandartLightColor2}"
+                          ItemContainerStyle="{DynamicResource TreeViewItemStyle}"
+                          
+                          Margin="10">
+
+                    <TreeView.Resources>
+
+                        <HierarchicalDataTemplate DataType="{x:Type m:Folder}"
+                                              ItemsSource="{Binding Folders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Border Height="25"
                                 Tag="{Binding DataContext,
                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}">
-                            
-                            <TextBlock Text="{Binding Title}"
-                                       FontSize="14"
-                                       VerticalAlignment="Center"/>
-                            
-                            <Border.InputBindings>
-                                <MouseBinding Gesture="LeftDoubleClick"
+
+                                <Border.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick"
                                               Command="{Binding DataContext.NavigationToFolderCommand,
                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}"
                                               CommandParameter="{Binding}"/>
-                            </Border.InputBindings>
+                                </Border.InputBindings>
+
+                                <Border.ContextMenu>
+                                    <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                                        <MenuItem Header="Открыть"
+                                                  CommandParameter="{Binding DataContext}"
+                                                  Command="{Binding Tag.NavigationToFolderCommand}" />
+                                        <MenuItem Header="Создать папку"
+                                                  CommandParameter="{Binding DataContext}"
+                                                  Command="{Binding Tag.AddFolderCommand}"/>
+                                        <MenuItem Header="Создать папку с параметрами"
+                                                  CommandParameter="{Binding DataContext}"
+                                                  Command="{Binding Tag.OpenAddFolderDialogCommand}"/>
+                                        <MenuItem Header="Изменить"
+                                                  CommandParameter="{Binding DataContext}"
+                                                  Command="{Binding Tag.OpenEditFolderDialogCommand}"/>
+                                        <MenuItem Header="Удалить" 
+                                                  CommandParameter="{Binding DataContext}"
+                                                  Command="{Binding Tag.RemoveFolderCommand}"/>
+                                    </ContextMenu>
+                                </Border.ContextMenu>
+
+                                <TextBlock Text="{Binding Title}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"/>
+
+                            </Border>
+
+
+                        </HierarchicalDataTemplate>
+
+                    </TreeView.Resources>
+
+                    <TreeView.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+
+                            <ScrollViewer Style="{DynamicResource ContentSV}"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </ScrollViewer>
                             
-                            <Border.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                                    <MenuItem Header="Открыть"
-                                              Command="{Binding Tag.NavigationToFolderCommand}"
-                                              CommandParameter="{Binding DataContext}" />
-                                    
-                                    <MenuItem Header="Изменить"
-                                              Command="{Binding Tag.OpenEditDialogCommand}"
-                                              CommandParameter="{Binding DataContext}"/>
-                                  
-                                    <MenuItem Header="Создать папку"
-                                              Command="{Binding Tag.AddFolderCommand}"
-                                              CommandParameter="{Binding DataContext}"/>
-                                    
-                                    <MenuItem Header="Создать папку с параметрами"
-                                              Command="{Binding Tag.OpenAddDialogCommand}">
-                                        <MenuItem.CommandParameter>
-                                            <MultiBinding Converter="{StaticResource ManyValueConverter}">
-                                                <Binding Path="DataContext"/>
-                                                <Binding ConverterParameter="{x:Static abs:ObjectType.Folder}" />
-                                            </MultiBinding>
-                                        </MenuItem.CommandParameter> 
-                                    </MenuItem>
-
-                                    <MenuItem Header="Удалить" 
-                                              Command="{Binding Tag.RemoveFolderCommand}"
-                                              CommandParameter="{Binding DataContext}"/>
-                                </ContextMenu>
-                            </Border.ContextMenu>
-                        </Border>
-
-                       
-                    </HierarchicalDataTemplate>
+                        </ControlTemplate>
+                    </TreeView.Template>
                     
-                </TreeView.Resources>
-           
-            </TreeView>
+                </TreeView>
+
+            </Grid>
             
-        </Grid>
+        </Border>
+       
 
         
         <Grid x:Name="FooterGrid" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
               Background="{StaticResource GrayLVL4}">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
+                
+                <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="*"/>
                
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
                     Style="{DynamicResource AddNewTagButton}"
-                    Command="{Binding OpenAddDialogCommand}">
-                <Button.CommandParameter>
-                    <MultiBinding Converter="{StaticResource ManyValueConverter}">
-                        <Binding Path="Model"/>
-                        <Binding Source="{StaticResource OT_MemeTag}"  />
-                    </MultiBinding>
-                </Button.CommandParameter>
-            </Button>
+                    Command="{Binding OpenAddMemeTagDialogCommand}"/>
 
             <ListBox Grid.Column="1"
                      ItemsSource="{Binding MemeTags}"
@@ -321,6 +329,8 @@
 
                     </ControlTemplate>
                 </ListBox.Template>
+                
+                
                 
             </ListBox>
 

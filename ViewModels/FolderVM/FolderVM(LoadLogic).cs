@@ -15,11 +15,11 @@ namespace MemeFolder.ViewModels
 
         private void PageLoadedExecuteAsync(object parameter)
         {
-            if (FolderObjects == null)
+            if (Memes == null)
             {
                 IsBusy = true;
 
-                FolderObjects = new ObservableCollection<FolderObject>();
+                Memes = new ObservableCollection<Meme>();
 
                 BackgroundWorker bgW = new BackgroundWorker();
                 bgW.DoWork += BgW_DoWork;
@@ -31,10 +31,6 @@ namespace MemeFolder.ViewModels
 
         private void BgW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            OnPropertyChanged(nameof(FolderObjects));
-            foreach (var item in (List<FolderObject>)e.Result)
-                FolderObjects.Add(item);
-
             GC.Collect();
             GC.WaitForPendingFinalizers();
             
@@ -46,21 +42,16 @@ namespace MemeFolder.ViewModels
         {
             var model = (Folder)e.Argument;
 
-            List<FolderObject> folderObjects = new List<FolderObject>();
-
-            //foreach (var item in model.Folders)
-            //    folderObjects.Add(item);
-
             foreach (var item in model.Memes)
             {
-                item.Image = MemeExtentions.ConvertByteArrayToImage(item.ImageData);
-                item.ImageData = null;
-                if (item.Image != null)
-                    item.Image.Freeze();
-                folderObjects.Add(item);
+                if (item.Image == null)
+                {
+                    item.Image = MemeExtentions.ConvertByteArrayToImage(item.ImageData);
+                    item.ImageData = null;
+                    if (item.Image != null)
+                        item.Image.Freeze();
+                }
             }
-
-            e.Result = folderObjects;
         }
     }
 }

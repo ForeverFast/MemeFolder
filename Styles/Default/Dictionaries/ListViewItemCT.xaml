@@ -3,52 +3,7 @@
                     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
 
 
-    <ControlTemplate x:Key="LBI_Meme" TargetType="{x:Type ListViewItem}">
-
-        <StackPanel Height="110" Width="110" Background="{DynamicResource GrayLVL4WithLowOpacity}"
-                    Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                              AncestorType={x:Type ListView}},
-                              Path=DataContext}"
-                    ToolTip="{Binding Title}">
-            <StackPanel.InputBindings>
-
-                <MouseBinding Gesture="LeftDoubleClick"
-                              Command="{Binding Tag.OpenMemePictureCommand,
-                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}}" 
-                              CommandParameter="{Binding}"/>
-                <MouseBinding Gesture="LeftClick"
-                              Command="{Binding Tag.CopyMemeInBufferCommand,
-                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}}"
-                              CommandParameter="{Binding}"/>
-
-            </StackPanel.InputBindings>
-
-            <StackPanel.ContextMenu>
-                <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=Self}}" >
-
-                    <MenuItem Header="Открыть"
-                              CommandParameter="{Binding DataContext.DataContext, RelativeSource={RelativeSource Self}}"
-                              Command="{Binding Tag.OpenMemePictureCommand}"/>
-                    <MenuItem Header="Изменить"
-                              CommandParameter="{Binding DataContext.DataContext, RelativeSource={RelativeSource Self}}"
-                              Command="{Binding Tag.OpenEditDialogCommand}"/>
-                    <MenuItem Header="Удалить" 
-                              CommandParameter="{Binding DataContext}"
-                              Command="{Binding Tag.RemoveMemeCommand}" />
-
-                </ContextMenu>
-            </StackPanel.ContextMenu>
-
-            <Image Source="{Binding Image}"
-                   Width="110"
-                   Height="81"/>
-            <TextBlock FontSize="13"
-                       Foreground="{DynamicResource StandartTextColor}"
-                       TextTrimming="WordEllipsis"
-                       Text="{Binding Title}"/>
-        </StackPanel>
-
-    </ControlTemplate>
+ 
     
 </ResourceDictionary>
     

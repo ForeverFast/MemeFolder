@@ -4,7 +4,6 @@ using MemeFolder.Domain.Models;
 using MemeFolder.Domain.Models.AbstractModels;
 using MemeFolder.Extentions;
 using MemeFolder.Mvvm.Commands;
-using MemeFolder.Mvvm.Commands.Memes;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Navigation;
 using MemeFolder.Pages;
@@ -19,30 +18,13 @@ using System.Windows.Threading;
 
 namespace MemeFolder.ViewModels
 {
-    public class SearchPageVM : BasePageViewModel, IObjectWorker, IDisposable, INavigatingFromAware
+    public class SearchPageVM : BasePageViewModel, IDisposable, INavigatingFromAware
     {
         private IEnumerable<FolderObject> Model;
         private readonly DataService _dataService;
-        private readonly ISearchService _searchService;
+        private readonly DataStorage _searchService;
 
-        public ObservableCollection<FolderObject> FolderObjects { get; private set; }
-
-
-        #region Имплементация - IObjectWorker
-
-        public Folder GetModel() => null;
-
-        public object GetWorkerCollection(ObjectType collectionType) => FolderObjects;
-
-        #endregion
-
-
-        #region Команды - Общее
-
-        public ICommand OpenAddDialogCommand { get; }
-        public ICommand OpenEditDialogCommand { get; }
-
-        #endregion
+        public ObservableCollection<Meme> Memes { get; private set; }
 
 
         #region Команды - Мемы
@@ -93,13 +75,12 @@ namespace MemeFolder.ViewModels
 
         private void BgW_DoWork(object sender, DoWorkEventArgs e)
         {
-            IEnumerable<FolderObject> model = (IEnumerable<FolderObject>)e.Argument;
+            IEnumerable<Meme> model = (IEnumerable<Meme>)e.Argument;
 
-            List<FolderObject> folderObjects = new List<FolderObject>();
-            foreach(FolderObject item in model)
+            List<Meme> memes = new List<Meme>();
+            foreach (Meme meme in model)
             {
-                if (item is Meme meme)
-                {
+                if (meme.Image == null)
                     if (meme.ImageData != null)
                     {
                         meme.Image = MemeExtentions.ConvertByteArrayToImage(meme.ImageData);
@@ -107,20 +88,20 @@ namespace MemeFolder.ViewModels
                         if (meme.Image != null)
                             meme.Image.Freeze();
                     }
-                }
-                folderObjects.Add(item);
+
+                memes.Add(meme);
             }
 
-            e.Result = folderObjects;
+            e.Result = memes;
         }
 
         private void BgW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            OnPropertyChanged(nameof(FolderObjects));
-            foreach (var item in (List<FolderObject>)e.Result)
-                FolderObjects.Add(item);
-
             
+            foreach (var item in (List<Meme>)e.Result)
+                Memes.Add(item);
+            OnPropertyChanged(nameof(Memes));
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
            
@@ -134,17 +115,17 @@ namespace MemeFolder.ViewModels
 
         public void Dispose()
         {
-            FolderObjects.Clear();
+            Memes.Clear();
             OnAllPropertyChanged();
         }
 
-        private void _searchService_NewRequest(IEnumerable<FolderObject> folderObjects)
+        private void _searchService_NewRequest(IEnumerable<Meme> memes)
         {
-            if (folderObjects != null && !IsBusy)
+            if (memes != null && !IsBusy)
             {
-                Model = folderObjects;
+                Model = memes;
                 App.Current.Dispatcher.BeginInvoke(() => {
-                    FolderObjects.Clear();
+                    Memes.Clear();
                     PageLoadedCommand.Execute(null);
                 });
                 
@@ -159,17 +140,13 @@ namespace MemeFolder.ViewModels
         public SearchPageVM(DataService dataService) : base(dataService._navigationService)
         {
             _dataService = dataService;
-            _searchService = dataService._searchService;
+            _searchService = dataService._dataStorage;
             _searchService.NewRequest += _searchService_NewRequest;
 
-            FolderObjects = new ObservableCollection<FolderObject>();
+            Memes = new ObservableCollection<Meme>();
 
             OpenMemePictureCommand = new OpenMemePictureCommand();
             CopyMemeInBufferCommand = new CopyMemeInBufferCommand();
-
-
-            OpenAddDialogCommand = new OpenAddDialogCommand(this, _dataService);
-            OpenEditDialogCommand = new OpenEditDialogCommand(this, _dataService);
 
             NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
 

@@ -5,7 +5,7 @@
     
     <!--#region ScrollBar1-->
 
-    <Style x:Key="ScrollBarLineButtonStyle" TargetType="{x:Type RepeatButton}">
+    <Style x:Key="ScrollBarUpButtonStyle" TargetType="{x:Type RepeatButton}">
 
         <Setter Property="Focusable" Value="False"/>
 
@@ -13,26 +13,58 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Canvas>
-                        <md:PackIcon Kind="KeyboardArrowUp" Foreground="{DynamicResource StandartLightColor}"/>
+                        <md:PackIcon Kind="KeyboardArrowUp"
+                                     Foreground="{DynamicResource StandartLightColor}"/>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="ScrollBarLineButtonBottomStyle" TargetType="{x:Type RepeatButton}">
+    <Style x:Key="ScrollBarDownButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Canvas>
-                        <md:PackIcon Kind="KeyboardArrowDown" Foreground="{DynamicResource StandartLightColor}"/>
+                        <md:PackIcon Kind="KeyboardArrowDown"
+                                     Foreground="{DynamicResource StandartLightColor}"/>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+    <Style x:Key="ScrollBarLeftButtonStyle" TargetType="{x:Type RepeatButton}">
+
+        <Setter Property="Focusable" Value="False"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Canvas>
+                        <md:PackIcon Kind="KeyboardArrowLeft"
+                                     Foreground="{DynamicResource StandartLightColor}"/>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBarRightButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Canvas>
+                        <md:PackIcon Kind="KeyboardArrowRight"
+                                     Foreground="{DynamicResource StandartLightColor}"/>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="ScrollBarPageButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Focusable" Value="False"/>
@@ -68,7 +100,7 @@
 
 
             <RepeatButton Grid.Row="0" Height="18" Name="RBup"
-                          Style="{StaticResource ScrollBarLineButtonStyle}"
+                          Style="{StaticResource ScrollBarUpButtonStyle}"
                           Command="ScrollBar.LineUpCommand" >
             </RepeatButton>
             <Track Name="PART_Track" Grid.Row="1" 
@@ -87,7 +119,7 @@
                 </Track.IncreaseRepeatButton>
             </Track>
             <RepeatButton Grid.Row="3" Height="16" Name="RBdown"
-                          Style="{StaticResource ScrollBarLineButtonBottomStyle}"
+                          Style="{StaticResource ScrollBarDownButtonStyle}"
                           Command="ScrollBar.LineDownCommand">
             </RepeatButton>
         </Grid>
@@ -113,8 +145,8 @@
 
 
             <RepeatButton Grid.Column="0" Width="18" Name="RBup"
-                          Style="{StaticResource ScrollBarLineButtonStyle}"
-                          Command="ScrollBar.LineLeftCommand" >
+                          Style="{StaticResource ScrollBarLeftButtonStyle}"
+                          Command="ScrollBar.LineRightCommand" >
             </RepeatButton>
             <Track Name="PART_Track" Grid.Column="1" 
                    IsDirectionReversed="True">
@@ -132,8 +164,8 @@
                 </Track.IncreaseRepeatButton>
             </Track>
             <RepeatButton Grid.Column="3" Width="16" Name="RBdown"
-                          Style="{StaticResource ScrollBarLineButtonBottomStyle}"
-                          Command="ScrollBar.LineRightCommand">
+                          Style="{StaticResource ScrollBarRightButtonStyle}"
+                          Command="ScrollBar.LineLeftCommand">
             </RepeatButton>
         </Grid>
         <ControlTemplate.Triggers>

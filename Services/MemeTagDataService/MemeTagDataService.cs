@@ -63,7 +63,7 @@ namespace MemeFolder.Services
             {
                 try
                 {
-                    var original = await context.Memes.FirstOrDefaultAsync(e => e.Id == guid);
+                    var original = await context.MemeTags.FirstOrDefaultAsync(e => e.Id == guid);
 
                     foreach (PropertyInfo propertyInfo in original.GetType().GetProperties())
                     {

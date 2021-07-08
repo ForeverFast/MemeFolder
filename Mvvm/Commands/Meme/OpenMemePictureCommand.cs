@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace MemeFolder.Mvvm.Commands.Memes
+namespace MemeFolder.Mvvm.Commands
 {
     /// <summary> Команда открытия Meme </summary>
     public class OpenMemePictureCommand : ICommand

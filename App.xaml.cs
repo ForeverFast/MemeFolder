@@ -8,10 +8,6 @@ using MemeFolder.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -78,29 +74,23 @@ namespace MemeFolder
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<INavigationService, NavigationService>();
+            
 
-            services.AddSingleton(typeof(MemeFolderDbContextFactory));
-            services.AddSingleton(typeof(DataService));
-            services.AddSingleton<IFolderDataService, FolderDataService>();
             services.AddSingleton<IMemeDataService, MemeDataService>();
+            services.AddSingleton<IFolderDataService, FolderDataService>();
             services.AddSingleton<IMemeTagDataService, MemeTagDataService>();
+            services.AddSingleton(typeof(DataStorage));
+            services.AddSingleton(typeof(DataService));
+            services.AddSingleton(typeof(MemeFolderDbContextFactory));
 
-            services.AddSingleton<ISearchService, SearchService>();
-           
             services.AddSingleton<IDialogService, DialogService>();
+            services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IInitDataBaseService, InitDataBaseService>();
 
             services.AddSingleton(service => Configuration);
             services.AddSingleton(typeof(ClientConfigService));
 
-            services.AddSingleton(typeof(Folder), (s) => {
-                //var task = Task.Factory.StartNew(s.GetRequiredService<IFolderDataService>().GetAll);
-                //var task = Task.Run(() => s.GetRequiredService<IFolderDataService>().GetAll());
-                var task = s.GetRequiredService<IFolderDataService>().GetFoldersByTitle("root");           
-                return task.Result[0];//.FirstOrDefault(f => f.Title == "root");
-            });
-
+            services.AddSingleton(typeof(Folder), (s) => s.GetRequiredService<DataStorage>().RootFolder);
             services.AddSingleton(typeof(FolderVM));
             services.AddSingleton(typeof(SearchPageVM));
             services.AddSingleton(typeof(SettingsPageVM));

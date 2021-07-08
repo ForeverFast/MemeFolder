@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace MemeFolder.Mvvm.Commands.Memes
+namespace MemeFolder.Mvvm.Commands
 {
     /// <summary> Команда копирования Meme в буффер </summary>
     public class CopyMemeInBufferCommand : ICommand

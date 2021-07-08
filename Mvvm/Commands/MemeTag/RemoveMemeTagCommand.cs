@@ -2,27 +2,31 @@
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Mvvm.Commands
 {
-    /// <summary> Команда удаления Meme </summary>
-    public class RemoveMemeCommand : AsyncCommandBase
+    public class RemoveMemeTagCommand : AsyncCommandBase
     {
+
         private readonly DataStorage _dataStorage;
+
+        public override bool CanExecute(object parameter) => true;
 
         protected override async Task ExecuteAsync(object parameter)
         {
-            Meme meme = (Meme)parameter;
-            await _dataStorage.RemoveMeme(meme);
-            
+            MemeTag memeTag = (MemeTag)parameter;
+            await _dataStorage.RemoveMemeTag(memeTag);
+
         }
 
-        public RemoveMemeCommand(DataService dataService,
+        public RemoveMemeTagCommand(DataService dataService,
             Action<Exception> onException = null) : base(onException)
         {
             _dataStorage = dataService._dataStorage;
         }
-
     }
 }

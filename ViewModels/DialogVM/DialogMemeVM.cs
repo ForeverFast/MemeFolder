@@ -1,4 +1,5 @@
 ﻿using MemeFolder.Domain.Models;
+using MemeFolder.Mvvm.Commands;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using MemeFolder.ViewModels.Abstractions;
@@ -10,12 +11,12 @@ namespace MemeFolder.ViewModels.DialogVM
     {
         #region Поля
         private Meme _model;
+        private DataService _dataService;
+        private DataStorage _dataStorage;
         private readonly IDialogService _dialogService;
-        private string _dialogTitle;
         #endregion
 
         public Meme Model { get => _model; set => SetProperty(ref _model, value); }
-        public string DialogTitle { get => _dialogTitle; set => SetProperty(ref _dialogTitle, value); }
 
         #region Команды - Мемы
 
@@ -26,19 +27,25 @@ namespace MemeFolder.ViewModels.DialogVM
             });
         }
 
+        public ICommand OpenAddMemeTagDialogCommand { get; }
+
         #endregion
 
 
         #region Конструкторы
         public DialogMemeVM(Meme model,
-                            IDialogService dialogService,
+                            DataService dataService,
                             string dialogTitle) : base()
         {
             Model = model;
 
-            _dialogService = dialogService;
+            _dataService = dataService;
+            _dataStorage = dataService._dataStorage;
+            _dialogService = dataService._dialogService;
 
             DialogTitle = dialogTitle;
+
+            OpenAddMemeTagDialogCommand = new OpenAddMemeTagDialogCommand(dataService);
         }
 
         #endregion

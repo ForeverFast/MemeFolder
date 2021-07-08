@@ -24,7 +24,7 @@
     <Style x:Key="DefLB" TargetType="{x:Type ListView}">
 
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        <Setter Property="BorderThickness" Value="0,0,0,0"/>
         <Setter Property="BorderBrush" Value="{DynamicResource DimColorWithLowOpacity2}"/>
 
         <Setter Property="Background" Value="{DynamicResource Gor}"/>
@@ -47,18 +47,61 @@
                     <Setter Property="Tag"
                             Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}},
                                             Path=DataContext}"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext,
-                                                       Converter={StaticResource ObjToType}}" 
-                                     Value="{x:Type t:Folder}">
-                            <Setter Property="Template" Value="{DynamicResource LBI_Folder}"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext,
-                                                       Converter={StaticResource ObjToType}}" 
-                                     Value="{x:Type t:Meme}">
-                            <Setter Property="Template" Value="{DynamicResource LBI_Meme}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
+                    
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+
+                                <StackPanel Height="110" Width="110"
+                                            Background="{DynamicResource GrayLVL4WithLowOpacity}"
+                                            Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                    AncestorType={x:Type ListView}},
+                                    Path=DataContext}"
+                                            ToolTip="{Binding Title}">
+                                    <StackPanel.InputBindings>
+
+                                        <MouseBinding Gesture="LeftDoubleClick"
+                                                      Command="{Binding Tag.OpenMemePictureCommand,
+                                                                        RelativeSource={RelativeSource Mode=FindAncestor,
+                                            AncestorType=ListViewItem}}" 
+                                                      CommandParameter="{Binding}"/>
+                                        <MouseBinding Gesture="LeftClick"
+                                                      Command="{Binding Tag.CopyMemeInBufferCommand,
+                                                                        RelativeSource={RelativeSource Mode=FindAncestor,
+                                            AncestorType=ListViewItem}}"
+                                                      CommandParameter="{Binding}"/>
+
+                                    </StackPanel.InputBindings>
+
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=Self}}" >
+
+                                            <MenuItem Header="Открыть"
+                                                      CommandParameter="{Binding DataContext.DataContext,
+                                                RelativeSource={RelativeSource Self}}"
+                                                      Command="{Binding Tag.OpenMemePictureCommand}"/>
+                                            <MenuItem Header="Изменить"
+                                                      CommandParameter="{Binding DataContext.DataContext, 
+                                                RelativeSource={RelativeSource Self}}"
+                                                      Command="{Binding Tag.OpenEditMemeDialogCommand}"/>
+                                            <MenuItem Header="Удалить" 
+                                                      CommandParameter="{Binding DataContext}"
+                                                      Command="{Binding Tag.RemoveMemeCommand}" />
+
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+
+                                    <Image Source="{Binding Image}"
+                                           Width="110" Height="81"/>
+                                    <TextBlock FontSize="13"
+                                               Foreground="{DynamicResource StandartTextColor}"
+                                               TextTrimming="WordEllipsis"
+                                               Text="{Binding Title}"/>
+                                </StackPanel>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
 
                 </Style>
             </Setter.Value>
@@ -103,13 +146,13 @@
                                         CornerRadius="15"
                                         Margin="0,0,15,0"
                                         Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                    AncestorType={x:Type ListView}},
+                                    AncestorType={x:Type ListBox}},
                                     Path=DataContext}">
                                     
                                     <Border.InputBindings>
 
                                         <MouseBinding Gesture="LeftDoubleClick"
-                                                      Command="{Binding Tag.OpenMemePictureCommand,
+                                                      Command="{Binding Tag.NavigateByMemeTagCommand,
                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" 
                                                       CommandParameter="{Binding}"/>
                                         <!--<MouseBinding Gesture="LeftClick"
@@ -126,14 +169,14 @@
                                             <MenuItem Header="Открыть"
                                                       CommandParameter="{Binding DataContext.DataContext,
                                                 RelativeSource={RelativeSource Self}}"
-                                                      Command="{Binding Tag.OpenMemePictureCommand}"/>
+                                                      Command="{Binding Tag.NavigateByMemeTagCommand}"/>
                                             <MenuItem Header="Изменить"
                                                       CommandParameter="{Binding DataContext.DataContext,
                                                 RelativeSource={RelativeSource Self}}"
-                                                      Command="{Binding Tag.OpenEditDialogCommand}"/>
+                                                      Command="{Binding Tag.OpenEditMemeTagDialogCommand}"/>
                                             <MenuItem Header="Удалить" 
                                                       CommandParameter="{Binding DataContext}"
-                                                      Command="{Binding Tag.RemoveMemeCommand}" />
+                                                      Command="{Binding Tag.RemoveMemeTagCommand}" />
 
                                         </ContextMenu>
                                     </Border.ContextMenu>

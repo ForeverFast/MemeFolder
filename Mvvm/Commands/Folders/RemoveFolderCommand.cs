@@ -1,18 +1,15 @@
-﻿using MemeFolder.Abstractions;
-using MemeFolder.Domain.Models;
+﻿using MemeFolder.Domain.Models;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace MemeFolder.Mvvm.Commands.Folders
+namespace MemeFolder.Mvvm.Commands
 {
     /// <summary> Команда удаления Folder </summary>
     public class RemoveFolderCommand : AsyncCommandBase
     {
-        private readonly IObjectWorker _folderVM;
-        private readonly IFolderDataService _folderDataService;
+        private readonly DataStorage _dataStorage;
 
         public override bool CanExecute(object parameter)
         {
@@ -26,19 +23,14 @@ namespace MemeFolder.Mvvm.Commands.Folders
         }
         protected override async Task ExecuteAsync(object parameter)
         {
-            if (await _folderDataService.Delete((parameter as Folder).Id))
-            {
-                ObservableCollection<Folder> folders = (ObservableCollection<Folder>)_folderVM.GetWorkerCollection(ObjectType.Folder);
-                folders.Remove(parameter as Folder);
-            }
+            Folder folder = (Folder)parameter;
+            await _dataStorage.RemoveFolder(folder);
         }
 
-        public RemoveFolderCommand(IObjectWorker folderVM,
-          IFolderDataService folderDataService,
+        public RemoveFolderCommand(DataService dataService,
           Action<Exception> onException = null) : base(onException)
         {
-            _folderVM = folderVM;
-            _folderDataService = folderDataService;
+            _dataStorage = dataService._dataStorage;
         }
     }
 }

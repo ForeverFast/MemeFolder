@@ -32,7 +32,7 @@
 
         <Grid Background="{StaticResource GrayLVL2}">
 
-            <ListView ItemsSource="{Binding FolderObjects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <ListView ItemsSource="{Binding Model.Memes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource DefLB}"
                      Background="{x:Null}"
                     
@@ -52,8 +52,12 @@
 
                 <ListView.ContextMenu>
                     <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget.DataContext}">
-                        <MenuItem Header="Создать мемчик" Command="{Binding AddMemeCommand}"/>
-                        <MenuItem Header="Создать мемчик с параметрами" Command="{Binding OpenAddDialogCommand}" CommandParameter="Meme"/>
+                        <MenuItem Header="Создать мемчик"
+                                  CommandParameter="{Binding Model}"
+                                  Command="{Binding AddMemeCommand}"/>
+                        <MenuItem Header="Создать мемчик с параметрами"
+                                  CommandParameter="{Binding Model}"
+                                  Command="{Binding OpenAddMemeDialogCommand}"/>
                         <MenuItem Header="Test" Command="{Binding TestCommand}" />
                     </ContextMenu>
                 </ListView.ContextMenu>
@@ -61,8 +65,7 @@
 
 
             <ssc:LoadingSpinner IsLoading="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
-                                              Color="AliceBlue"
-                                              />
+                                Color="AliceBlue"/>
         </Grid>
 
     </ScrollViewer>

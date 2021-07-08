@@ -19,16 +19,9 @@
     <ScrollViewer Style="{StaticResource ContentSV}"
                   Background="{DynamicResource GrayLVL3}">
 
-        <!--<ib:Interaction.Triggers>
-            <ib:EventTrigger EventName="Loaded">
-                <ib:InvokeCommandAction Command="{Binding PageLoadedCommand}" />
-            </ib:EventTrigger>
-        </ib:Interaction.Triggers>-->
-
-
         <Grid Background="{StaticResource GrayLVL2}">
 
-            <ListView ItemsSource="{Binding FolderObjects}"
+            <ListView ItemsSource="{Binding Memes}"
                      Style="{StaticResource DefLB}"
                      Background="{x:Null}">
 
@@ -36,8 +29,7 @@
             </ListView>
             
             <ssc:LoadingSpinner IsLoading="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
-                                              Color="AliceBlue"
-                                              />
+                                Color="AliceBlue"/>
         </Grid>
     </ScrollViewer>
 </Page>
