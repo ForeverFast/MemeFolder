@@ -211,14 +211,14 @@
                         <HierarchicalDataTemplate DataType="{x:Type m:Folder}"
                                               ItemsSource="{Binding Folders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <Border Height="25"
-                                Tag="{Binding DataContext,
-                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}">
+                                    Tag="{Binding DataContext,
+                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}">
 
                                 <Border.InputBindings>
                                     <MouseBinding Gesture="LeftDoubleClick"
-                                              Command="{Binding DataContext.NavigationToFolderCommand,
-                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}"
-                                              CommandParameter="{Binding}"/>
+                                                  Command="{Binding DataContext.NavigationToFolderCommand,
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}}"
+                                                  CommandParameter="{Binding}"/>
                                 </Border.InputBindings>
 
                                 <Border.ContextMenu>
@@ -242,8 +242,8 @@
                                 </Border.ContextMenu>
 
                                 <TextBlock Text="{Binding Title}"
-                                       FontSize="14"
-                                       VerticalAlignment="Center"/>
+                                           FontSize="14"
+                                           VerticalAlignment="Center"/>
 
                             </Border>
 

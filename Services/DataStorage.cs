@@ -19,6 +19,8 @@ namespace MemeFolder.Services
         private readonly IFolderDataService _folderDataService;
         private readonly IMemeDataService _memeDataService;
         private readonly IMemeTagDataService _memeTagDataService;
+        private readonly IMemeTagNodeDataService _memeTagNodeDataService;
+        
 
         public ObservableCollection<Folder> Folders { get; }
         public ObservableCollection<Meme> Memes { get; }
@@ -118,6 +120,50 @@ namespace MemeFolder.Services
         public async Task EditMeme(Meme meme)
         {
             meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
+
+            Meme oldMemeData = await _memeDataService.Get(meme.Id);
+            
+            List<MemeTagNode> oldMemeTagNodesForRemove = new List<MemeTagNode>();
+            foreach (MemeTagNode memeTagNode in oldMemeData.Tags.ToArray())
+            {
+                bool flag = true;
+                foreach (MemeTagNode newMemeTagNode in meme.Tags)
+                {
+                    if (memeTagNode.MemeTag.Id == newMemeTagNode.MemeTag.Id)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    await _memeTagNodeDataService.Delete(memeTagNode.Id);
+                    oldMemeData.Tags.Remove(memeTagNode);
+                }
+            }
+
+
+            foreach (MemeTagNode newMemeTagNode in meme.Tags.ToArray())
+            {
+                bool flag = true;
+                foreach(MemeTagNode memeTagNode in oldMemeData.Tags)
+                {
+                    if (memeTagNode.MemeTag.Id == newMemeTagNode.MemeTag.Id)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    MemeTagNode dbCreatedMemeTagNode = await _memeTagNodeDataService.Create(newMemeTagNode);
+                    MemeExtentions.ReplaceReference(meme.Tags, dbCreatedMemeTagNode, mtn => mtn == newMemeTagNode);
+                }
+                
+            }
+
             Meme updatedMemeEnitiy = await _memeDataService.Update(meme.Id, meme);
             if (updatedMemeEnitiy != null)
             {
@@ -162,27 +208,29 @@ namespace MemeFolder.Services
 
         public async Task RemoveMemeTag(MemeTag memeTag)
         {
-            if (await _memeTagDataService.Delete(memeTag.Id))
+            IEnumerable<Meme> memes = Memes.Where(meme => meme.Tags.FirstOrDefault(m => m.MemeTag.Id == memeTag.Id) != null);
+            foreach (Meme meme in memes)
             {
-                IEnumerable<Meme> memes = Memes.Where(meme => meme.Tags.FirstOrDefault(m => m.MemeTag.Id == memeTag.Id) != null);
-                foreach (Meme meme in memes)
-                {
-                    MemeTagNode memeTagNode = meme.Tags.FirstOrDefault(mtn => mtn.MemeTag.Id == memeTag.Id);
-                    meme.Tags.Remove(memeTagNode);
-                }
-
+                MemeTagNode memeTagNode = meme.Tags.FirstOrDefault(mtn => mtn.MemeTag.Id == memeTag.Id);
+                meme.Tags.Remove(memeTagNode);
+                await _memeTagNodeDataService.Delete(memeTagNode.Id);
             }
+            MemeTags.Remove(memeTag);
+
+            await _memeTagDataService.Delete(memeTag.Id);
         }
 
         public DataStorage(IMemeDataService memeDataService,
             IFolderDataService folderDataService,
-            IMemeTagDataService memeTagDataService)
+            IMemeTagDataService memeTagDataService,
+            IMemeTagNodeDataService memeTagNodeDataService)
            
         {
             _memeDataService = memeDataService;
             _folderDataService = folderDataService;
             _memeTagDataService = memeTagDataService;
-            
+            _memeTagNodeDataService = memeTagNodeDataService;
+
             Folders = new ObservableCollection<Folder>();
             Memes = new ObservableCollection<Meme>();
             MemeTags = new ObservableCollection<MemeTag>();

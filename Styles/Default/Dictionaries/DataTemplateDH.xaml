@@ -3,12 +3,14 @@
                     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:t="clr-namespace:MemeFolder.ViewModels.DialogVM"
                     xmlns:m="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
-                    xmlns:converter="clr-namespace:MemeFolder.Converters">
+                    xmlns:converter="clr-namespace:MemeFolder.Converters"
+                    xmlns:ib="http://schemas.microsoft.com/xaml/behaviors">
 
     <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
     <converter:StringToBoolConverter x:Key="StringToBoolConverter"/>
     <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
     <converter:ObjectToTypeConverter x:Key="ObjToType"/>
+    <converter:InverseBoolConverter x:Key="IvrsBoolConverter"/>
 
     <!-- Dialog for Memes -->
     <DataTemplate DataType="{x:Type t:DialogMemeVM}">
@@ -150,7 +152,10 @@
                         <Button Style="{DynamicResource AddNewTagButton}" />
                     </StackPanel>
 
-                    <ListBox Grid.Row="5">
+                    <ListBox Grid.Row="5"
+                             Tag="{Binding Path=DataContext,
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid,AncestorLevel=3}}"
+                             ItemsSource="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag.MemeTags}">
 
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -168,25 +173,53 @@
                                 </Border>
                             </ControlTemplate>
                         </ListBox.Template>
-                        
+
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type m:MemeTag}">
                                 <Border CornerRadius="20">
                                     <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding CheckFlag}"/>
+                                        <CheckBox IsChecked="{Binding CheckFlag, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                  x:Name="Checker">
+                                            
+                                            <ib:Interaction.Triggers>
+                                                <ib:EventTrigger EventName="Checked">
+                                                    <ib:InvokeCommandAction Command="{Binding Tag.MemeTagCheckFlagChangedCommand,
+                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"
+                                                                            CommandParameter="{Binding}"/>
+                                                </ib:EventTrigger>
+                                                <ib:EventTrigger EventName="Unchecked">
+                                                    <ib:InvokeCommandAction Command="{Binding Tag.MemeTagCheckFlagChangedCommand,
+                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"
+                                                                            CommandParameter="{Binding}"/>
+                                                </ib:EventTrigger>
+                                            </ib:Interaction.Triggers>
+                                            
+                                        </CheckBox>
                                         <TextBlock Text="{Binding Title, StringFormat=#{0}}"
                                                    FontSize="15"
                                                    Margin="10,0,5,0"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Center"
-                                                   Foreground="{DynamicResource GrayLVL4}"/>
+                                                   Foreground="{DynamicResource StandartLightColor2}">
+                                        </TextBlock>
+
+                                        <!--<ib:Interaction.Triggers>
+                                            <ib:EventTrigger EventName="MouseLeftButtonDown">
+                                                <ib:ChangePropertyAction TargetName="Checker"
+                                                                         PropertyName="IsChecked"
+                                                                         Value="{Binding CheckFlag,
+                                                    Converter={StaticResource IvrsBoolConverter}}"/>
+                                                <ib:InvokeCommandAction Command="{Binding Tag.MemeTagCheckFlagChangedCommand,
+                                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"
+                                                                        CommandParameter="{Binding}"/>
+                                            </ib:EventTrigger>
+                                        </ib:Interaction.Triggers>-->
+
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-
-                        <ListBoxItem/>
-
+                        
                     </ListBox>
                     
                 </Grid>

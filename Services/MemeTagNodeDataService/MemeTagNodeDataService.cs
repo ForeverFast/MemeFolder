@@ -1,6 +1,5 @@
 ﻿using MemeFolder.Domain.Models;
 using MemeFolder.EntityFramework;
-using MemeFolder.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NLog;
@@ -8,20 +7,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Services
 {
-    public class MemeDataService : IMemeDataService
+    public class MemeTagNodeDataService : IMemeTagNodeDataService
     {
+
         protected readonly MemeFolderDbContextFactory _contextFactory;
         private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public virtual async Task<bool> Delete(Guid guid)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-                Meme entity = await context.Memes.FirstOrDefaultAsync(e => e.Id == guid);
-                context.Memes.Remove(entity);
+                MemeTagNode entity = await context.MemeTagNodes.FirstOrDefaultAsync(e => e.Id == guid);
+                context.MemeTagNodes.Remove(entity);
 
                 await context.SaveChangesAsync();
 
@@ -29,38 +31,37 @@ namespace MemeFolder.Services
             }
         }
 
-        public virtual async Task<Meme> Get(Guid guid)
+        public virtual async Task<MemeTagNode> Get(Guid guid)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-                Meme entity = await context.Memes
-                    .Include(m => m.Folder)
-                    .Include(m => m.Tags)
-                        .ThenInclude(mtn => mtn.MemeTag)
+                MemeTagNode entity = await context.MemeTagNodes
+                    .Include(mtn => mtn.Meme)
+                    .Include(mtn => mtn.MemeTag)
                     .FirstOrDefaultAsync(e => e.Id == guid);
                 return entity;
             }
         }
 
-        public virtual async Task<Meme> Create(Meme meme)
+        public virtual async Task<MemeTagNode> Create(MemeTagNode memeTagNode)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(meme.ImagePath))
-                        throw new Exception("No image path");
+                    Meme meme = await context.Memes.FirstOrDefaultAsync(m => m.Id == memeTagNode.Meme.Id);
+                    if (meme != null)
+                        memeTagNode.Meme = meme;
+                    else
+                        throw new ArgumentNullException("Meme can not be null");
 
-                    if (meme.ImageData == null)
-                        meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
+                    MemeTag memeTag = await context.MemeTags.FirstOrDefaultAsync(mt => mt.Id == memeTagNode.MemeTag.Id);
+                    if (memeTag != null)
+                        memeTagNode.MemeTag = memeTag;
+                    else
+                        throw new ArgumentNullException("MemeTag can not be null");
 
-                    var check = await context.Folders
-                        .Where(x => x.Id == meme.Folder.Id)
-                        .FirstOrDefaultAsync();
-                    if (check != null)
-                        meme.Folder = check;
-
-                    EntityEntry<Meme> createdResult = await context.Memes.AddAsync(meme);
+                    EntityEntry<MemeTagNode> createdResult = await context.MemeTagNodes.AddAsync(memeTagNode);
                     await context.SaveChangesAsync();
 
                     return createdResult.Entity;
@@ -73,13 +74,13 @@ namespace MemeFolder.Services
             }
         }
 
-        public virtual async Task<Meme> Update(Guid guid, Meme entity)
+        public virtual async Task<MemeTagNode> Update(Guid guid, MemeTagNode entity)
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
                 try
                 {
-                    var original = await context.Memes.FirstOrDefaultAsync(e => e.Id == guid);
+                    var original = await context.MemeTags.FirstOrDefaultAsync(e => e.Id == guid);
 
                     foreach (PropertyInfo propertyInfo in original.GetType().GetProperties())
                     {
@@ -103,28 +104,39 @@ namespace MemeFolder.Services
 
         }
 
-        public virtual async Task<IEnumerable<Meme>> GetAll()
+        public virtual async Task<IEnumerable<MemeTagNode>> GetAll()
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-                IEnumerable<Meme> entities = await context.Memes.ToListAsync();
-                return entities;
+                try
+                {
+                    IEnumerable<MemeTagNode> entities = await Task.FromResult(context.MemeTagNodes
+                        .Include(mtn => mtn.Meme)
+                        .Include(mtn => mtn.MemeTag)
+                        .ToList());
+                    return entities;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Ошибка получения");
+                    return null;
+                }
             }
         }
 
-       
+
 
         #region Конструкторы
-        public MemeDataService()
+        public MemeTagNodeDataService()
         {
             _contextFactory = new MemeFolderDbContextFactory();
         }
 
-        public MemeDataService(MemeFolderDbContextFactory contextFactory)
+        public MemeTagNodeDataService(MemeFolderDbContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
         #endregion
+
     }
 }
-

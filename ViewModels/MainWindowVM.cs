@@ -19,12 +19,15 @@ namespace MemeFolder.ViewModels
         private Folder _model;
         private DataStorage dataStorage;
         private DataService _dataService;
+
+        private ObservableCollection<Folder> _folders;
+        private ObservableCollection<MemeTag> _memeTags;
         #endregion
 
         public Folder Model { get => _model; set => SetProperty(ref _model, value); }
 
-        public ObservableCollection<Folder> Folders { get; set; }
-        public ObservableCollection<MemeTag> MemeTags { get; set; }
+        public ObservableCollection<Folder> Folders { get => _folders; set => SetProperty(ref _folders, value); }
+        public ObservableCollection<MemeTag> MemeTags { get => _memeTags; set => SetProperty(ref _memeTags, value); }
 
         #region Команды - Папки
 
@@ -171,7 +174,6 @@ namespace MemeFolder.ViewModels
 
             Model = dataService._dataStorage.RootFolder;
             MemeTags = dataService._dataStorage.MemeTags;
-            OnPropertyChanged(nameof(Model),nameof(MemeTags));
             Folders = new ObservableCollection<Folder>();
             Folders.Add(Model);
 

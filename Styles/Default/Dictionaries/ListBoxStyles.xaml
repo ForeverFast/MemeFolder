@@ -19,8 +19,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <cn:ObjectToTypeConverter x:Key="ObjToType"/>
-    <cn:BitmapImageToImageSourceConverter x:Key="BItoIS"/>
-    
+
     <Style x:Key="DefLB" TargetType="{x:Type ListView}">
 
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>

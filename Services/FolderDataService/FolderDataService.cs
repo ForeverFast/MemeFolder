@@ -157,6 +157,8 @@ namespace MemeFolder.Services
                 {
                     IEnumerable<Folder> entities = await Task.FromResult(context.Folders
                       .Include(x => x.Memes)
+                        .ThenInclude(m => m.Tags)
+                            .ThenInclude(m => m.MemeTag)
                       .ToList()
                       .Where(x => x.Title == Title));
                     return new ObservableCollection<Folder>(entities);
