@@ -12,11 +12,11 @@
                             BorderThickness="1"
                             CornerRadius="20"
                             Height="25"
-                            Width="140">
+                            Width="120">
                         <StackPanel Name="ButtonBorder" Orientation="Horizontal"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Margin="15,0,0,0">
+                                    Margin="10,0,0,0">
                             <md:PackIcon Name="Icon" Kind="Plus"
                                      Background="{x:Null}"
                                      VerticalAlignment="Center"

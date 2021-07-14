@@ -1,5 +1,4 @@
 ﻿using Egor92.MvvmNavigation.Abstractions;
-using MemeFolder.Abstractions;
 using MemeFolder.Domain.Models;
 using MemeFolder.Domain.Models.AbstractModels;
 using MemeFolder.Extentions;
@@ -21,7 +20,7 @@ namespace MemeFolder.ViewModels
     public class SearchPageVM : BasePageViewModel, IDisposable, INavigatingFromAware
     {
         private IEnumerable<FolderObject> Model;
-        private readonly DataService _dataService;
+        private readonly ServiceCollectionClass _dataService;
         private readonly DataStorage _searchService;
 
         public ObservableCollection<Meme> Memes { get; private set; }
@@ -137,7 +136,7 @@ namespace MemeFolder.ViewModels
             this.Dispose();
         }
 
-        public SearchPageVM(DataService dataService) : base(dataService._navigationService)
+        public SearchPageVM(ServiceCollectionClass dataService) : base(dataService._navigationService)
         {
             _dataService = dataService;
             _searchService = dataService._dataStorage;

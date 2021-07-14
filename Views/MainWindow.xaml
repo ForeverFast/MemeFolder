@@ -1,4 +1,4 @@
-﻿<Window x:Class="MemeFolder.Views.MainWindowV"
+﻿<Window x:Class="MemeFolder.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,6 @@
         xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:m="clr-namespace:MemeFolder.Domain.Models;assembly=MemeFolder.Domain"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:abs="clr-namespace:MemeFolder.Abstractions"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:MemeFolder.Views"
         xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
@@ -21,33 +20,13 @@
         WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
-       
+
         <converter:ManyValuesConverter x:Key="ManyValueConverter"/>
         <converter:ManyValuesConverter x:Key="ManyValueConverter2"/>
-        <converter:StringToBoolConverter x:Key="StringToBoolConverter"/> 
+        <converter:StringToBoolConverter x:Key="StringToBoolConverter"/>
         <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
-
-        <abs:ObjectType x:Key="OT_MemeTag">
-            MemeTag
-        </abs:ObjectType>
-
-        <!--<DataTemplate x:Key="SearchGrid" DataType="{x:Type Grid}">
-            <Border x:Name="Border">
-                
-            </Border>
-            <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding Source=SearchTB, Path=Text}" Value="">
-                    <Setter Property="Visibility" TargetName="Border" Value="Hidden"/>
-                </DataTrigger>
-            </DataTemplate.Triggers>
-        </DataTemplate>-->
-        
-        <!--<sys:String x:Key="FolderStr">Folder</sys:String>
-        <sys:String x:Key="MemeStr">Meme</sys:String>
-        <sys:String x:Key="MemeTagStr">MemeTag</sys:String>-->
-
     </Window.Resources>
-    
+
     <Window.Style>
         <Style TargetType="{x:Type Window}">
             <Setter Property="WindowChrome.WindowChrome">
@@ -97,8 +76,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
-        
+
+
         <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1"
               Background="{DynamicResource GrayLVL3}">
             <Frame x:Name="FrameContent" Margin="0,0,0,0" 
@@ -109,7 +88,7 @@
         <Border x:Name="HeaderGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                 BorderBrush="{DynamicResource GrayLVL0}"
                 BorderThickness="0,0,0,0.25">
-            
+
             <Grid Background="{DynamicResource GrayLVL4}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
@@ -119,6 +98,28 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0" Background="{x:Null}">
+                    <TextBox Text="{Binding SystemMessage, StringFormat=Системное сообщение: {0}}" x:Name="SM"
+                             Foreground="{DynamicResource StandartLightColor2}"
+                             FontSize="12"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center"
+                             Opacity="0">
+
+                        <TextBox.Triggers>
+                            <EventTrigger RoutedEvent="{x:Static TextBox.TextChangedEvent}">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBox.Triggers>
+                    </TextBox>
 
                 </Grid>
 
@@ -138,11 +139,10 @@
                     <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Left">
                         <TextBox x:Name="SearchTB"
-                             Style="{StaticResource TB_Search}"
-                        
-                             Margin="10,0"
-                             WindowChrome.IsHitTestVisibleInChrome="True"   
-                             Height="28" Width="280">
+                                 Style="{StaticResource TB_Search}"
+                                 Margin="10,0"
+                                 WindowChrome.IsHitTestVisibleInChrome="True"   
+                                 Height="28" Width="280">
 
                             <ib:Interaction.Triggers>
                                 <ib:EventTrigger EventName="TextChanged">
@@ -197,7 +197,7 @@
         <Border x:Name="MenuGrid" Grid.Row="1" Grid.Column="0"
                 BorderBrush="{DynamicResource GrayLVL0}"
                 BorderThickness="0,0,0.25,0">
-            
+
             <Grid Background="{StaticResource GrayLVL3}">
 
                 <TreeView ItemsSource="{Binding Folders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -259,84 +259,86 @@
                                           ScrollViewer.HorizontalScrollBarVisibility="Auto">
                                 <ItemsPresenter />
                             </ScrollViewer>
-                            
+
                         </ControlTemplate>
                     </TreeView.Template>
-                    
+
                 </TreeView>
 
             </Grid>
-            
+
         </Border>
-       
 
-        
-        <Grid x:Name="FooterGrid" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-              Background="{StaticResource GrayLVL4}">
+        <Border x:Name="FooterGrid" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                Background="{StaticResource GrayLVL4}"
+                BorderBrush="{DynamicResource GrayLVL0}"
+                BorderThickness="0,0.25,0,0">
 
-            <Grid.ColumnDefinitions>
-                
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="*"/>
-               
-            </Grid.ColumnDefinitions>
+            <Grid>
 
-            <Button Grid.Column="0"
-                    Style="{DynamicResource AddNewTagButton}"
-                    Command="{Binding OpenAddMemeTagDialogCommand}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Column="1"
-                     ItemsSource="{Binding MemeTags}"
-                     Style="{DynamicResource TagLB}"
-                     Background="{DynamicResource GrayLVL4}">
+                <Grid Grid.Column="1">
 
-                <ListBox.Template>
-                    <ControlTemplate TargetType="ItemsControl">
-                        <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="20"/>
-                            </Grid.ColumnDefinitions>
+                    <Button Style="{DynamicResource AddNewTagButton}" Grid.Column="0"
+                            Command="{Binding OpenAddMemeTagDialogCommand}"/>
 
-                            <Button Grid.Column="0" 
-                                
-                                CommandTarget="{Binding ElementName=ScrollElem}"
-                                Command="{x:Static ScrollBar.LineLeftCommand}"
-                                
-                                VerticalAlignment="Center"
-                                Style="{DynamicResource NavigationBack2}"/>
+                    <ListBox ItemsSource="{Binding MemeTags}" Grid.Column="1"
+                             Style="{DynamicResource TagLB}"
+                             Background="{DynamicResource GrayLVL4}">
 
-                            <ScrollViewer HorizontalScrollBarVisibility="Hidden"
-                                          x:Name="ScrollElem"
-                                          CanContentScroll="True"
-                                          PreviewMouseWheel="empListBox_PreviewMouseWheel"
-                                          Grid.Column="1">
-                                <ItemsPresenter />
-                            </ScrollViewer>
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ItemsControl">
+                                <Grid>
 
-                            <Button Grid.Column="2"
-                                                              
-                                CommandTarget="{Binding ElementName=ScrollElem}"
-                                Command="{x:Static ScrollBar.LineRightCommand}"
-                               
-                                VerticalAlignment="Center"
-                                Style="{DynamicResource NavigationForward2}"/>
-                        </Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
 
-                     
+                                    <Button Grid.Column="0" 
+                                            CommandTarget="{Binding ElementName=ScrollElem}"
+                                            Command="{x:Static ScrollBar.LineLeftCommand}"
+                                            VerticalAlignment="Center"
+                                            Style="{DynamicResource NavigationBack2}"/>
 
-                    </ControlTemplate>
-                </ListBox.Template>
-                
-                
-                
-            </ListBox>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" x:Name="ScrollElem"
+                                                  CanContentScroll="True"
+                                                  PreviewMouseWheel="empListBox_PreviewMouseWheel"
+                                                  Grid.Column="1">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
 
-          
+                                    <Button Grid.Column="2"                 
+                                            CommandTarget="{Binding ElementName=ScrollElem}"
+                                            Command="{x:Static ScrollBar.LineRightCommand}"
+                                            VerticalAlignment="Center"
+                                            Style="{DynamicResource NavigationForward2}"/>
+                                </Grid>
 
-        </Grid>
+
+
+                            </ControlTemplate>
+                        </ListBox.Template>
+
+                    </ListBox>
+
+                </Grid>
+            </Grid>
+
+        </Border>
+
+
 
 
         <md:DialogHost Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"

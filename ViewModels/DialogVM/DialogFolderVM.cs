@@ -26,7 +26,7 @@ namespace MemeFolder.ViewModels.DialogVM
 
         #region Конструкторы
         public DialogFolderVM(Folder model,
-                             string dialogTitle) : base()
+                              string dialogTitle) : base()
         {
             Model = model;
             DialogTitle = dialogTitle;

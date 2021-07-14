@@ -21,8 +21,32 @@ namespace MemeFolder.Services
         {
             using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
             {
-                Folder entity = await context.Folders.Include(f => f.Memes).FirstOrDefaultAsync(e => e.Id == guid);
+                Folder entity = await Task.FromResult(context.Folders
+                    .Include(f => f.Memes)
+                    .Include(f => f.Folders)
+                        .ThenInclude(f => f.Folders)
+                    .FirstOrDefault(e => e.Id == guid));
                 return entity;
+            }
+        }
+
+        public virtual async Task<IEnumerable<Folder>> GetAll()
+        {
+            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
+            {
+                try
+                {
+                    IEnumerable<Folder> entities = await Task.FromResult(context.Folders
+                        .Include(f => f.Memes)
+                        .ToList());
+                    return entities;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Ошибка получения");
+                    return null;
+                }
+
             }
         }
 
@@ -35,11 +59,12 @@ namespace MemeFolder.Services
                     if (folder.Title == "root")
                         throw new Exception("Fig tebe, a ne root folder");
 
-                    var check = await context.Folders.Where(x => x.Id == folder.ParentFolder.Id).FirstOrDefaultAsync();
-                    if (check != null)
-                        folder.ParentFolder = check;
+                    Folder parentFolder = await context.Folders
+                        .FirstOrDefaultAsync(x => x.Id == folder.ParentFolder.Id);
+                    if (parentFolder != null)
+                        folder.ParentFolder = parentFolder;
 
-                    EntityEntry<Folder> createdResult = await context.Set<Folder>().AddAsync(folder);
+                    EntityEntry<Folder> createdResult = await context.Folders.AddAsync(folder);
                     await context.SaveChangesAsync();
                     return createdResult.Entity;
                 }
@@ -57,7 +82,7 @@ namespace MemeFolder.Services
             {
                 try
                 {
-                    EntityEntry<Folder> createdResult = await context.Set<Folder>().AddAsync(folder);
+                    EntityEntry<Folder> createdResult = await context.Folders.AddAsync(folder);
                     context.SaveChanges();
 
                     return createdResult.Entity;
@@ -129,25 +154,7 @@ namespace MemeFolder.Services
             }
         }
 
-        public virtual async Task<IEnumerable<Folder>> GetAll()
-        {
-            using (MemeFolderDbContext context = _contextFactory.CreateDbContext(null))
-            {
-                try
-                {
-                    IEnumerable<Folder> entities = await Task.FromResult(context.Folders
-                        .Include(f => f.Memes)
-                        .ToList());
-                    return entities;
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, "Ошибка получения");
-                    return null;
-                }
-
-            }
-        }
+       
 
         public async Task<ObservableCollection<Folder>> GetFoldersByTitle(string Title)
         {

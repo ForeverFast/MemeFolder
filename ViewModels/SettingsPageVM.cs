@@ -8,33 +8,26 @@ namespace MemeFolder.ViewModels
 {
     public class SettingsPageVM : BasePageViewModel
     {
-        private ClientConfigService ClientConfigService;
         private readonly IDialogService _dialogService;
+
+        private readonly ClientConfigService ClientConfigService;
+
 
         private string _filesPath;
 
-        public string FilesPath
-        {
-            get => _filesPath;
-            set
-            {
-                ClientConfigService.FilesPath = value;
-                SetProperty(ref _filesPath, value);
-            }
-        }
+        public string FilesPath { get => _filesPath; set => SetProperty(ref _filesPath, value); }
+
 
         public ICommand SetNewFilesPathCommand { get; }
 
         private void SetNewFilesPathExecute(object parameter)
-            => FilesPath = _dialogService.FolderBrowserDialog();
+            => FilesPath = ClientConfigService.FilesPath = _dialogService.FolderBrowserDialog();
         
 
-        public SettingsPageVM(INavigationService navigationService,
-                              IDialogService dialogService,
-                              ClientConfigService clientConfigService) : base(navigationService)
+        public SettingsPageVM(ServiceCollectionClass serviceCollectionClass) : base(serviceCollectionClass._navigationService)
         {
-            ClientConfigService = clientConfigService;
-            _dialogService = dialogService;
+            ClientConfigService = serviceCollectionClass._clientConfigService;
+            _dialogService = serviceCollectionClass._dialogService;
 
             FilesPath = ClientConfigService.FilesPath;
 

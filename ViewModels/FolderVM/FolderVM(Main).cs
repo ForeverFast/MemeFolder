@@ -1,7 +1,5 @@
 ﻿using Egor92.MvvmNavigation.Abstractions;
-using MemeFolder.Abstractions;
 using MemeFolder.Domain.Models;
-using MemeFolder.Domain.Models.AbstractModels;
 using MemeFolder.Mvvm.Commands;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Navigation;
@@ -9,16 +7,15 @@ using MemeFolder.Pages;
 using MemeFolder.Services;
 using MemeFolder.ViewModels.Abstractions;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace MemeFolder.ViewModels
 {
-    public partial class FolderVM : BasePageViewModel, INavigatedToAware, IMemeWorker
+    public partial class FolderVM : BasePageViewModel, INavigatedToAware
     {
         #region Поля
         private Folder _model;
-        private readonly DataService _dataService;
+        private readonly ServiceCollectionClass _dataService;
         private readonly DataStorage _dataStorage;
         #endregion
 
@@ -62,16 +59,6 @@ namespace MemeFolder.ViewModels
 
         #region События
 
-        private void DataStorage_OnAddMeme(Meme meme)
-        {
-            
-        }
-
-        private void _dataStorage_OnRemoveMeme(Meme meme)
-        {
-            
-        }
-
         #endregion
 
 
@@ -107,13 +94,11 @@ namespace MemeFolder.ViewModels
 
         #region Конструкторы
 
-        private FolderVM(DataService dataService) : base(dataService._navigationService)
+        private FolderVM(ServiceCollectionClass dataService) : base(dataService._navigationService)
         {
             _dataService = dataService;
             _dataStorage = dataService._dataStorage;
-            _dataStorage.OnAddMeme += DataStorage_OnAddMeme;
-            _dataStorage.OnRemoveMeme += _dataStorage_OnRemoveMeme;
-
+           
             AddMemeCommand = new AddMemeCommand(dataService);
             OpenMemePictureCommand = new OpenMemePictureCommand();
             OpenAddMemeDialogCommand = new OpenAddMemeDialogCommand(dataService);
@@ -128,7 +113,7 @@ namespace MemeFolder.ViewModels
 
      
 
-        public FolderVM(Folder model, DataService dataService) : this(dataService)
+        public FolderVM(Folder model, ServiceCollectionClass dataService) : this(dataService)
         {
             Model = model;
         }

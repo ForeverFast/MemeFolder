@@ -9,21 +9,21 @@ namespace MemeFolder.Views
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindowV : Window
+    public partial class MainWindow : Window
     {
         private IServiceProvider _serviceProvider;
 
-        public MainWindowV(IServiceProvider serviceProvider)
+        public MainWindow(IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
-            Loaded += MainWindowV_Loaded;
+            Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindowV_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = _serviceProvider.GetService(typeof(MainWindowVM));
-            
+
         }
 
         private void empListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

@@ -1,9 +1,6 @@
 ﻿using MemeFolder.Domain.Models;
-using MemeFolder.Domain.Models.AbstractModels;
 using MemeFolder.Extentions;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -15,11 +12,9 @@ namespace MemeFolder.ViewModels
 
         private void PageLoadedExecuteAsync(object parameter)
         {
-            if (Memes == null)
+            if (Model.Memes.Count > 0)
             {
                 IsBusy = true;
-
-                Memes = new ObservableCollection<Meme>();
 
                 BackgroundWorker bgW = new BackgroundWorker();
                 bgW.DoWork += BgW_DoWork;
@@ -33,7 +28,7 @@ namespace MemeFolder.ViewModels
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            
+
             IsLoaded = true;
             IsBusy = false;
         }

@@ -27,10 +27,10 @@ namespace MemeFolder.Mvvm.Commands
             await _dataStorage.EditMemeTag(memeTag);
         }
 
-        public OpenEditMemeTagDialogCommand(DataService dataService,
+        public OpenEditMemeTagDialogCommand(ServiceCollectionClass services,
            Action<Exception> onException = null, string dialogId = "RootDialog") : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
+            _dataStorage = services._dataStorage;
 
             _dialogId = dialogId;
         }

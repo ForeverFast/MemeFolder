@@ -24,10 +24,10 @@ namespace MemeFolder.Mvvm.Commands
             await _dataStorage.AddMemeTag(memeTag);
         }
 
-        public OpenAddMemeTagDialogCommand(DataService dataService,
+        public OpenAddMemeTagDialogCommand(ServiceCollectionClass services,
            Action<Exception> onException = null, string dialogId = "RootDialog") : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
+            _dataStorage = services._dataStorage;
 
             _dialogId = dialogId;
         }

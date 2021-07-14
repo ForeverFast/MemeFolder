@@ -15,13 +15,12 @@ namespace MemeFolder.Mvvm.Commands
         {
             Meme meme = (Meme)parameter;
             await _dataStorage.RemoveMeme(meme);
-            
         }
 
-        public RemoveMemeCommand(DataService dataService,
+        public RemoveMemeCommand(ServiceCollectionClass services,
             Action<Exception> onException = null) : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
+            _dataStorage = services._dataStorage;
         }
 
     }

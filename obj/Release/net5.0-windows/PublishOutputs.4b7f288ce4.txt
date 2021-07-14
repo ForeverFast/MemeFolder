@@ -1,4 +1,5 @@
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\bababooey-sound-effect.wav
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\NLog.config
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\MemeFolder.exe
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\MemeFolder.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\MemeFolder.deps.json
@@ -6,6 +7,7 @@ C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publ
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\MemeFolder.pdb
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\GongSolutions.WPF.DragDrop.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\JetBrains.Annotations.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\LoadingSpinnerControl.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\MaterialDesignColors.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\MaterialDesignThemes.Wpf.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\Microsoft.WindowsAPICodePack.dll
@@ -49,6 +51,7 @@ C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publ
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\MvvmNavigation.Wpf.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\NAudio.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\Newtonsoft.Json.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\NLog.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\SQLitePCLRaw.batteries_v2.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\SQLitePCLRaw.nativelibrary.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\netcoreapp3.1\publish\SQLitePCLRaw.core.dll

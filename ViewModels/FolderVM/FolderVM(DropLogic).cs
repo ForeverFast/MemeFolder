@@ -1,6 +1,5 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using MemeFolder.Domain.Models;
-using MemeFolder.Extentions;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,49 +29,49 @@ namespace MemeFolder.ViewModels
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
                 var files = dataObject.GetFileDropList();
-                foreach (var file in files)
+                foreach (string pathToObject in files)
                 {
-                    if (File.Exists(file))
+                    if (File.Exists(pathToObject))
                     {
                         Meme meme = new Meme()
                         {
-                            Title = Path.GetFileName(file),
+                            Title = Path.GetFileName(pathToObject),
                             Folder = this.Model,
-                            ImagePath = file
+                            ImagePath = pathToObject
                         };
 
                         await _dataStorage.AddMeme(meme, this.Model);
                     }
-                    else if (Directory.Exists(file))
+                    else if (Directory.Exists(pathToObject))
                     {
                         Folder folder = new Folder()
                         {
-                            Title = new DirectoryInfo(file).Name,
+                            Title = Path.GetFileNameWithoutExtension(pathToObject),
                             ParentFolder = this.Model,
-                            ImageFolderPath = file
+                            FolderPath = pathToObject
                         };
 
                         Folder dbCreatedFolder = await _dataStorage.AddFolder(folder, this.Model);
-                        await GetAllFiles(Model.Folders.FirstOrDefault(f => f.Id == dbCreatedFolder.Id));
+                        await GetAllFiles(Model.Folders.FirstOrDefault(f => f.Id == dbCreatedFolder.Id), pathToObject);
                     }
 
                 }
             }
         }
 
-        public async Task<Folder> GetAllFiles(Folder rootFolder)
+        public async Task<Folder> GetAllFiles(Folder rootFolder, string oldFolderPath)
         {
-            string[] directories = Directory.GetDirectories(rootFolder.ImageFolderPath);
+            string[] directories = Directory.GetDirectories(oldFolderPath);
 
-            var files = Directory.EnumerateFiles(rootFolder.ImageFolderPath, "*.*", SearchOption.TopDirectoryOnly)
-                    .Where(s => s.EndsWith(".png") || s.EndsWith(".jpg")).ToArray();
+            var files = Directory.EnumerateFiles(oldFolderPath, "*.*", SearchOption.TopDirectoryOnly)
+                    .Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".jpeg")).ToArray();
 
             if (files.Length != 0)
                 foreach (var path in files)
                 {
                     Meme meme = new Meme()
                     {
-                        Title = Path.GetFileName(path),
+                        Title = Path.GetFileNameWithoutExtension(path),
                         Folder = rootFolder,
                         ImagePath = path
                     };
@@ -85,13 +84,13 @@ namespace MemeFolder.ViewModels
                 {
                     Folder folder = new Folder()
                     {
-                        Title = new DirectoryInfo(path).Name,
+                        Title = Path.GetFileNameWithoutExtension(path),
                         ParentFolder = rootFolder,
-                        ImageFolderPath = path
+                        FolderPath = path
                     };
 
                     Folder dbCreatedFolder = await _dataStorage.AddFolder(folder, rootFolder);
-                    await GetAllFiles(rootFolder.Folders.FirstOrDefault(f => f.Id == dbCreatedFolder.Id));
+                    await GetAllFiles(rootFolder.Folders.FirstOrDefault(f => f.Id == dbCreatedFolder.Id), path);
 
                 }
             return rootFolder;

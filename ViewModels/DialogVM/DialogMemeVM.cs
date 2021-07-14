@@ -3,19 +3,21 @@ using MemeFolder.Mvvm.Commands;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using MemeFolder.ViewModels.Abstractions;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
 namespace MemeFolder.ViewModels.DialogVM
 {
-    public class DialogMemeVM : BaseDialogViewModel
+    public class DialogMemeVM : BaseDialogViewModel, IDisposable
     {
         #region Поля
         private Meme _model;
-        private DataService _dataService;
+        private Folder _parentFolder;
+        private ServiceCollectionClass _dataService;
         private DataStorage _dataStorage;
-        private readonly IDialogService _dialogService;
+        private IDialogService _dialogService;
 
         private ObservableCollection<MemeTag> _memeTags;
         #endregion
@@ -26,18 +28,47 @@ namespace MemeFolder.ViewModels.DialogVM
 
         public ObservableCollection<MemeTag> MemeTags { get => _memeTags; private set => SetProperty(ref _memeTags, value); }
 
-        #region Команды - Мемы
-
-        public ICommand SetImage
+        public bool CanSave
         {
-            get => new RelayCommand((o) => {
-                Model.ImagePath = _dialogService.FileBrowserDialog("*.jpg;*.png");
-            });
+            get {
+
+                if (string.IsNullOrEmpty(Model.Title))
+                    return false;
+
+                foreach (Meme meme in _parentFolder.Memes)
+                {
+                    if (meme.Id != Model.Id && meme.Title == Model.Title)
+                        return false;
+                }
+
+                if (string.IsNullOrEmpty(Model.ImagePath))
+                    return false;
+
+                return true;
+            }
         }
 
-        public ICommand OpenAddMemeTagDialogCommand { get; }
 
-        public ICommand MemeTagCheckFlagChangedCommand { get; }
+        #region Команды - Мемы
+
+        public ICommand SetImageCommand { get; private set; }
+
+        public ICommand TitleChangedCommand { get; private set; }
+
+        public ICommand OpenAddMemeTagDialogCommand { get; private set; }
+
+        public ICommand MemeTagCheckFlagChangedCommand { get; private set; }
+
+        private void SetImageExecute(object parameter)
+        {
+            Model.ImagePath = _dialogService.FileBrowserDialog("*.jpg;*.png");
+            OnPropertyChanged(nameof(CanSave));
+        }
+
+        private void TitleChangedExecute(object parameter)
+        {
+            OnPropertyChanged(nameof(CanSave));
+        }
 
         private void MemeTagCheckFlagChangedExecute(object parameter)
         {
@@ -62,13 +93,30 @@ namespace MemeFolder.ViewModels.DialogVM
 
         #endregion
 
+        public void Dispose()
+        {
+            _dataService = null;
+            _dataStorage = null;
+            _dialogService = null;
+
+            Model = null;
+            MemeTags = null;
+
+            SetImageCommand = null;
+            TitleChangedCommand = null;
+            OpenAddMemeTagDialogCommand = null;
+            MemeTagCheckFlagChangedCommand = null;
+        }
 
         #region Конструкторы
+
         public DialogMemeVM(Meme model,
-                            DataService dataService,
-                            string dialogTitle) : base()
+            Folder parentFolder,
+            ServiceCollectionClass dataService,
+            string dialogTitle) : base()
         {
             Model = model;
+            _parentFolder = parentFolder;
 
             _dataService = dataService;
             _dataStorage = dataService._dataStorage;
@@ -85,6 +133,9 @@ namespace MemeFolder.ViewModels.DialogVM
                 else
                     mt.CheckFlag = false;
             });
+
+            SetImageCommand = new RelayCommand(SetImageExecute);
+            TitleChangedCommand = new RelayCommand(TitleChangedExecute);
 
             OpenAddMemeTagDialogCommand = new OpenAddMemeTagDialogCommand(dataService);
             MemeTagCheckFlagChangedCommand = new RelayCommand(MemeTagCheckFlagChangedExecute);

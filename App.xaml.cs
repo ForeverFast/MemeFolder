@@ -21,6 +21,8 @@ namespace MemeFolder
         public IServiceProvider ServiceProvider { get; private set; }
         public IConfiguration Configuration { get; private set; }
 
+        public Guid rootGuid { get; private set; } = Guid.Parse("00000000-0000-0000-0000-000000000001");
+
         public App()
         {
             
@@ -46,14 +48,30 @@ namespace MemeFolder
 
                 ServiceProvider = serviceCollection.BuildServiceProvider();
 
+
+                #region DataBase
+
+                IFolderDataService folderDataService = ServiceProvider.GetRequiredService<IFolderDataService>();
+
+                if (folderDataService.Get(rootGuid).Result == null)
+                {
+                    ClientConfigService clientConfigService = ServiceProvider.GetRequiredService<ClientConfigService>();
+                    Folder rootFolder = new Folder()
+                    {
+                        Id = rootGuid,
+                        Title = "root",
+                        FolderPath = clientConfigService.FilesPath
+                    };
+                    folderDataService.CreateRootFolder(rootFolder);
+                }
+
+                #endregion
+
+
                 #region NavManager
 
-                var initDataService = ServiceProvider.GetRequiredService<IInitDataBaseService>();
-                if (!initDataService.Init().Result)
-                    throw new Exception("Ошибка создания/получения root-папки.");
-
-                var mainWindow = ServiceProvider.GetRequiredService<MainWindowV>();
-                var navigationService = ServiceProvider.GetRequiredService<INavigationService>();
+                MainWindow mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+                INavigationService navigationService = ServiceProvider.GetRequiredService<INavigationService>();
 
                 navigationService.Register<FolderPage>("root", ServiceProvider.GetRequiredService<FolderVM>());
                 navigationService.Register<SettingsPage>("settings", ServiceProvider.GetRequiredService<SettingsPageVM>());
@@ -74,20 +92,19 @@ namespace MemeFolder
 
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(typeof(Guid), (s) => rootGuid);
             
-
             services.AddSingleton<IMemeDataService, MemeDataService>();
             services.AddSingleton<IFolderDataService, FolderDataService>();
             services.AddSingleton<IMemeTagDataService, MemeTagDataService>();
             services.AddSingleton<IMemeTagNodeDataService, MemeTagNodeDataService>();
             services.AddSingleton(typeof(DataStorage));
-            services.AddSingleton(typeof(DataService));
+            services.AddSingleton(typeof(ServiceCollectionClass));
             services.AddSingleton(typeof(MemeFolderDbContextFactory));
 
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<INavigationService, NavigationService>();
-            services.AddSingleton<IInitDataBaseService, InitDataBaseService>();
-
+            
             services.AddSingleton(service => Configuration);
             services.AddSingleton(typeof(ClientConfigService));
 
@@ -96,9 +113,9 @@ namespace MemeFolder
             services.AddSingleton(typeof(SearchPageVM));
             services.AddSingleton(typeof(SettingsPageVM));
             services.AddSingleton(typeof(MainWindowVM));
-            services.AddSingleton(typeof(MainWindowV));
+            services.AddSingleton(typeof(MainWindow));
 
-            services.AddSingleton(typeof(ContentControl), (s) => s.GetRequiredService<MainWindowV>().FrameContent);
+            services.AddSingleton(typeof(ContentControl), (s) => s.GetRequiredService<MainWindow>().FrameContent);
 
         }
     }

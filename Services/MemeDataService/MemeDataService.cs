@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -51,14 +52,15 @@ namespace MemeFolder.Services
                     if (string.IsNullOrEmpty(meme.ImagePath))
                         throw new Exception("No image path");
 
+                    if (string.IsNullOrEmpty(meme.Title))
+                        meme.Title = Path.GetFileNameWithoutExtension(meme.ImagePath);
+
                     if (meme.ImageData == null)
                         meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
 
-                    var check = await context.Folders
-                        .Where(x => x.Id == meme.Folder.Id)
-                        .FirstOrDefaultAsync();
-                    if (check != null)
-                        meme.Folder = check;
+                    Folder parentFolderEntity = await context.Folders.FirstOrDefaultAsync(x => x.Id == meme.Folder.Id);
+                    if (parentFolderEntity != null)
+                        meme.Folder = parentFolderEntity;
 
                     EntityEntry<Meme> createdResult = await context.Memes.AddAsync(meme);
                     await context.SaveChangesAsync();

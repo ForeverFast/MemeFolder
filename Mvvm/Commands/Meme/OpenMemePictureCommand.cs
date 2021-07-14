@@ -2,6 +2,7 @@
 using NAudio.Wave;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Input;
 
 namespace MemeFolder.Mvvm.Commands
@@ -11,7 +12,7 @@ namespace MemeFolder.Mvvm.Commands
     {
         public event EventHandler CanExecuteChanged;
       
-        public bool CanExecute(object parameter) => !string.IsNullOrEmpty((parameter as Meme).ImagePath);
+        public bool CanExecute(object parameter) => !string.IsNullOrEmpty((parameter as Meme).ImagePath) && File.Exists((parameter as Meme).ImagePath);
 
         public void Execute(object parameter)
         {

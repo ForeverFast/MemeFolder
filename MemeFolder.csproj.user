@@ -10,7 +10,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\MainWindowV.xaml.cs">
+    <Compile Update="Views\MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Pages\FolderPage.xaml.cs">
@@ -25,9 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Brushes.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Old\Styles\LVI_CT.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\Default\Dictionaries\Buttons.xaml">
@@ -60,7 +57,7 @@
     <Page Update="Styles\Default\Dictionaries\TreeViewStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\MainWindowV.xaml">
+    <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\FolderPage.xaml">

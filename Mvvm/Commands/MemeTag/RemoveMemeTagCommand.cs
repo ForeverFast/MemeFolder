@@ -23,10 +23,10 @@ namespace MemeFolder.Mvvm.Commands
 
         }
 
-        public RemoveMemeTagCommand(DataService dataService,
+        public RemoveMemeTagCommand(ServiceCollectionClass services,
             Action<Exception> onException = null) : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
+            _dataStorage = services._dataStorage;
         }
     }
 }

@@ -16,17 +16,16 @@ namespace MemeFolder.Mvvm.Commands
             Folder parentFolder = (Folder)parameter;
             Folder newFolder = new Folder()
             {
-                ParentFolder = parentFolder,
-                Title = "Новая папка"
+                ParentFolder = parentFolder
             };
 
             await _dataStorage.AddFolder(newFolder, parentFolder);
         }
 
-        public AddFolderCommand(DataService dataService,
+        public AddFolderCommand(ServiceCollectionClass services,
            Action<Exception> onException = null) : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
+            _dataStorage = services._dataStorage;
         }
     }
 }

@@ -152,7 +152,7 @@
 
                                         <MouseBinding Gesture="LeftDoubleClick"
                                                       Command="{Binding Tag.NavigateByMemeTagCommand,
-                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}" 
                                                       CommandParameter="{Binding}"/>
                                         <!--<MouseBinding Gesture="LeftClick"
                                                       Command="{Binding Tag.CopyMemeInBufferCommand,

@@ -61,14 +61,13 @@
                           Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="3.65*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
                                    Text="Путь сохранения:"
                                    Foreground="{StaticResource StandartLightColor}"
-                                   FontSize="18"
-                                   />
+                                   FontSize="18"/>
                         
                         <Border Grid.Column="1"
                                 BorderBrush="{StaticResource DimColorWithLowOpacity}"

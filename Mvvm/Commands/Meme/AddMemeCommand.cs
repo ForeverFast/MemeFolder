@@ -2,6 +2,7 @@
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Services;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Mvvm.Commands
@@ -16,10 +17,13 @@ namespace MemeFolder.Mvvm.Commands
         {
             Folder folder = (Folder)parameter;
             
-            var path = _dialogService.FileBrowserDialog();
+            string path = _dialogService.FileBrowserDialog();
+            if (string.IsNullOrEmpty(path))
+                return;
+
             Meme meme = new Meme()
             {
-                Title = "Новый мемчик",
+                Title = Path.GetFileNameWithoutExtension(path),
                 ImagePath = path,
                 Folder = folder
             };
@@ -27,11 +31,11 @@ namespace MemeFolder.Mvvm.Commands
             await _dataStorage.AddMeme(meme, folder);
         }
 
-        public AddMemeCommand(DataService dataService,
+        public AddMemeCommand(ServiceCollectionClass services,
             Action<Exception> onException = null) : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
-            _dialogService = dataService._dialogService;
+            _dataStorage = services._dataStorage;
+            _dialogService = services._dialogService;
         }
     }
 }

@@ -9,6 +9,7 @@
       xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:vm="clr-namespace:MemeFolder.ViewModels"
       xmlns:local="clr-namespace:MemeFolder.Pages"
+      xmlns:converter="clr-namespace:MemeFolder.Converters"
       xmlns:ssc="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -16,7 +17,7 @@
       d:DataContext="{d:DesignInstance vm:FolderVM, IsDesignTimeCreatable=True}">
 
     <Page.Resources>
-
+        <converter:ItemsCountToVisibilityConverter x:Key="ICV"/>
     </Page.Resources>
 
 
@@ -31,6 +32,35 @@
         </ib:Interaction.Triggers>
 
         <Grid Background="{StaticResource GrayLVL2}">
+
+            <Label VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Visibility="{Binding Model.Memes.Count, Converter={StaticResource ICV}}">
+                <Label.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="FolderOpen"
+                                     Width="100" Height="100"
+                                     Foreground="{DynamicResource StandartLightColor}"/>
+                        <Grid VerticalAlignment="Center"
+                              Margin="10,0,0,0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Мемчиков нема" Grid.Row="0"
+                                       FontSize="50"
+                                       Foreground="{DynamicResource StandartLightColor}"/>
+                            <TextBlock Text="Наполни меня (͡° ͜ʖ ͡°)"  Grid.Row="1"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource StandartLightColor}"
+                                       HorizontalAlignment="Center"/>
+                        </Grid>
+                        
+                    </StackPanel>
+                </Label.Content>
+            </Label>
 
             <ListView ItemsSource="{Binding Model.Memes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource DefLB}"

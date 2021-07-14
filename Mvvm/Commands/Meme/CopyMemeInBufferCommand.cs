@@ -1,5 +1,6 @@
 ﻿using MemeFolder.Domain.Models;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -11,7 +12,7 @@ namespace MemeFolder.Mvvm.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public bool CanExecute(object parameter) => !string.IsNullOrEmpty((parameter as Meme).ImagePath);
+        public bool CanExecute(object parameter) => !string.IsNullOrEmpty((parameter as Meme).ImagePath) && File.Exists((parameter as Meme).ImagePath);
 
         public void Execute(object parameter)
         {

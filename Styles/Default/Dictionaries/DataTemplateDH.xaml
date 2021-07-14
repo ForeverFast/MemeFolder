@@ -31,20 +31,20 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
-                                Padding="0"
-                                Margin="50,15,0,0"
-                                HorizontalAlignment="Center"
+                            Padding="0"
+                            Margin="50,15,0,0"
+                            HorizontalAlignment="Center"
                                
-                                Text="{Binding DialogTitle}"
-                                Foreground="{DynamicResource StandartLightColor2}"
-                                FontSize="19"
-                                FontWeight="Bold"/>
+                            Text="{Binding DialogTitle}"
+                            Foreground="{DynamicResource StandartLightColor2}"
+                            FontSize="19"
+                            FontWeight="Bold"/>
 
                 <Button Grid.Column="1"
-                            Margin="5,5,0,0"
-                            Command="{x:Static md:DialogHost.CloseDialogCommand}"
-                            Background="{DynamicResource GrayLVL1}"
-                            Style="{DynamicResource CloseButton}"/>
+                        Margin="5,5,0,0"
+                        Command="{x:Static md:DialogHost.CloseDialogCommand}"
+                        Background="{DynamicResource GrayLVL1}"
+                        Style="{DynamicResource CloseButton}"/>
 
             </Grid>
 
@@ -56,10 +56,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0"
-                            Height="225"
-                            Margin="25,30,0,0"
-                            
-                            Command="{Binding SetImage}">
+                        Height="225"
+                        Margin="25,30,0,0"
+                        Command="{Binding SetImageCommand}">
 
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -123,9 +122,19 @@
                            Content="Название"
                            FontSize="14"
                            Foreground="{DynamicResource StandartLightColor}"/>
+
                     <TextBox Name="TitleName" Grid.Row="1"
-                             Text="{Binding Title}"
-                             Style="{x:Null}"/>
+                             Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{x:Null}">
+
+                        <ib:Interaction.Triggers>
+                            <ib:EventTrigger EventName="TextChanged" SourceObject="{Binding ElementName=TitleName   }">
+                                <ib:InvokeCommandAction Command="{Binding DataContext.TitleChangedCommand,
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid, AncestorLevel=3}}"/>
+                            </ib:EventTrigger>
+                        </ib:Interaction.Triggers>
+
+                    </TextBox>
 
                     <Label Grid.Row="2"
                             Padding="0"
@@ -140,7 +149,6 @@
                              Style="{x:Null}"
                              TextWrapping="Wrap"
                              Text="{Binding Description}"/>
-
 
                     <StackPanel Orientation="Horizontal" Grid.Row="4"
                                 VerticalAlignment="Center"
@@ -226,15 +234,16 @@
 
             </Grid>
 
-            <Button Grid.Row="2"
+            <Button Grid.Row="2" x:Name="SaveButton"
                     Command="{x:Static md:DialogHost.CloseDialogCommand}"
-                    CommandParameter="{Binding Model}">
+                    CommandParameter="{Binding Model}"
+                    IsEnabled="{Binding CanSave, UpdateSourceTrigger=PropertyChanged}">
                 <Button.Template>
                     <ControlTemplate>
                         <Border CornerRadius="25"
                                 Width="100" Height="30"
                                 Background="{DynamicResource GrayLVL0}">
-                            <TextBlock Text="Создать"
+                            <TextBlock Text="Сохранить" 
                                         Foreground="{DynamicResource StandartLightColor2}"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"/>

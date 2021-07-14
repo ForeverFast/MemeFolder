@@ -1,5 +1,4 @@
 ﻿using MemeFolder.Domain.Models;
-using MemeFolder.Extentions;
 using MemeFolder.Mvvm.Commands;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Navigation;
@@ -7,18 +6,18 @@ using MemeFolder.Pages;
 using MemeFolder.Services;
 using MemeFolder.ViewModels.Abstractions;
 using System;
-using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace MemeFolder.ViewModels
 {
-    public class MainWindowVM : BaseWindowViewModel
+    public class MainWindowVM : BaseWindowViewModel, IStatusMessagesProvider
     {
         #region Поля
         private Folder _model;
-        private DataStorage dataStorage;
-        private DataService _dataService;
+        private DataStorage _dataStorage;
+        private ServiceCollectionClass _dataService;
+        private string _systemMessage;
 
         private ObservableCollection<Folder> _folders;
         private ObservableCollection<MemeTag> _memeTags;
@@ -28,6 +27,9 @@ namespace MemeFolder.ViewModels
 
         public ObservableCollection<Folder> Folders { get => _folders; set => SetProperty(ref _folders, value); }
         public ObservableCollection<MemeTag> MemeTags { get => _memeTags; set => SetProperty(ref _memeTags, value); }
+
+        public string SystemMessage { get => _systemMessage; set => SetProperty(ref _systemMessage, value); }
+
 
         #region Команды - Папки
 
@@ -57,6 +59,7 @@ namespace MemeFolder.ViewModels
         public ICommand OpenSettingsCommand { get; }
 
         public ICommand NavigateByMemeTagCommand { get; }
+        
 
         private void SearchExecuteAsync(object parameter)
         {
@@ -66,7 +69,7 @@ namespace MemeFolder.ViewModels
               
                 string SearchText = parameter.ToString();
 
-                if (CheckInputNavKey(parameter))
+                if (CheckInputSearchText(SearchText))
                     return;
 
                 string navKey = "searchPage";
@@ -82,7 +85,7 @@ namespace MemeFolder.ViewModels
         {
             if (!IsBusy)
             {
-                CheckInputNavKey(parameter);
+                CheckInputSearchText(parameter.ToString());
                 IsBusy = false;
             }
 
@@ -131,34 +134,44 @@ namespace MemeFolder.ViewModels
 
         }
 
-        #endregion
 
 
-        private bool CheckInputNavKey(object key)
+        private bool CheckInputSearchText(string text)
         {
             IsBusy = true;
 
-            string SearchText = key.ToString();
-
-            if (string.IsNullOrEmpty(SearchText))
+            if (string.IsNullOrEmpty(text))
             {
-                GC.WaitForPendingFinalizers();
                 GC.Collect();
+                GC.WaitForPendingFinalizers();
                 _navigationService.Navigate("root", NavigationType.Root, null);
+
                 IsBusy = false;
                 return true;
             }
             
-
             return false;
         }
 
+        #endregion
+
+
         #region События
 
-        private void DataStorage_OnAddFolder(Folder folder)
+        private void _dataStorage_OnFolderEvent(Folder folder, string message)
         {
-            //Folder sf = MemeExtentions.SelectRecursive(Folders, f => f.Folders).FirstOrDefault(f => f.Id == folder.Id);
-            //sf.ParentFolder.OnAllPropertyChanged();
+            this.SystemMessage = message;
+        }
+
+        private void _dataStorage_OnMemeEvent(Meme meme, string message)
+        {
+            this.SystemMessage = message;
+            
+        }
+
+        private void _dataStorage_OnMemeTagEvent(MemeTag memeTag, string message)
+        {
+            this.SystemMessage = message;
         }
 
         #endregion
@@ -166,25 +179,36 @@ namespace MemeFolder.ViewModels
 
         #region Конструкторы
 
-        public MainWindowVM(DataService dataService) : base(dataService._navigationService)
+        public MainWindowVM(ServiceCollectionClass services) : base(services._navigationService)
         {
-            _dataService = dataService;
-            dataStorage = dataService._dataStorage;
-            dataStorage.OnAddFolder += DataStorage_OnAddFolder;
+            _dataService = services;
+            _dataStorage = services._dataStorage;
 
-            Model = dataService._dataStorage.RootFolder;
-            MemeTags = dataService._dataStorage.MemeTags;
+            _dataStorage.OnAddFolder += _dataStorage_OnFolderEvent;
+            _dataStorage.OnEditFolder += _dataStorage_OnFolderEvent;
+            _dataStorage.OnRemoveFolder += _dataStorage_OnFolderEvent;
+
+            _dataStorage.OnAddMeme += _dataStorage_OnMemeEvent;
+            _dataStorage.OnEditMeme += _dataStorage_OnMemeEvent;
+            _dataStorage.OnRemoveMeme += _dataStorage_OnMemeEvent;
+
+            _dataStorage.OnAddMemeTag += _dataStorage_OnMemeTagEvent;
+            _dataStorage.OnEditMemeTag += _dataStorage_OnMemeTagEvent;
+            _dataStorage.OnRemoveMemeTag += _dataStorage_OnMemeTagEvent;
+
+            Model = services._dataStorage.RootFolder;
+            MemeTags = services._dataStorage.MemeTags;
             Folders = new ObservableCollection<Folder>();
             Folders.Add(Model);
 
-            AddFolderCommand = new AddFolderCommand(dataService);
-            OpenAddFolderDialogCommand = new OpenAddFolderDialogCommand(dataService);
-            OpenEditFolderDialogCommand = new OpenEditFolderDialogCommand(dataService);
-            RemoveFolderCommand = new RemoveFolderCommand(dataService);
+            AddFolderCommand = new AddFolderCommand(services);
+            OpenAddFolderDialogCommand = new OpenAddFolderDialogCommand(services);
+            OpenEditFolderDialogCommand = new OpenEditFolderDialogCommand(services);
+            RemoveFolderCommand = new RemoveFolderCommand(services);
 
-            OpenAddMemeTagDialogCommand = new OpenAddMemeTagDialogCommand(dataService);
-            OpenEditMemeTagDialogCommand = new OpenEditMemeTagDialogCommand(dataService);
-            RemoveMemeTagCommand = new RemoveMemeTagCommand(dataService);
+            OpenAddMemeTagDialogCommand = new OpenAddMemeTagDialogCommand(services);
+            OpenEditMemeTagDialogCommand = new OpenEditMemeTagDialogCommand(services);
+            RemoveMemeTagCommand = new RemoveMemeTagCommand(services);
 
             SearchCommand = new RelayCommand(SearchExecuteAsync);
             EmptySearchTextCheckCommand = new RelayCommand(EmptySearchTextCheckExecute);
@@ -192,6 +216,8 @@ namespace MemeFolder.ViewModels
 
             NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
             NavigateByMemeTagCommand = new RelayCommand(NavigateByMemeTagExecute);
+
+            SystemMessage = "Загрузка окна завершена";
         }
 
        

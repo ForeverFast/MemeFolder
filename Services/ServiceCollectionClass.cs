@@ -2,7 +2,7 @@
 
 namespace MemeFolder.Services
 {
-    public class DataService
+    public class ServiceCollectionClass
     {
         public readonly INavigationService _navigationService;
         public readonly IDialogService _dialogService;
@@ -11,14 +11,16 @@ namespace MemeFolder.Services
         public readonly IFolderDataService _folderDataService;
         public readonly IMemeDataService _memeDataService;
         public readonly DataStorage _dataStorage;
-        
 
-        public DataService(IFolderDataService folderDataService,
+        public readonly ClientConfigService _clientConfigService;
+
+        public ServiceCollectionClass(IFolderDataService folderDataService,
             IMemeDataService memeDataService,
             IDialogService dialogService,
             INavigationService navigationService,
             DataStorage searchService,
-            IMemeTagDataService memeTagDataService)
+            IMemeTagDataService memeTagDataService,
+            ClientConfigService clientConfigService)
         {
             _folderDataService = folderDataService;
             _memeDataService = memeDataService;
@@ -26,6 +28,8 @@ namespace MemeFolder.Services
             _navigationService = navigationService;
             _dataStorage = searchService;
             _memeTagDataService = memeTagDataService;
+
+            _clientConfigService = clientConfigService;
         }
     }
 }

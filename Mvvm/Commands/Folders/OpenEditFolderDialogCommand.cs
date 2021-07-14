@@ -13,6 +13,17 @@ namespace MemeFolder.Mvvm.Commands
 
         private readonly string _dialogId;
 
+        public override bool CanExecute(object parameter)
+        {
+            if (parameter is Folder folder)
+            {
+                if (folder.Title == "root")
+                    return false;
+            }
+
+            return base.CanExecute(parameter);
+        }
+
         protected override async Task ExecuteAsync(object parameter)
         {
             Folder folder = (Folder)parameter;
@@ -27,10 +38,10 @@ namespace MemeFolder.Mvvm.Commands
             await _dataStorage.EditFolder(editedFolder);
         }
 
-        public OpenEditFolderDialogCommand(DataService dataService,
+        public OpenEditFolderDialogCommand(ServiceCollectionClass services,
            Action<Exception> onException = null, string dialogId = "RootDialog") : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
+            _dataStorage = services._dataStorage;
 
             _dialogId = dialogId;
         }

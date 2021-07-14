@@ -1,11 +1,9 @@
-﻿
-using MemeFolder.Wpf.Helpers;
+﻿using MemeFolder.Wpf.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows;
 using System.Windows.Media;
 
 namespace MemeFolder.Extentions
@@ -23,7 +21,7 @@ namespace MemeFolder.Extentions
                 using (MemoryStream stream = new MemoryStream())
                 {
                     byte[] data;
-                    bitMapMini.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                    bitMapMini.Save(stream, ImageFormat.Bmp);
                     stream.Position = 0;
                     data = new byte[stream.Length];
                     stream.Read(data, 0, (int)stream.Length);
@@ -46,17 +44,6 @@ namespace MemeFolder.Extentions
                 {
                     return new Bitmap(ms).ToImageSource();
                 }
-                
-                //using (var ms = new MemoryStream(array, 0, array.Length))
-                //{
-                //    var image = new BitmapImage();
-                //    image.BeginInit();
-                //    image.CacheOption = BitmapCacheOption.None;
-                //    //image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                //    image.StreamSource = ms;
-                //    image.EndInit();       
-                //    return image.ToImageSource();
-                //}
             }
             return null;
         }

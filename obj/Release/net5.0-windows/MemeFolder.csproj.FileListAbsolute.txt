@@ -130,3 +130,7 @@ C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Release\net5.0-windows\Sty
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\net5.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Release\net5.0-windows\Old\Styles\LVI_CT.baml
 C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Release\net5.0-windows\Styles\Default\Dictionaries\DataTemplateDH.baml
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\net5.0-windows\NLog.config
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\net5.0-windows\LoadingSpinnerControl.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\bin\Release\net5.0-windows\NLog.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder\obj\Release\net5.0-windows\Styles\Default\Dictionaries\TreeViewStyles.baml

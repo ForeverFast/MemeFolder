@@ -1,10 +1,6 @@
 ﻿using MemeFolder.Properties;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Text;
 
 namespace MemeFolder.Services
 {
@@ -19,19 +15,27 @@ namespace MemeFolder.Services
                 Settings.Default.Save();
             }
         }
+
         public ClientConfigService()
         {
 
             if (string.IsNullOrEmpty(Settings.Default.FilesPath))
             {
-                string md = Environment.GetFolderPath(Environment.SpecialFolder.Personal); //путь к Документам
-                if (Directory.Exists(md + "\\MemeFolder") == false)
+                string path = "D:\\";
+                if (Directory.Exists(path))
                 {
-                    Directory.CreateDirectory(md + "\\MemeFolder");
-                    Settings.Default.FilesPath = md + "\\MemeFolder";
-                    Settings.Default.Save();
+                    path += "\\MemeFolder";
+                    if (Directory.Exists(path))
+                        Directory.Delete(path);
                 }
-                
+                else
+                {
+                    path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\MemeFolder";
+                }
+
+                Directory.CreateDirectory(path);
+                Settings.Default.FilesPath = path;
+                Settings.Default.Save();
             }
         }
 

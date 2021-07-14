@@ -27,10 +27,10 @@ namespace MemeFolder.Mvvm.Commands
             await _dataStorage.RemoveFolder(folder);
         }
 
-        public RemoveFolderCommand(DataService dataService,
+        public RemoveFolderCommand(ServiceCollectionClass services,
           Action<Exception> onException = null) : base(onException)
         {
-            _dataStorage = dataService._dataStorage;
+            _dataStorage = services._dataStorage;
         }
     }
 }
