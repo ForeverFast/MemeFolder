@@ -16,13 +16,13 @@ namespace MemeFolder.ViewModels
         {
             if (Model.Memes.Count > 0)
             {
-                IsBusy = true;
+                //IsBusy = true;
 
-                BackgroundWorker bgW = new BackgroundWorker();
-                bgW.DoWork += BgW_DoWork;
-                bgW.RunWorkerCompleted += BgW_RunWorkerCompleted;
-                bgW.RunWorkerCompleted += (o, e) => bgW.Dispose();
-                bgW.RunWorkerAsync(Model);
+                //BackgroundWorker bgW = new BackgroundWorker();
+                //bgW.DoWork += BgW_DoWork;
+                //bgW.RunWorkerCompleted += BgW_RunWorkerCompleted;
+                //bgW.RunWorkerCompleted += (o, e) => bgW.Dispose();
+                //bgW.RunWorkerAsync(Model);
             }
         }
 
