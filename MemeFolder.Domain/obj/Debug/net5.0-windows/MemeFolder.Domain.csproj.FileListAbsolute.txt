@@ -1,0 +1,12 @@
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\bin\Debug\net5.0-windows\MemeFolder.Domain.deps.json
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\bin\Debug\net5.0-windows\MemeFolder.Domain.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\bin\Debug\net5.0-windows\ref\MemeFolder.Domain.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\bin\Debug\net5.0-windows\MemeFolder.Domain.pdb
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\MemeFolder.Domain.csproj.AssemblyReference.cache
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\MemeFolder.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\MemeFolder.Domain.AssemblyInfoInputs.cache
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\MemeFolder.Domain.AssemblyInfo.cs
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\MemeFolder.Domain.csproj.CoreCompileInputs.cache
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\MemeFolder.Domain.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\ref\MemeFolder.Domain.dll
+C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Debug\net5.0-windows\MemeFolder.Domain.pdb
