@@ -71,6 +71,9 @@ namespace MemeFolder.EntityFramework.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MiniImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("Position")
                         .HasColumnType("bigint");
 
