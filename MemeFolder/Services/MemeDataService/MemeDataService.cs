@@ -55,8 +55,8 @@ namespace MemeFolder.Services
                     if (string.IsNullOrEmpty(meme.Title))
                         meme.Title = Path.GetFileNameWithoutExtension(meme.ImagePath);
 
-                    if (meme.ImageData == null)
-                        meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
+                    //if (meme.ImageData == null)
+                    //    meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
 
                     Folder parentFolderEntity = await context.Folders.FirstOrDefaultAsync(x => x.Id == meme.Folder.Id);
                     if (parentFolderEntity != null)

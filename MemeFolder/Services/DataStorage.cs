@@ -3,6 +3,8 @@ using MemeFolder.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -93,6 +95,35 @@ namespace MemeFolder.Services
             return newMemePath;
         }
 
+        private Image ResizeOrigImg(Image image, int nWidth, int nHeight)
+        {
+            int newWidth, newHeight;
+            var coefH = (double)nHeight / (double)image.Height;
+            var coefW = (double)nWidth / (double)image.Width;
+            if (coefW >= coefH)
+            {
+                newHeight = (int)(image.Height * coefH);
+                newWidth = (int)(image.Width * coefH);
+            }
+            else
+            {
+                newHeight = (int)(image.Height * coefW);
+                newWidth = (int)(image.Width * coefW);
+            }
+
+            Image result = new Bitmap(newWidth, newHeight);
+            using (var g = Graphics.FromImage(result))
+            {
+                g.CompositingQuality = CompositingQuality.Default;
+                g.SmoothingMode = SmoothingMode.Default;
+                g.InterpolationMode = InterpolationMode.Default;
+
+                g.DrawImage(image, 0, 0, newWidth, newHeight);
+                g.Dispose();
+            }
+            return result;
+        }
+
         public async Task<Folder> AddFolder(Folder folder, Folder parentFolder)
         {
             string newFolderPath = string.Empty;
@@ -168,6 +199,7 @@ namespace MemeFolder.Services
         {
             try
             {
+
                 string newMemePath = @$"{folder.FolderPath}\{meme.Title}{Path.GetExtension(meme.ImagePath)}";
                 if (File.Exists(newMemePath))
                 {
@@ -181,8 +213,14 @@ namespace MemeFolder.Services
                     meme.ImagePath = newMemePath;
                 }
 
-                meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
+                //meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
 
+                string newMiniImageMemePath = @$"{folder.FolderPath}\Mini{meme.Title}{Path.GetExtension(meme.ImagePath)}";
+                Image result = this.ResizeOrigImg(Image.FromFile(newMemePath), 120, 72);
+                result.Save(newMiniImageMemePath);
+                result.Dispose();
+                meme.MiniImagePath = newMiniImageMemePath;
+               
                 List<MemeTagNode> memeTagNodes = new List<MemeTagNode>();
                 foreach(MemeTagNode mtn in meme.Tags.ToArray())
                 {
@@ -193,9 +231,9 @@ namespace MemeFolder.Services
                 Meme createdMemeEntity = await _memeDataService.Create(meme);
                 if (createdMemeEntity != null)
                 {
-                    createdMemeEntity.Image = MemeExtentions.ConvertByteArrayToImage(createdMemeEntity.ImageData);
-                    createdMemeEntity.Image.Freeze();
-                    createdMemeEntity.ImageData = null;
+                    //createdMemeEntity.Image = MemeExtentions.ConvertByteArrayToImage(createdMemeEntity.ImageData);
+                    //createdMemeEntity.Image.Freeze();
+                    //createdMemeEntity.ImageData = null;
                     folder.Memes.Add(createdMemeEntity);
                     folder.OnPropertyChanged(nameof(folder.Memes));
                     Memes.Add(createdMemeEntity);

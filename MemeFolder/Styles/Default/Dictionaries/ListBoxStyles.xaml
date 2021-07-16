@@ -90,7 +90,7 @@
                                         </ContextMenu>
                                     </StackPanel.ContextMenu>
 
-                                    <Image Source="{Binding Image}"
+                                    <Image Source="{Binding MiniImagePath}"
                                            Width="110" Height="81"/>
                                     <TextBlock FontSize="13"
                                                Foreground="{DynamicResource StandartTextColor}"

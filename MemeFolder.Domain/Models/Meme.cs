@@ -15,6 +15,7 @@ namespace MemeFolder.Domain.Models
         private Folder _folder;
 
         private string _imagePath;
+        private string _imageMiniPath;
         private byte[] _imageData;
         private ImageSource _image;
 
@@ -27,6 +28,8 @@ namespace MemeFolder.Domain.Models
 
 
         public string ImagePath { get => _imagePath; set => SetProperty(ref _imagePath, value); }
+
+        public string MiniImagePath { get => _imageMiniPath; set => SetProperty(ref _imageMiniPath, value); }
 
         public byte[] ImageData { get => _imageData; set => SetProperty(ref _imageData, value); }
 
