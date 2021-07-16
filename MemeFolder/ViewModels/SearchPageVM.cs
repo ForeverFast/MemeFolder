@@ -1,7 +1,6 @@
 ﻿using Egor92.MvvmNavigation.Abstractions;
 using MemeFolder.Domain.Models;
 using MemeFolder.Domain.Models.AbstractModels;
-using MemeFolder.Extentions;
 using MemeFolder.Mvvm.Commands;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Navigation;
@@ -12,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -76,22 +76,22 @@ namespace MemeFolder.ViewModels
         {
             IEnumerable<Meme> model = (IEnumerable<Meme>)e.Argument;
 
-            List<Meme> memes = new List<Meme>();
-            foreach (Meme meme in model)
-            {
-                if (meme.Image == null)
-                    if (meme.ImageData != null)
-                    {
-                        meme.Image = MemeExtentions.ConvertByteArrayToImage(meme.ImageData);
-                        meme.ImageData = null;
-                        if (meme.Image != null)
-                            meme.Image.Freeze();
-                    }
+            //List<Meme> memes = new List<Meme>();
+            //foreach (Meme meme in model)
+            //{
+            //    //if (meme.Image == null)
+            //    //    if (meme.ImageData != null)
+            //    //    {
+            //    //        meme.Image = MemeExtentions.ConvertByteArrayToImage(meme.ImageData);
+            //    //        meme.ImageData = null;
+            //    //        if (meme.Image != null)
+            //    //            meme.Image.Freeze();
+            //    //    }
 
-                memes.Add(meme);
-            }
+            //    memes.Add(meme);
+            //}
 
-            e.Result = memes;
+            e.Result = model.ToList();//memes;
         }
 
         private void BgW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -115,6 +115,8 @@ namespace MemeFolder.ViewModels
         public void Dispose()
         {
             Memes.Clear();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             OnAllPropertyChanged();
         }
 

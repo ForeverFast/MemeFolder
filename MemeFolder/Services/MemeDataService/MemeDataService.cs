@@ -117,6 +117,7 @@ namespace MemeFolder.Services
        
 
         #region Конструкторы
+
         public MemeDataService()
         {
             _contextFactory = new MemeFolderDbContextFactory();
@@ -126,6 +127,7 @@ namespace MemeFolder.Services
         {
             _contextFactory = contextFactory;
         }
+
         #endregion
     }
 }

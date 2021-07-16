@@ -29,7 +29,7 @@ namespace MemeFolder.ViewModels
         public ICommand OpenAddMemeDialogCommand { get; }
         public ICommand OpenEditMemeDialogCommand { get; }
         public ICommand OpenMemePictureCommand { get; }
-        public ICommand CopyMemeInBufferCommand { get; }   
+        public ICommand CopyMemeInBufferCommand { get; }
         public ICommand RemoveMemeCommand { get; }
 
         #endregion
@@ -68,7 +68,7 @@ namespace MemeFolder.ViewModels
         {
             get => new RelayCommand((o) => {
 
-                Memes.Add(new Meme() { Title = "chlen" });
+                
 
             });
         }

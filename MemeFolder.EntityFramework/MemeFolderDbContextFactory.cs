@@ -11,7 +11,6 @@ namespace MemeFolder.EntityFramework
         {
             var options = new DbContextOptionsBuilder<MemeFolderDbContext>();
             options.EnableSensitiveDataLogging(true);
-
 #if DEBUG
             options.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MemeFolderDB;Integrated Security=True;" +
             "Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
@@ -19,7 +18,7 @@ namespace MemeFolder.EntityFramework
                         string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                         if (!Directory.Exists($@"{appData}\MemeFolder"))
                             Directory.CreateDirectory($@"{appData}\MemeFolder");
-                        options.UseSqlite($@"Data Source={appData}\MemeFolder\MF_DB.db;");
+                        options.UseSqlite($@"Data Source={appData}\MemeFolder\MF_DB.db; Cache=Private;");
 #endif
 
             return new MemeFolderDbContext(options.Options);
