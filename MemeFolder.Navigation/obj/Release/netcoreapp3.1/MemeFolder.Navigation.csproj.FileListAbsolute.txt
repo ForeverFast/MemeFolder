@@ -1,9 +1,0 @@
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\bin\Release\netcoreapp3.1\MemeFolder.Navigation.deps.json
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\bin\Release\netcoreapp3.1\MemeFolder.Navigation.dll
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\bin\Release\netcoreapp3.1\MemeFolder.Navigation.pdb
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\obj\Release\netcoreapp3.1\MemeFolder.Navigation.csprojAssemblyReference.cache
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\obj\Release\netcoreapp3.1\MemeFolder.Navigation.AssemblyInfoInputs.cache
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\obj\Release\netcoreapp3.1\MemeFolder.Navigation.AssemblyInfo.cs
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\obj\Release\netcoreapp3.1\MemeFolder.Navigation.csproj.CoreCompileInputs.cache
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\obj\Release\netcoreapp3.1\MemeFolder.Navigation.dll
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Navigation\obj\Release\netcoreapp3.1\MemeFolder.Navigation.pdb
