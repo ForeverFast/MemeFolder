@@ -1,9 +1,0 @@
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\bin\Release\netcoreapp3.1\MemeFolder.Domain.deps.json
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\bin\Release\netcoreapp3.1\MemeFolder.Domain.dll
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\bin\Release\netcoreapp3.1\MemeFolder.Domain.pdb
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Release\netcoreapp3.1\MemeFolder.Domain.csprojAssemblyReference.cache
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Release\netcoreapp3.1\MemeFolder.Domain.AssemblyInfoInputs.cache
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Release\netcoreapp3.1\MemeFolder.Domain.AssemblyInfo.cs
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Release\netcoreapp3.1\MemeFolder.Domain.csproj.CoreCompileInputs.cache
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Release\netcoreapp3.1\MemeFolder.Domain.dll
-C:\Users\ivans\source\repos\MemeFolder\MemeFolder.Domain\obj\Release\netcoreapp3.1\MemeFolder.Domain.pdb
