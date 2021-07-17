@@ -1,4 +1,4 @@
-﻿using MemeFolder.Domain;
+﻿using MemeFolder.Mvvm;
 
 namespace MemeFolder.ViewModels.Abstractions
 {

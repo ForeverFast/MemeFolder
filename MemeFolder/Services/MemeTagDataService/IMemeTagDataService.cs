@@ -1,5 +1,5 @@
 ﻿using MemeFolder.Domain.Models;
-using MemeFolder.EntityFramework.Services;
+using MemeFolder.EntityFramework;
 
 namespace MemeFolder.Services
 {

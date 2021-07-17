@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MemeFolder.Domain.Models.AbstractModels
+namespace MemeFolder.Domain.Models
 {
-    public abstract class DomainObject : OnPropertyChangedClass
+    public abstract class DomainObject
     {
         [Key]
         public Guid Id { get; set; }

@@ -29,27 +29,19 @@ namespace MemeFolder.ViewModels
             var dataObject = dropInfo.Data as DataObject;
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
-                try
+                var files = dataObject.GetFileDropList();
+                foreach (string pathToObject in files)
                 {
-                    var files = dataObject.GetFileDropList();
-                    foreach (string pathToObject in files)
+                    if (File.Exists(pathToObject))
                     {
-                        if (File.Exists(pathToObject))
-                        {
-                            await this.SaveMeme(pathToObject, this.Model);
-                        }
-                        else if (Directory.Exists(pathToObject))
-                        {
-                            await this.SaveFolder(pathToObject, this.Model);
-                        }
-
+                        await this.SaveMeme(pathToObject, this.Model);
                     }
+                    else if (Directory.Exists(pathToObject))
+                    {
+                        await this.SaveFolder(pathToObject, this.Model);
+                    }
+
                 }
-                catch (Exception ex)
-                {
-                  
-                }
-                
             }
         }
 

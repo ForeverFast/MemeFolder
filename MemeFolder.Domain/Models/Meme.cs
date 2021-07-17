@@ -1,5 +1,4 @@
-﻿using MemeFolder.Domain.Models.AbstractModels;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Windows.Media;
@@ -9,40 +8,33 @@ namespace MemeFolder.Domain.Models
     [Table("Memes")]
     public class Meme : FolderObject
     {
-        #region Поля
-       
-        private DateTime _addingDate;
-        private Folder _folder;
+        public DateTime AddingDate { get; set; }
 
-        private string _imagePath;
-        private string _imageMiniPath;
-        private byte[] _imageData;
-        private ImageSource _image;
-
-        public ObservableCollection<MemeTagNode> _tags;
-        #endregion
-
-        public DateTime AddingDate { get => _addingDate; set => SetProperty(ref _addingDate, value); }
-
-        public Folder Folder { get => _folder; set => SetProperty(ref _folder, value); }
+        public Folder Folder { get; set; }
 
 
-        public string ImagePath { get => _imagePath; set => SetProperty(ref _imagePath, value); }
+        public string ImagePath { get; set; }
 
-        public string MiniImagePath { get => _imageMiniPath; set => SetProperty(ref _imageMiniPath, value); }
+        public string MiniImagePath { get; set; }
 
-        public byte[] ImageData { get => _imageData; set => SetProperty(ref _imageData, value); }
-
-        [NotMapped]
-        public ImageSource Image { get => _image; set => SetProperty(ref _image, value); }
-
-
-        public virtual ObservableCollection<MemeTagNode> Tags { get => _tags; set => SetProperty(ref _tags, value); }
+        public virtual ObservableCollection<MemeTagNode> Tags { get; set; }
 
 
         [NotMapped]
         public int GetHC { get => this.GetHashCode(); }
-        public override string ToString() => this.Title;
+        public override object Clone()
+        {
+            Meme newMeme = new Meme()
+            {
+                Id = this.Id,
+                Title = this.Title,
+                Description = this.Description,
+                Folder = this.Folder,
+                ImagePath = this.ImagePath,
+                MiniImagePath = this.MiniImagePath
+            };
+            return newMeme;
+        }
 
         public Meme() :  base()
         {

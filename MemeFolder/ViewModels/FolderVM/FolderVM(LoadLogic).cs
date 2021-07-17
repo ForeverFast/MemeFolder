@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MemeFolder.ViewModels
@@ -12,18 +13,12 @@ namespace MemeFolder.ViewModels
     {
         public ICommand PageLoadedCommand { get; }
 
-        private void PageLoadedExecuteAsync(object parameter)
+        private async Task PageLoadedExecuteAsync(object parameter)
         {
-            if (Model.Memes.Count > 0)
-            {
-                //IsBusy = true;
+            IsBusy = true;
 
-                //BackgroundWorker bgW = new BackgroundWorker();
-                //bgW.DoWork += BgW_DoWork;
-                //bgW.RunWorkerCompleted += BgW_RunWorkerCompleted;
-                //bgW.RunWorkerCompleted += (o, e) => bgW.Dispose();
-                //bgW.RunWorkerAsync(Model);
-            }
+          
+            IsBusy = false;
         }
 
         private void BgW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -41,21 +36,16 @@ namespace MemeFolder.ViewModels
         {
             var model = (Folder)e.Argument;
 
-            foreach (var item in model.Memes)
-            {
-                if (item.Image == null)
-                {
-                    item.Image = MemeExtentions.ConvertByteArrayToImage(item.ImageData);
-                    item.ImageData = null;
-                    if (item.Image != null)
-                        item.Image.Freeze();
-                }
-            }
+            
         }
     }
 }
 
-
+//BackgroundWorker bgW = new BackgroundWorker();
+//bgW.DoWork += BgW_DoWork;
+//bgW.RunWorkerCompleted += BgW_RunWorkerCompleted;
+//bgW.RunWorkerCompleted += (o, e) => bgW.Dispose();
+//bgW.RunWorkerAsync(Model);
 /*
  * 
  *  Debug.WriteLine($"------------------------------------------------------------------------------------");

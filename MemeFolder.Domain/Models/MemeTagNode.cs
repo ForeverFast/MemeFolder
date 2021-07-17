@@ -1,5 +1,4 @@
-﻿using MemeFolder.Domain.Models.AbstractModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MemeFolder.Domain.Models
 {

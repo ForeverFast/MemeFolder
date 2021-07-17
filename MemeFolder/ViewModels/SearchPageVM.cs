@@ -1,6 +1,5 @@
 ﻿using Egor92.MvvmNavigation.Abstractions;
 using MemeFolder.Domain.Models;
-using MemeFolder.Domain.Models.AbstractModels;
 using MemeFolder.Mvvm.Commands;
 using MemeFolder.Mvvm.CommandsBase;
 using MemeFolder.Navigation;

@@ -108,7 +108,7 @@ namespace MemeFolder.ViewModels
 
             NavigationToFolderCommand = new RelayCommand(NavigationToFolderExecute);
 
-            PageLoadedCommand = new RelayCommand(PageLoadedExecuteAsync);
+            PageLoadedCommand = new AsyncRelayCommand(PageLoadedExecuteAsync);
         }
 
      

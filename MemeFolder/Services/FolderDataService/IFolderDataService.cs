@@ -1,9 +1,6 @@
 ﻿using MemeFolder.Domain.Models;
-using MemeFolder.EntityFramework.Services;
-using System;
-using System.Collections.Generic;
+using MemeFolder.EntityFramework;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MemeFolder.Services

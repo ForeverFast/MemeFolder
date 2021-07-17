@@ -1,18 +1,19 @@
-﻿using MemeFolder.Domain.Models.AbstractModels;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MemeFolder.Domain.Models
 {
     [Table("MemeTags")]
-    public class MemeTag : DomainObject
+    public class MemeTag : DomainObject, ICloneable
     {
-        #region Поля
-        private string _title;
-        private bool _checkFlag;
-        #endregion
-
-        public string Title { get => _title; set => SetProperty(ref _title, value); }
+        public string Title { get; set; }
         [NotMapped]
-        public bool CheckFlag { get => _checkFlag; set => SetProperty(ref _checkFlag, value); }
+        public bool CheckFlag { get; set; }
+
+        public override string ToString() => this.Title;
+        public object Clone()
+        {
+            return new MemeTag() { Id = this.Id, Title = this.Title };
+        }
     }
 }

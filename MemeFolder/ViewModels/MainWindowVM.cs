@@ -197,7 +197,7 @@ namespace MemeFolder.ViewModels
             _dataStorage.OnRemoveMemeTag += _dataStorage_OnMemeTagEvent;
 
             Model = services._dataStorage.RootFolder;
-            MemeTags = services._dataStorage.MemeTags;
+            //MemeTags = services._dataStorage.MemeTags;
             Folders = new ObservableCollection<Folder>();
             Folders.Add(Model);
 

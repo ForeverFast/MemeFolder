@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace MemeFolder.EntityFramework.Services
+namespace MemeFolder.EntityFramework
 {
     public interface IGenericDataService<T>
     {

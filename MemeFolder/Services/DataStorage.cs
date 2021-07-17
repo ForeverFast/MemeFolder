@@ -25,11 +25,6 @@ namespace MemeFolder.Services
 
         private readonly ClientConfigService _clientConfigService;
         
-
-        public ObservableCollection<Folder> Folders { get; }
-        public ObservableCollection<Meme> Memes { get; }
-        public ObservableCollection<MemeTag> MemeTags { get; }
-
         public Folder RootFolder { get; }
 
         public event SearchServiceEvent NewRequest;
@@ -49,14 +44,14 @@ namespace MemeFolder.Services
 
         public void NavigateByRequest(Func<Meme,bool> func)
         {
-            IEnumerable<Meme> memes = Memes.Where(func);
-            NewRequest?.Invoke(memes);
+            //IEnumerable<Meme> memes = Memes.Where(func);
+            //NewRequest?.Invoke(memes);
         }
 
         public void NavigateByMemeTag(Guid guid)
         {
-            IEnumerable<Meme> memes = Memes.Where(meme => meme.Tags.FirstOrDefault(m => m.MemeTag.Id == guid) != null);
-            NewRequest?.Invoke(memes);
+            //IEnumerable<Meme> memes = Memes.Where(meme => meme.Tags.FirstOrDefault(m => m.MemeTag.Id == guid) != null);
+            //NewRequest?.Invoke(memes);
         }
 
         private string GetFolderAnotherName(string rootPath, string title)
@@ -124,38 +119,41 @@ namespace MemeFolder.Services
             return result;
         }
 
-        public async Task<Folder> AddFolder(Folder folder, Folder parentFolder)
+        public async Task AddFolder(Folder folder, Folder parentFolder)
         {
-            string newFolderPath = string.Empty;
-            if (string.IsNullOrEmpty(folder.Title))
+            try
             {
-                newFolderPath = GetFolderAnotherName(parentFolder.FolderPath, "Новая папка");
-                folder.Title = Path.GetDirectoryName(newFolderPath);
-                folder.FolderPath = newFolderPath;
-            }
-            else
-            {
-                newFolderPath = @$"{parentFolder.FolderPath}\{folder.Title}";
-                if (Directory.Exists(newFolderPath))
+                string newFolderPath = string.Empty;
+                if (string.IsNullOrEmpty(folder.Title))
                 {
-                    newFolderPath = GetFolderAnotherName(parentFolder.FolderPath, folder.Title);
+                    newFolderPath = GetFolderAnotherName(parentFolder.FolderPath, "Новая папка");
+                }
+                else
+                {
+                    newFolderPath = @$"{parentFolder.FolderPath}\{folder.Title}";
+                    if (Directory.Exists(newFolderPath))
+                        newFolderPath = GetFolderAnotherName(parentFolder.FolderPath, folder.Title);
+                    Directory.CreateDirectory(newFolderPath);
                 }
 
-                Directory.CreateDirectory(newFolderPath);
+                folder.Title = Path.GetFileName(newFolderPath);
                 folder.FolderPath = newFolderPath;
             }
-            
+            catch (Exception ex)
+            {
+
+                return;
+            }
+                  
             Folder createdFolderEntity = await _folderDataService.Create(folder);
             if (createdFolderEntity != null)
             {
                 createdFolderEntity.ParentFolder = parentFolder;
                 parentFolder.Folders.Add(createdFolderEntity);
-                Folders.Add(createdFolderEntity);
                 OnAddFolder?.Invoke(createdFolderEntity, "Папка успешно добавлена");
-                
-                return createdFolderEntity;
+                return;
             }
-            return null;
+
         }
 
         public async Task EditFolder(Folder folder)
@@ -163,7 +161,6 @@ namespace MemeFolder.Services
             Folder updatedFolderEnitiy = await _folderDataService.Update(folder.Id, folder);
             if (updatedFolderEnitiy != null)
             {
-                updatedFolderEnitiy.OnAllPropertyChanged();
                 OnEditFolder?.Invoke(updatedFolderEnitiy, "Папка успешно изменена");
             }
         }
@@ -172,93 +169,66 @@ namespace MemeFolder.Services
         {
             if (await _folderDataService.Delete(folder.Id))
             {
-                folder.ParentFolder.Folders.Remove(folder);
-                Folders.Remove(folder);
-
-                IEnumerable<Folder> foldersForRemove = MemeExtentions.SelectRecursive(folder.Folders, f => f.Folders);
-
-                foldersForRemove.ToList().ForEach(folderFR =>
-                {
-                    folderFR.Memes.ToList().ForEach(m =>
-                    {
-                        Memes.Remove(m);
-                        OnRemoveMeme?.Invoke(m, null);
-                    });
-                    Folders.Remove(folderFR);
-                    OnRemoveFolder?.Invoke(folderFR, null);
-                });
-
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
                 OnRemoveFolder?.Invoke(folder, "Папка успешно удалена");
             }
         }
 
         public async Task AddMeme(Meme meme, Folder folder)
         {
+            #region Получение нового пути и названия файла
+
             try
             {
-
                 string newMemePath = @$"{folder.FolderPath}\{meme.Title}{Path.GetExtension(meme.ImagePath)}";
                 if (File.Exists(newMemePath))
                 {
                     newMemePath = GetMemeAnotherName(folder.FolderPath, meme.Title, meme.ImagePath);
-                    meme.Title = Path.GetFileNameWithoutExtension(newMemePath);
-                    meme.ImagePath = newMemePath;
-                }
-                else
-                {
-                    File.Copy(meme.ImagePath, newMemePath);
-                    meme.ImagePath = newMemePath;
                 }
 
-                //meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
+                File.Copy(meme.ImagePath, newMemePath);
+                meme.Title = Path.GetFileNameWithoutExtension(newMemePath);
+                meme.ImagePath = newMemePath;
 
+                // Создание миниатюры
                 string newMiniImageMemePath = @$"{folder.FolderPath}\Mini{meme.Title}{Path.GetExtension(meme.ImagePath)}";
                 Image result = this.ResizeOrigImg(Image.FromFile(newMemePath), 120, 72);
                 result.Save(newMiniImageMemePath);
                 result.Dispose();
                 meme.MiniImagePath = newMiniImageMemePath;
-               
-                List<MemeTagNode> memeTagNodes = new List<MemeTagNode>();
-                foreach(MemeTagNode mtn in meme.Tags.ToArray())
-                {
-                    memeTagNodes.Add(mtn);
-                    meme.Tags.Remove(mtn);
-                }
-
-                Meme createdMemeEntity = await _memeDataService.Create(meme);
-                if (createdMemeEntity != null)
-                {
-                    //createdMemeEntity.Image = MemeExtentions.ConvertByteArrayToImage(createdMemeEntity.ImageData);
-                    //createdMemeEntity.Image.Freeze();
-                    //createdMemeEntity.ImageData = null;
-                    folder.Memes.Add(createdMemeEntity);
-                    folder.OnPropertyChanged(nameof(folder.Memes));
-                    Memes.Add(createdMemeEntity);
-
-                    memeTagNodes.ForEach(async (newMemeTagNode) =>
-                    {
-                        newMemeTagNode.Meme = createdMemeEntity;
-                        MemeTagNode dbCreatedMemeTagNode = await _memeTagNodeDataService.Create(newMemeTagNode);
-                        createdMemeEntity.Tags.Add(dbCreatedMemeTagNode);
-                    });
-
-                    OnAddMeme?.Invoke(createdMemeEntity, "Мем успешно добавлен");
-                }
             }
             catch (Exception ex)
             {
 
+                return;
             }
-            
+
+            #endregion
+
+            // Отделение тегов от исходной сущности meme
+            List<MemeTagNode> memeTagNodes = new List<MemeTagNode>();
+            foreach (MemeTagNode mtn in meme.Tags.ToArray())
+            {
+                memeTagNodes.Add(mtn);
+                meme.Tags.Remove(mtn);
+            }
+
+            Meme createdMemeEntity = await _memeDataService.Create(meme);
+            if (createdMemeEntity != null)
+            {
+                // Добавление отделённых тегов и сохранение memeTagNodes в БД
+                memeTagNodes.ForEach(async (newMemeTagNode) =>
+                {
+                    newMemeTagNode.Meme = createdMemeEntity;
+                    MemeTagNode dbCreatedMemeTagNode = await _memeTagNodeDataService.Create(newMemeTagNode);
+                    createdMemeEntity.Tags.Add(dbCreatedMemeTagNode);
+                });
+
+                OnAddMeme?.Invoke(createdMemeEntity, "Мем успешно добавлен");
+            }
         }
 
         public async Task EditMeme(Meme meme)
-        {
-            meme.ImageData = MemeExtentions.ConvertImageToByteArray(meme.ImagePath);
-
+        {       
             Meme oldMemeData = await _memeDataService.Get(meme.Id);
             
             List<MemeTagNode> oldMemeTagNodesForRemove = new List<MemeTagNode>();
@@ -275,7 +245,7 @@ namespace MemeFolder.Services
                 }
 
                 if (flag)
-                {
+                { 
                     await _memeTagNodeDataService.Delete(memeTagNode.Id);
                     oldMemeData.Tags.Remove(memeTagNode);
                 }
@@ -305,10 +275,10 @@ namespace MemeFolder.Services
             Meme updatedMemeEnitiy = await _memeDataService.Update(meme.Id, meme);
             if (updatedMemeEnitiy != null)
             {
-                updatedMemeEnitiy.Image = MemeExtentions.ConvertByteArrayToImage(updatedMemeEnitiy.ImageData);
-                updatedMemeEnitiy.Image.Freeze();
-                updatedMemeEnitiy.ImageData = null;
-                updatedMemeEnitiy.OnAllPropertyChanged();
+                //updatedMemeEnitiy.Image = MemeExtentions.ConvertByteArrayToImage(updatedMemeEnitiy.ImageData);
+                //updatedMemeEnitiy.Image.Freeze();
+                //updatedMemeEnitiy.ImageData = null;
+                //updatedMemeEnitiy.OnAllPropertyChanged();
 
                 OnEditMeme?.Invoke(updatedMemeEnitiy, "Мем успешно изменён");
             }
@@ -318,12 +288,15 @@ namespace MemeFolder.Services
         {
             if (await _memeDataService.Delete(meme.Id))
             {
-                Folder folder = Folders.FirstOrDefault(f => f.Id == meme.Folder.Id);
-                folder.Memes.Remove(meme);
-                Memes.Remove(meme);
-
                 OnRemoveMeme?.Invoke(meme, "Мем успешно удалён");
             }
+        }
+
+        #region Теги
+
+        public async Task<IEnumerable<MemeTag>> GetAllTags()
+        {
+            return await _memeTagDataService.GetAll();
         }
 
         public async Task AddMemeTag(MemeTag memeTag)
@@ -331,8 +304,6 @@ namespace MemeFolder.Services
             MemeTag createdMemeTagEnitiy = await _memeTagDataService.Create(memeTag);
             if (createdMemeTagEnitiy != null)
             {
-                MemeTags.Add(createdMemeTagEnitiy);
-
                 OnAddMemeTag?.Invoke(createdMemeTagEnitiy, "Тег успешно добавлен");
             }
         }
@@ -342,7 +313,7 @@ namespace MemeFolder.Services
             MemeTag updatedMemeTagEnitiy = await _memeTagDataService.Update(memeTag.Id, memeTag);
             if (updatedMemeTagEnitiy != null)
             {
-                updatedMemeTagEnitiy.OnAllPropertyChanged();
+                //updatedMemeTagEnitiy.OnAllPropertyChanged();
                 
                 OnEditMemeTag?.Invoke(updatedMemeTagEnitiy, "Тег успешно изменён");
             }
@@ -352,18 +323,20 @@ namespace MemeFolder.Services
         {
             if (await _memeTagDataService.Delete(memeTag.Id))
             {
-                IEnumerable<Meme> memes = Memes.Where(meme => meme.Tags.FirstOrDefault(m => m.MemeTag.Id == memeTag.Id) != null);
-                foreach (Meme meme in memes)
-                {
-                    MemeTagNode memeTagNode = meme.Tags.FirstOrDefault(mtn => mtn.MemeTag.Id == memeTag.Id);
-                    meme.Tags.Remove(memeTagNode);
-                    await _memeTagNodeDataService.Delete(memeTagNode.Id);
-                }
-                MemeTags.Remove(memeTag);
+                //IEnumerable<Meme> memes = Memes.Where(meme => meme.Tags.FirstOrDefault(m => m.MemeTag.Id == memeTag.Id) != null);
+                //foreach (Meme meme in memes)
+                //{
+                //    MemeTagNode memeTagNode = meme.Tags.FirstOrDefault(mtn => mtn.MemeTag.Id == memeTag.Id);
+                //    meme.Tags.Remove(memeTagNode);
+                //    await _memeTagNodeDataService.Delete(memeTagNode.Id);
+                //}
+                //MemeTags.Remove(memeTag);
 
                 OnRemoveMemeTag?.Invoke(memeTag, "Тег успешно удалён");
             }      
         }
+
+        #endregion
 
         public DataStorage(Guid rootGuid,
             IMemeDataService memeDataService,
@@ -376,40 +349,35 @@ namespace MemeFolder.Services
             _memeTagDataService = memeTagDataService;
             _memeTagNodeDataService = memeTagNodeDataService;
 
-            Folders = new ObservableCollection<Folder>();
-            Memes = new ObservableCollection<Meme>();
-            MemeTags = new ObservableCollection<MemeTag>();
 
-            foreach (MemeTag memeTag in _memeTagDataService.GetAll().Result)
-                MemeTags.Add(memeTag);
 
-            RootFolder = _folderDataService.GetFoldersByTitle("root").Result[0];
-            GetDataRecursively(RootFolder);
+            //RootFolder = _folderDataService.Get().Result[0];
+            //GetDataRecursively(RootFolder);
         }
 
-        private void GetDataRecursively(Folder folder)
-        {
-            foreach (Meme meme in folder.Memes)
-            {
-                Memes.Add(meme);
-                if (meme.Tags != null)
-                    foreach (MemeTagNode memeTagNode in meme.Tags)
-                    {
-                        MemeTag memeTag = MemeTags.FirstOrDefault(mt => mt.Id == memeTagNode.MemeTag.Id);
-                        if (!memeTag.CheckFlag)
-                        {
-                            MemeExtentions.ReplaceReference(MemeTags, memeTag, mt => mt.Id == memeTag.Id);
-                            memeTag.CheckFlag = true;
-                        }
+        //private void GetDataRecursively(Folder folder)
+        //{
+        //    foreach (Meme meme in folder.Memes)
+        //    {
+        //        Memes.Add(meme);
+        //        if (meme.Tags != null)
+        //            foreach (MemeTagNode memeTagNode in meme.Tags)
+        //            {
+        //                MemeTag memeTag = MemeTags.FirstOrDefault(mt => mt.Id == memeTagNode.MemeTag.Id);
+        //                if (!memeTag.CheckFlag)
+        //                {
+        //                    MemeExtentions.ReplaceReference(MemeTags, memeTag, mt => mt.Id == memeTag.Id);
+        //                    memeTag.CheckFlag = true;
+        //                }
                             
-                    }
-            }
+        //            }
+        //    }
 
-            Folders.Add(folder);
+        //    Folders.Add(folder);
 
-            foreach (Folder innerFolder in folder.Folders)
-                GetDataRecursively(innerFolder);
-        }
+        //    foreach (Folder innerFolder in folder.Folders)
+        //        GetDataRecursively(innerFolder);
+        //}
 
     }
 }

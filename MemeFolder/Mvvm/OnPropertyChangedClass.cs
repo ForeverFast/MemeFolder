@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace MemeFolder.Domain
+namespace MemeFolder.Mvvm
 {
     public abstract class OnPropertyChangedClass : INotifyPropertyChanged
     {
