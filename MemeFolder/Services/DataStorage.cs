@@ -175,8 +175,6 @@ namespace MemeFolder.Services
 
         public async Task AddMeme(Meme meme, Folder folder)
         {
-            #region Получение нового пути и названия файла
-
             try
             {
                 string newMemePath = @$"{folder.FolderPath}\{meme.Title}{Path.GetExtension(meme.ImagePath)}";

@@ -64,7 +64,8 @@ namespace MemeFolder.Services
 
                     EntityEntry<Meme> createdResult = await context.Memes.AddAsync(meme);
                     await context.SaveChangesAsync();
-
+                    context.Dispose();
+                    GC.Collect();
                     return createdResult.Entity;
                 }
                 catch (Exception ex)

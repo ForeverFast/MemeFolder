@@ -23,8 +23,8 @@ namespace MemeFolder.Services
             {
                 Folder entity = await Task.FromResult(context.Folders
                     .Include(f => f.Memes)
-                    .Include(f => f.Folders)
-                        .ThenInclude(f => f.Folders)
+                    //.Include(f => f.Folders)
+                    //    .ThenInclude(f => f.Folders)
                     .FirstOrDefault(e => e.Id == guid));
                 return entity;
             }
@@ -168,7 +168,10 @@ namespace MemeFolder.Services
                             .ThenInclude(m => m.MemeTag)
                       .ToList()
                       .Where(x => x.Title == Title));
+
+                    context.Dispose();
                     return new ObservableCollection<Folder>(entities);
+
                 }
                 catch (Exception ex)
                 {
